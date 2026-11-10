@@ -6,6 +6,11 @@ every feature and scheme family; this file only records what changed. IDs in par
 
 ## [Unreleased]
 
+### Added
+
+- Scheme `calchip.gmc` (Cal-Chip GMC general purpose MLCC), with examples from the maker's catalog and the mx3
+  corpus (DATA-23).
+
 ## [0.1.5] - 2026-11-10
 
 ### Added

@@ -1,0 +1,100 @@
+# Cal-Chip GMC: general purpose multilayer ceramic capacitors, sizes 01005 to 2225, 4-200 V.
+# Not covered yet (DATA-n, Cal-Chip GMC): availability rows (the capacitance/voltage charts run many pages per
+# dielectric and are not copied; open until they are), the packaging code (blank or C/D/G/Q, pp. 23-24): it says a
+# reel size and quantity, not material, and tape material (paper vs embossed) follows the case size, which this
+# position does not carry, and for 0805/1206 the datasheet lists both materials under the same codes, so packaging
+# is left as a plain code list rather than guessed (mirrors tdk.c's packaging gap), and the Pd/Ag termination
+# option (PT; only Sn/Ni, NT, is in the examples at hand).
+[scheme]
+id = "calchip.gmc"
+version = 1
+maker = "Cal-Chip Electronics, Inc."
+aliases = ["Cal-Chip", "CalChip"]
+class = "capacitor.ceramic"
+title = "Cal-Chip GMC general purpose MLCC"
+sources = [
+  { doc = "Cal-Chip, Multilayer Ceramic Chip Capacitor GMC Series (revision Oct '26)", url = "https://calchip.com/wp-content/uploads/2026/10/GMC-Series-1-3.pdf", fetched = "2026-11-10", pages = "2, 23-24", note = "part number guide p. 2, packaging taping pp. 23-24" },
+]
+availability = "open"
+min_stem = "size"
+
+[implies]
+technology = "mlcc"
+series = "GMC"
+
+[[segment]]
+name = "series"
+literal = "GMC"
+
+[[segment]]
+name = "size"
+param = "case_eia"
+note = "(1) dimensions code"
+table = { "01" = "01005", "02" = "0201", "04" = "0402", "10" = "0603", "21" = "0805", "31" = "1206", "32" = "1210", "40" = "1808", "43" = "1812", "45" = "1825", "55" = "2220", "57" = "2225" }
+
+[[segment]]
+name = "dielectric"
+param = "dielectric"
+note = "(2) dielectric code; C0G is written CG, the others spell the EIA name"
+table = { CG = "C0G", X8L = "X8L", X8R = "X8R", X7R = "X7R", X5R = "X5R", X7S = "X7S", X7T = "X7T", X6S = "X6S", Y5V = "Y5V", Z5U = "Z5U" }
+
+[[segment]]
+name = "capacitance"
+param = "capacitance"
+note = "(3) in pF, two significant digits and the multiplier, R for the point below 10 pF"
+code = "eia3"
+unit = "pF"
+lead_zero = true
+
+[[segment]]
+name = "tolerance"
+param = "tolerance"
+note = "(4) capacitance tolerance code"
+table = { A = "±0.05pF", B = "±0.1pF", C = "±0.25pF", D = "±0.5pF", F = "±1%", G = "±2%", J = "±5%", K = "±10%", M = "±20%", Z = "+80%/-20%" }
+
+[[segment]]
+name = "voltage"
+param = "rated_voltage"
+note = "(5) rated voltage code, DC"
+table = { "4R0" = "4V", "6R3" = "6.3V", "10" = "10V", "16" = "16V", "25" = "25V", "35" = "35V", "50" = "50V", "63" = "63V", "100" = "100V", "200" = "200V" }
+
+[[segment]]
+name = "termination"
+note = "(6) termination plating"
+table = { NT = "Sn/Ni", PT = "Pd/Ag" }
+
+[[segment]]
+name = "packaging"
+note = "(7) packaging/reel code: blank is the standard 7\" reel, C/D/G/Q (pp. 23-24) alternate 10\"/13\" reel quantities; see header note"
+optional = true
+table = { C = "alternate reel quantity, p. 23-24", D = "alternate reel quantity, p. 23-24", G = "alternate reel quantity, p. 23-24", Q = "alternate reel quantity, p. 23-24" }
+
+[[example]]
+mpn = "GMC21CG102J50NTD"
+params = { case_eia = "0805", dielectric = "C0G", capacitance = "1nF", tolerance = "±5%", rated_voltage = "50V" }
+source = "catalog p. 2, the part numbering example"
+
+[[example]]
+mpn = "GMC04CG331K50NT"
+params = { case_eia = "0402", dielectric = "C0G", capacitance = "330pF", tolerance = "±10%", rated_voltage = "50V" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "GMC04CG331J50NT"
+params = { case_eia = "0402", dielectric = "C0G", capacitance = "330pF", tolerance = "±5%", rated_voltage = "50V" }
+source = "mx3 corpus, 10 Nov 2026 (same combination as the Digi-Key listing above, tolerance J)"
+
+[[example]]
+mpn = "GMC10X7R106M6R3NT"
+params = { case_eia = "0603", dielectric = "X7R", capacitance = "10µF", tolerance = "±20%", rated_voltage = "6.3V" }
+source = "mx3 corpus, 10 Nov 2026; catalog p. 17, X7R maximum capacitance per size/voltage (\"0603 = 106 (6.3V)\")"
+
+[[example]]
+mpn = "GMC04X5R472K16NT"
+params = { case_eia = "0402", dielectric = "X5R", capacitance = "4.7nF", tolerance = "±10%", rated_voltage = "16V" }
+source = "catalog p. 13, X5R capacitance/voltage chart"
+
+[[example]]
+mpn = "GMC04Y5V103M16NT"
+params = { case_eia = "0402", dielectric = "Y5V", capacitance = "10nF", tolerance = "±20%", rated_voltage = "16V" }
+source = "catalog p. 15, Y5V capacitance/voltage chart"
