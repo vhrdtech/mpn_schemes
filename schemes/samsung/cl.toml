@@ -1,5 +1,6 @@
 # Samsung Electro-Mechanics CL: multilayer ceramic capacitors, sizes 01005 to 2220.
-# Not covered yet (DATA-1): availability rows (the catalog's product lineup lists every part; open until they are
+# Not covered yet (DATA-1): the voltage code M (63 V at Digi-Key, e.g. CL32B106KMVNNWE; in no Samsung document
+# here), availability rows (the catalog's product lineup lists every part; open until they are
 # copied), the sizes R1/L5/L6/01/19 (008004 and reverse geometry, no thickness codes in the table), the
 # dielectric J (JIS-B) and the one-sided tolerances H, L, U, V.
 [scheme]
@@ -97,6 +98,10 @@ table = { F = "1.25mm", H = "1.6mm", I = "2mm", J = "2.5mm", L = "3.2mm" }
 [[segment.alternatives]]
 when = { size = "2220" }
 table = { H = "1.6mm", I = "2mm", J = "2.5mm", L = "3.2mm" }
+[[segment.alternatives]]
+# The catalog's product lineup uses more thickness codes per size than this table lists (0805 6/7/8/9/E,
+# 1206 9/K, 1210 D/G/T...), with only a maximum thickness: read them, without a height
+group = [{ name = "thickness_code", free = { chars = "0-9A-Z", len = 1 } }]
 
 [[segment]]
 name = "spec"
@@ -113,3 +118,43 @@ table = { "8" = "reel_7in_paper", C = { value = "reel_7in_paper", default = true
 mpn = "CL10A106MQ8NNNC"
 params = { case_eia = "0603", dielectric = "X5R", capacitance = "10uF", tolerance = "±20%", rated_voltage = "6.3V", height = "0.8mm", packaging = "reel_7in_paper" }
 source = "catalog p. 6, the part numbering example"
+
+[[example]]
+mpn = "CL05B104KB5NNNC"
+params = { case_eia = "0402", dielectric = "X7R", capacitance = "100nF", tolerance = "±10%", rated_voltage = "50V", height = "0.5mm", packaging = "reel_7in_paper" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "CL05C010BB5NNNC"
+params = { case_eia = "0402", dielectric = "C0G", capacitance = "1pF", tolerance = "±0.1pF", rated_voltage = "50V", height = "0.5mm", packaging = "reel_7in_paper" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "CL05C220JB5NNNC"
+params = { case_eia = "0402", dielectric = "C0G", capacitance = "22pF", tolerance = "±5%", rated_voltage = "50V", height = "0.5mm", packaging = "reel_7in_paper" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "CL10B104KB8NNNL"
+params = { case_eia = "0603", dielectric = "X7R", capacitance = "100nF", tolerance = "±10%", rated_voltage = "50V", height = "0.8mm", packaging = "reel_13in_paper" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "CL21B105KBFNNNE"
+params = { case_eia = "0805", dielectric = "X7R", capacitance = "1µF", tolerance = "±10%", rated_voltage = "50V", height = "1.25mm", packaging = "reel_7in_embossed" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "CL31A225KC9LNNC"
+params = { case_eia = "1206", dielectric = "X5R", capacitance = "2.2µF", tolerance = "±10%", rated_voltage = "100V", packaging = "reel_7in_paper" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "CL32A107MPVNNNE"
+params = { case_eia = "1210", dielectric = "X5R", capacitance = "100µF", tolerance = "±20%", rated_voltage = "10V", height = "2.5mm", packaging = "reel_7in_embossed" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "CL05C040CB5NNNC"
+params = { case_eia = "0402", dielectric = "C0G", capacitance = "4pF", tolerance = "±0.25pF", rated_voltage = "50V", height = "0.5mm", packaging = "reel_7in_paper" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"

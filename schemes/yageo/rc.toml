@@ -1,5 +1,6 @@
 # Yageo RC_L: general purpose thick-film chip resistors, 0100 to 2512.
-# Not covered yet (DATA-2): RC0075 (ESD-safe reel only), the ESD-safe reel S/7N, and the reel codes 7W/3W
+# Not covered yet (DATA-2): jumpers ordered with tolerance F (RC0402FR-070RL is listed at Digi-Key; the data sheet
+# says J), the last code P instead of L (RC0402JR-070RP at Digi-Key, not in the data sheet), RC0075 (ESD-safe reel only), the ESD-safe reel S/7N, and the reel codes 7W/3W
 # (2x standard power) and 7D (2x standard quantity), which mean a different power or reel quantity that no
 # segment can carry beside the packaging.
 [scheme]
@@ -17,7 +18,7 @@ min_stem = "size"
 
 [implies]
 technology = "thick_film"
-series = "RC"
+series = "RC_L"
 
 [[segment]]
 name = "series"
@@ -30,26 +31,20 @@ note = "p. 2 (1)"
 table = { "0100" = "01005", "0201" = "0201", "0402" = "0402", "0603" = "0603", "0805" = "0805", "1206" = "1206", "1210" = "1210", "1218" = "1218", "2010" = "2010", "2512" = "2512" }
 
 [[segment]]
-name = "tolerance"
-param = "tolerance"
-note = "p. 2 (2); J also for the jumper"
-table = { B = "±0.1%", D = "±0.5%", F = "±1%", J = "±5%" }
-
-[[segment]]
-name = "packing"
-param = "packaging"
-note = "p. 2 (3) packaging type R paper, K embossed; (4) TCR `-` based on spec; (5) reel 07, 10, 13 inch"
-table = { "R-07" = { value = "reel_7in_paper", default = true }, "R-10" = "reel_10in_paper", "R-13" = "reel_13in_paper", "K-07" = "reel_7in_embossed", "K-13" = "reel_13in_embossed" }
-
-[[segment]]
-name = "resistance"
-param = "resistance"
-note = "p. 2 (6): 2 to 4 characters, R/K/M as the decimal point; the jumper is 0R"
+name = "value"
+note = "p. 2: (2) tolerance, (3)-(5) packing, (6) resistance; a jumper is ordered with tolerance code J and 0R and has no tolerance"
 [[segment.alternatives]]
-code = "rkm"
-series = ["E24", "E96"]
+group = [
+  { name = "tolerance", param = "tolerance", table = { B = "±0.1%", D = "±0.5%", F = "±1%", J = "±5%" } },
+  { name = "packing", param = "packaging", table = { "R-07" = { value = "reel_7in_paper", default = true }, "R-10" = "reel_10in_paper", "R-13" = "reel_13in_paper", "K-07" = "reel_7in_embossed", "K-13" = "reel_13in_embossed" } },
+  { name = "resistance", param = "resistance", code = "rkm", series = ["E24", "E96"] },
+]
 [[segment.alternatives]]
-table = { "0R" = "0Ω" }
+group = [
+  { name = "jumper", literal = "J" },
+  { name = "packing", param = "packaging", table = { "R-07" = { value = "reel_7in_paper", default = true }, "R-10" = "reel_10in_paper", "R-13" = "reel_13in_paper", "K-07" = "reel_7in_embossed", "K-13" = "reel_13in_embossed" } },
+  { name = "resistance", param = "resistance", table = { "0R" = "0Ω" } },
+]
 
 [[segment]]
 name = "default"
@@ -106,7 +101,6 @@ resistance = { min = "10Ω", max = "1MΩ" }
 
 [[available]]
 note = "jumper, every size"
-tolerance = "±5%"
 resistance = "0Ω"
 
 # Reels per size, Table 4 (p. 7)
@@ -131,3 +125,43 @@ packing = "reel_13in_embossed"
 mpn = "RC0402JR-07100KL"
 params = { case_eia = "0402", tolerance = "±5%", packaging = "reel_7in_paper", resistance = "100kΩ" }
 source = "data sheet p. 2, ordering example"
+
+[[example]]
+mpn = "RC0402FR-0710KL"
+params = { case_eia = "0402", tolerance = "±1%", packaging = "reel_7in_paper", resistance = "10kΩ" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "RC0402JR-070RL"
+params = { case_eia = "0402", packaging = "reel_7in_paper", resistance = "0Ω" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "RC0402FR-074K99L"
+params = { case_eia = "0402", tolerance = "±1%", packaging = "reel_7in_paper", resistance = "4.99kΩ" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "RC0402FR-074R7L"
+params = { case_eia = "0402", tolerance = "±1%", packaging = "reel_7in_paper", resistance = "4.7Ω" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "RC0402FR-1336KL"
+params = { case_eia = "0402", tolerance = "±1%", packaging = "reel_13in_paper", resistance = "36kΩ" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "RC0603JR-070RL"
+params = { case_eia = "0603", packaging = "reel_7in_paper", resistance = "0Ω" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "RC1206FR-0760R4L"
+params = { case_eia = "1206", tolerance = "±1%", packaging = "reel_7in_paper", resistance = "60.4Ω" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "RC0402FR-071ML"
+params = { case_eia = "0402", tolerance = "±1%", packaging = "reel_7in_paper", resistance = "1MΩ" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"

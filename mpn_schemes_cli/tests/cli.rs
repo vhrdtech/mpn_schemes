@@ -46,6 +46,8 @@ fn parse_json_lines() {
 fn gen_patterns_and_usage_errors() {
     let (code, out, _) = mpns(&[
         "gen",
+        "--scheme",
+        "toy.res",
         "--class",
         "resistor",
         "resistance=10kΩ",

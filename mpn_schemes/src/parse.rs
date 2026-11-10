@@ -48,6 +48,8 @@ pub struct SegmentMatch {
     pub code: String,
     pub key: Option<&'static str>,
     pub value: Option<Value>,
+    /// Read by a free segment (no meaning decoded)
+    pub free: bool,
 }
 
 /// Something a parse found worth a look, without rejecting it
@@ -73,7 +75,7 @@ impl Parse {
     pub fn free_chars(&self) -> usize {
         self.segments
             .iter()
-            .filter(|s| s.key.is_none())
+            .filter(|s| s.free)
             .map(|s| s.end - s.start)
             .sum()
     }
@@ -297,6 +299,7 @@ fn build(scheme: &Scheme, v: &Variant, text: &str, hits: &[Hit], complete: bool)
             code: text[h.start..h.end].to_string(),
             key: leaf.param.map(|k| k.name),
             value: h.value.clone(),
+            free: matches!(leaf.kind, LeafKind::Free(..)),
         });
     }
     for (k, val) in &scheme.implies {

@@ -118,8 +118,8 @@ impl SchemeSet {
         self.schemes.iter().find(|s| s.id == id)
     }
 
-    /// Every reading of an MPN, best first: complete parses (inside the availability rows first, then the maker
-    /// `maker_hint` names, then fewer free characters); only when no scheme reads it whole, each scheme's longest
+    /// Every reading of an MPN, best first: complete parses (inside the availability rows first, then values in
+    /// their E series, then the maker `maker_hint` names, then fewer free characters); only when no scheme reads it whole, each scheme's longest
     /// partial reading. Never panics; an MPN longer than 64 characters or not ASCII gives nothing.
     pub fn parse(&self, mpn: &str, maker_hint: Option<&str>) -> Vec<Parse> {
         let Some(text) = parse::clean(mpn) else {
@@ -143,6 +143,9 @@ impl SchemeSet {
         all.sort_by_key(|(i, p)| {
             (
                 p.flags.contains(&parse::Flag::NotInTable),
+                p.flags
+                    .iter()
+                    .any(|f| matches!(f, parse::Flag::OutsideSeries { .. })),
                 !hint(*i),
                 std::cmp::Reverse(text.len() - p.rest.len()),
                 p.free_chars(),
@@ -235,7 +238,23 @@ fn check_examples(s: &Scheme, errs: &mut Errors) {
             errs.at(line, None, format!("example {}: does not parse", e.mpn));
             continue;
         };
-        let differ: Vec<&Parse> = parses.iter().filter(|p| p.params != best.params).collect();
+        // Ambiguous: another reading as good as the best (same flags, as many free characters) that means
+        // something else. A reading through a fallback free segment ranks lower and is no ambiguity.
+        let rank = |p: &Parse| {
+            let outside = p
+                .flags
+                .iter()
+                .any(|f| matches!(f, parse::Flag::OutsideSeries { .. }));
+            (
+                p.flags.contains(&parse::Flag::NotInTable),
+                outside,
+                p.free_chars(),
+            )
+        };
+        let differ: Vec<&Parse> = parses
+            .iter()
+            .filter(|p| p.params != best.params && rank(p) == rank(best))
+            .collect();
         if !differ.is_empty() {
             errs.at(
                 line,

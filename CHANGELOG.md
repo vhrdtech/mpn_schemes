@@ -17,4 +17,5 @@ every feature and scheme family; this file only records what changed. IDs in par
 - `SchemeSet::parse`: ranked complete readings, partial ones with the unread rest, flags (ENG-1).
 - `SchemeSet::generate`: patterns with holes for a requirement, best first, with availability rows fixing holes (ENG-2, ENG-3).
 - `mpns parse`, `gen`, `check`, `list`, `completions` (CLI-1..4).
-- Schemes `samsung.cl` (Samsung MLCC CL), `yageo.rc` (Yageo RC_L) and `panasonic.erj_g` (Panasonic ERJ ±5 %) (DATA-1..3).
+- Schemes `samsung.cl` (Samsung MLCC CL), `yageo.rc` (Yageo RC_L) and `panasonic.erj_g` (Panasonic ERJ ±5 %), with examples from the makers' documents and Digi-Key listings (DATA-1..3).
+- The corpus test (`MPN_CORPUS_DIR`) reports per scheme how many MPNs parsed and how many values agreed with the supplier's.

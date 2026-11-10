@@ -72,7 +72,7 @@ fn corpus_round_trip() {
     entries.sort_by_key(|e| e.path());
     for entry in entries {
         let path = entry.path();
-        if path.extension().is_none_or(|x| x != "jsonl" && x != "json") {
+        if path.extension().is_none_or(|x| x != "jsonl") {
             continue;
         }
         let text = std::fs::read_to_string(&path).unwrap();
@@ -96,7 +96,8 @@ fn corpus_round_trip() {
                     continue;
                 };
                 match mpn_schemes::Value::parse(key.kind, v) {
-                    Some(want) if want.matches(got, Some(1e-9)) => t.agreed += 1,
+                    // mx3 exports numbers through f32 on the way (2.2 µF as 0.0000022000002 F): 1e-6 relative is equal
+                    Some(want) if want.matches(got, Some(1e-6)) => t.agreed += 1,
                     Some(_) => *t.disagreed.entry(k.clone()).or_default() += 1,
                     None => {}
                 }
