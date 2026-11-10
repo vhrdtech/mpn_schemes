@@ -1,7 +1,7 @@
 [workspace.package]
 authors = ["Roman Isaikin <romix.lab@gmail.com>"]
 edition = "2024"
-version = "0.1.0"
+version = "0.1.1"
 license = "MIT"
 repository = "https://github.com/vhrdtech/mpn_schemes"
 
@@ -10,7 +10,7 @@ resolver = "3"
 members = ["mpn_schemes", "mpn_schemes_cli"]
 
 [workspace.dependencies]
-mpn_schemes = { path = "mpn_schemes", version = "0.1.0" }
+mpn_schemes = { path = "mpn_schemes", version = "0.1.1" }
 
 [profile.dev]
 split-debuginfo = "unpacked"
