@@ -14,3 +14,10 @@ path = "src/main.rs"
 
 [dependencies]
 mpn_schemes.workspace = true
+clap = { version = "4", default-features = false, features = ["std", "derive", "help", "usage", "error-context", "color", "suggestions", "wrap_help"] }
+clap_complete = { version = "4", default-features = false }
+serde = { version = "1", default-features = false, features = ["std", "derive"] }
+serde_json = { version = "1", default-features = false, features = ["std"] }
+
+[dev-dependencies]
+serde_json = { version = "1", default-features = false, features = ["std"] }
