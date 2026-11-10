@@ -1,8 +1,19 @@
 # Samsung Electro-Mechanics CL: multilayer ceramic capacitors, sizes 01005 to 2220.
-# Not covered yet (DATA-1): the voltage code M (63 V at Digi-Key, e.g. CL32B106KMVNNWE; in no Samsung document
-# here), availability rows (the catalog's product lineup lists every part; open until they are
-# copied), the sizes R1/L5/L6/01/19 (008004 and reverse geometry, no thickness codes in the table), the
-# dielectric J (JIS-B) and the one-sided tolerances H, L, U, V.
+# Not covered yet (DATA-1): the voltage code M (63 V at Digi-Key, e.g. CL32B106KMVNNWE; checked against both
+# catalogs below, position 6's table (up to 3 kV) and the Aug 2024 lineup's voltage columns (up to 2 kV): no
+# document here has it), availability rows (the Aug 2024 catalog's "Lineup of IT/Industrial MLCC" pp. 3-15 has
+# one row per category x TCC x size x rated voltage with a capacitance range, e.g. "Normal, X7R, 1210/3225,
+# 50 Vdc, 150nF-10uF"; it is category-split (Standard/High Level I/High Level II/Epoxy) where this scheme
+# doesn't decode category, so rows would need the union across all four per size+dielectric+voltage before
+# closing the scheme; too much to transcribe accurately in one sitting, left open until it is, DATA-18), the sizes
+# R1/L5/L6/01/19 (008004 and reverse geometry, no thickness codes in the table), the dielectric J (JIS-B) and
+# the one-sided tolerances H, L, U, V.
+# mx3 corpus (10 Nov 2026): of the 95 CL-family lines, 17 read only partially: 1 is the voltage-M part above,
+# and 16 are MPNs 1 character short (no segment 11): e.g. CL21B105KLFNNN, ending right after the free "spec"
+# segment with no packaging letter. Samsung's own lineup tables (MLCC_2408.pdf p.6 "Product Number" column)
+# write that same position as a literal "#" when packaging doesn't matter for the line item, not as absent;
+# these 16 are real MPNs with the character actually missing (a supplier field truncated at 14, not Samsung's
+# convention), so a partial read is the honest outcome here, not a bug to silence by guessing a default.
 [scheme]
 id = "samsung.cl"
 version = 1
@@ -12,6 +23,7 @@ class = "capacitor.ceramic"
 title = "Samsung MLCC, general purpose (CL)"
 sources = [
   { doc = "Samsung Electro-Mechanics, Multilayer Ceramic Capacitors catalog (Jan 2024), Part Numbering", url = "https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/7133/MLCC.pdf", fetched = "2026-11-10", pages = "6-8", note = "Samsung's catalog as Digi-Key hosts it" },
+  { doc = "Samsung Electro-Mechanics, Lineup of IT/Industrial MLCC (Aug 2024)", url = "https://weblib.samsungsem.com/resources/file/product-catalog/MLCC_2408.pdf", fetched = "2026-11-10", pages = "3-15", note = "Product Lineup selection tables (size x TCC x rated voltage x capacitance range); not yet used for availability rows, see header comment" },
 ]
 availability = "open"
 min_stem = "size"
