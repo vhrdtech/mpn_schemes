@@ -111,7 +111,7 @@ pub const KEYS: &[Key] = &[
     w(
         "package",
         "the physical package (JEDEC or EIAJ outline), lower case with no punctuation",
-        &["sot23", "sot323", "sod123", "do214ac"],
+        &["sot23", "sot323", "sod123", "do214aa", "do214ab", "do214ac"],
     ),
     w(
         "configuration",

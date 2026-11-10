@@ -1,0 +1,62 @@
+# Littelfuse SMBJ series, 600 W surface-mount TVS diodes in DO-214AA ("SMB J-Bend"): the exact same numbering as
+# SMAJ (stand-off voltage VRWM, optional bidirectional C and 5% tolerance A letters), confirmed from the data
+# sheet's own electrical-characteristics table to carry the identical 55 stand-off voltages (5 V to 440 V). Note
+# the package is DO-214AA, not DO-214AB as the "SMB"/"SMC" naming might suggest; the data sheet's own package
+# drawing is titled "DO-214AA (SMB J-Bend)" and the mx3 corpus's SMBJ48CA-13-F (a Diodes Incorporated part using
+# the same industry numbering) independently agrees ("DO-214AA, SMB"). The "-E"/"-E1" Ex-China origin suffix is
+# left out, consistent with the SMAJ scheme.
+[scheme]
+id = "littelfuse.smbj"
+version = 1
+maker = "Littelfuse"
+class = "diode.tvs"
+title = "Littelfuse SMBJ series, 600 W surface-mount TVS diodes"
+sources = [
+  { doc = "SMBJ Series, Surface Mount - 600W TVS Diodes Datasheet", url = "https://www.littelfuse.com/assetdocs/tvs-diodes-smbj-series-datasheet?assetguid=ba555e99-a12d-4f72-a0b6-86b06c67171e", fetched = "2026-11-10", pages = "2,5" },
+]
+
+[implies]
+package = "do214aa"
+
+[[segment]]
+name = "series"
+literal = "SMBJ"
+
+[[segment]]
+name = "voltage"
+param = "standoff_voltage"
+table = { "5.0" = "5V", "6.0" = "6V", "6.5" = "6.5V", "7.0" = "7V", "7.5" = "7.5V", "8.0" = "8V", "8.5" = "8.5V", "9.0" = "9V", "10" = "10V", "11" = "11V", "12" = "12V", "13" = "13V", "14" = "14V", "15" = "15V", "16" = "16V", "17" = "17V", "18" = "18V", "20" = "20V", "22" = "22V", "24" = "24V", "26" = "26V", "28" = "28V", "30" = "30V", "33" = "33V", "36" = "36V", "40" = "40V", "43" = "43V", "45" = "45V", "48" = "48V", "51" = "51V", "54" = "54V", "58" = "58V", "60" = "60V", "64" = "64V", "70" = "70V", "75" = "75V", "78" = "78V", "85" = "85V", "90" = "90V", "100" = "100V", "110" = "110V", "120" = "120V", "130" = "130V", "150" = "150V", "160" = "160V", "170" = "170V", "180" = "180V", "188" = "188V", "200" = "200V", "220" = "220V", "250" = "250V", "300" = "300V", "350" = "350V", "400" = "400V", "440" = "440V" }
+
+[[segment]]
+name = "bidirectional"
+param = "bidirectional"
+optional = true
+absent = "no"
+table = { C = "yes" }
+
+[[segment]]
+name = "tolerance"
+param = "tolerance"
+optional = true
+absent = "±10%"
+table = { A = "±5%" }
+
+[[example]]
+mpn = "SMBJ5.0A"
+params = { standoff_voltage = "5V", bidirectional = "no", tolerance = "±5%" }
+source = "data sheet p. 2, electrical characteristics"
+
+[[example]]
+mpn = "SMBJ5.0CA"
+params = { standoff_voltage = "5V", bidirectional = "yes", tolerance = "±5%" }
+source = "data sheet p. 2, electrical characteristics"
+
+[[example]]
+mpn = "SMBJ48CA"
+params = { standoff_voltage = "48V", bidirectional = "yes", tolerance = "±5%" }
+source = "mx3 corpus (real lab part, Diodes Incorporated's SMBJ48CA-13-F, 10 Nov 2026); data sheet p. 2 row for 48 V"
+
+[[example]]
+mpn = "SMBJ440A"
+params = { standoff_voltage = "440V", bidirectional = "no", tolerance = "±5%" }
+source = "data sheet p. 2, electrical characteristics"

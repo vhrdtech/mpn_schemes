@@ -18,8 +18,8 @@ every feature and scheme family; this file only records what changed. IDs in par
 - Parameter key `esd_protected` (DATA-15, LANG-5).
 - `schemes/onsemi/mmsz.toml`: onsemi MMSZ52xx zener diodes, closed with availability rows for the ±2 % subset (DATA-16).
 - Parameter key `aec_q101` and package word `sod123` (DATA-16, LANG-5).
-- `schemes/littelfuse/smaj.toml`: Littelfuse SMAJ 400 W TVS diodes, stand-off voltage 5 V to 440 V (DATA-17).
-- Parameter keys `standoff_voltage` and `bidirectional`, and package word `do214ac` (DATA-17, LANG-5).
+- `schemes/littelfuse/smaj.toml`, `schemes/littelfuse/smbj.toml`, `schemes/littelfuse/smcj.toml`: Littelfuse SMAJ/SMBJ/SMCJ 400/600/1500 W TVS diodes, stand-off voltage 5 V to 440 V (DATA-17).
+- Parameter keys `standoff_voltage` and `bidirectional`, and package words `do214ac`, `do214aa`, `do214ab` (DATA-17, LANG-5).
 
 ## [0.1.3] - 2026-11-10
 
