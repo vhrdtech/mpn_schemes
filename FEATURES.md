@@ -82,4 +82,6 @@ One item per family file, with its maker's source document.
 
 - 🚧 DATA-19 panasonic-era-a: `schemes/panasonic/era_a.toml`, ERA-A thin film chip resistors, high reliability type, ERA 1A/2A/3A/6A/8A (AOA0000C307); closed, rows from the ratings table (T.C.R./tolerance pairs and their resistance range per size); 5 examples. mx3 corpus (10 Nov 2026): the 2 ERA-2A parts read, 2 values agree. Open: no verified example yet for ERA1A or ERA8A, for the pressed carrier taping code C, or for a W (±0.05 %) tolerance; the other ERA families (V, K, Y, 2H...) are not covered.
 
+- 🚧 DATA-20 panasonic-erj-m: `schemes/panasonic/erj_m.toml`, ERJ-M1W current sensing resistors, metal plate type, general (S) and wide terminal (T), both 2512, not recommended for new design (AOA0000C323); closed, rows from the ratings table's standard resistance values; T.C.R. not decoded (not uniform across type and value, not a position in the part number); 2 examples. No parts in the mx3 corpus. Open: the discontinued ERJM03 (0603, a similar but not identical numbering) and the current replacement ERJ-MS4/MS6 are not covered.
+
 ## Dropped and superseded
