@@ -1,0 +1,190 @@
+# Panasonic ERJ precision thick film chip resistors, ±0.5 % (ERJ1R, 2R, 3R, 6R) and ±1 % (ERJ XG, 1G, 2R, 3E, 6E,
+# 8E, 14, 12, 1T). The general purpose ±5 % series (ERJ XGN, 1GN, 1GJ, 2GE, 3GE, 6GE, 8GE, 14, 12, 12Z, 1T) is
+# panasonic.erj_g. TCR is only decoded for the ±0.5 % series, which carries its own position for it; the ±1 %
+# series' TCR is a fact of the series (AOA0000C304 Ratings tables), not a position in the part number.
+# Panasonic writes the part numbers without a dash (ERJ2RKF1002X); distributors write ERJ-2RKF1002X.
+[scheme]
+id = "panasonic.erj_precision"
+version = 1
+maker = "Panasonic"
+aliases = ["Panasonic Industry", "Panasonic Electronic Components", "Matsushita"]
+class = "resistor.chip"
+title = "Panasonic ERJ precision thick film chip resistors, ±0.5 % and ±1 %"
+sources = [
+  { doc = "Panasonic Precision Thick Film Chip Resistors, ERJ XG/1G series, ERJ 1R/2R/3R/6R series, ERJ 3E/6E/8E/14/12/1T series (AOA0000C304, 29-May-25)", url = "https://industrial.panasonic.com/cdbs/www-data/pdf/RDA0000/AOA0000C304.pdf", fetched = "2026-11-10", pages = "1-4" },
+  { doc = "Panasonic Low Resistance Value Chip Resistors ERJM03 (AOA0000C90), its Surface Mount Resistors Packaging Method (Taping) pages: the carrier tapings of ERJXGN to ERJ1T and the 180 mm taping reel", url = "https://industrial.panasonic.com/cdbs/www-data/pdf/RDN0000/AOA0000C90.pdf", fetched = "2026-11-10", pages = "3-4" },
+]
+availability = "closed"
+min_stem = "series"
+
+[implies]
+technology = "thick_film"
+
+[[segment]]
+name = "maker"
+literal = "ERJ"
+
+[[segment]]
+name = "dash"
+literal = "-"
+optional = true
+
+[[segment]]
+name = "series"
+param = "case_eia"
+note = "±0.5 % (1R, 2R, 3R, 6R): a size code and a separate TCR code; ±1 % (XGN..1TN): one 3-letter code, TCR not written"
+[[segment.alternatives]]
+group = [
+  { name = "size", param = "case_eia", table = { "1R" = "0201" } },
+  { name = "tcr", param = "tcr", table = { H = "±50ppm/K" } },
+  { name = "tolerance", param = "tolerance", table = { D = "±0.5%" } },
+]
+[[segment.alternatives]]
+group = [
+  { name = "size", param = "case_eia", table = { "2R" = "0402" } },
+  { name = "tcr", param = "tcr", table = { H = "±50ppm/K" } },
+  { name = "tolerance", param = "tolerance", table = { D = "±0.5%" } },
+]
+[[segment.alternatives]]
+group = [
+  { name = "size", param = "case_eia", table = { "2R" = "0402" } },
+  { name = "tcr", param = "tcr", table = { K = "±100ppm/K" } },
+  { name = "tolerance", param = "tolerance", table = { D = "±0.5%" } },
+]
+[[segment.alternatives]]
+group = [
+  { name = "size", param = "case_eia", table = { "3R" = "0603" } },
+  { name = "tcr", param = "tcr", table = { B = "±50ppm/K" } },
+  { name = "tolerance", param = "tolerance", table = { D = "±0.5%" } },
+]
+[[segment.alternatives]]
+group = [
+  { name = "size", param = "case_eia", table = { "3R" = "0603" } },
+  { name = "tcr", param = "tcr", table = { E = "±100ppm/K" } },
+  { name = "tolerance", param = "tolerance", table = { D = "±0.5%" } },
+]
+[[segment.alternatives]]
+group = [
+  { name = "size", param = "case_eia", table = { "6R" = "0805" } },
+  { name = "tcr", param = "tcr", table = { B = "±50ppm/K" } },
+  { name = "tolerance", param = "tolerance", table = { D = "±0.5%" } },
+]
+[[segment.alternatives]]
+group = [
+  { name = "size", param = "case_eia", table = { "6R" = "0805" } },
+  { name = "tcr", param = "tcr", table = { E = "±100ppm/K" } },
+  { name = "tolerance", param = "tolerance", table = { D = "±0.5%" } },
+]
+[[segment.alternatives]]
+group = [
+  { name = "series", param = "case_eia", table = { XGN = "01005", "1GN" = "0201", "1GJ" = "0201", "2RC" = "0402", "2RK" = "0402", "3EK" = "0603", "6EN" = "0805", "8EN" = "1206", "14N" = "1210", "12N" = "1812", "12S" = "2010", "1TN" = "2512" } },
+  { name = "tolerance", param = "tolerance", table = { F = "±1%" } },
+]
+
+[[segment]]
+name = "resistance"
+param = "resistance"
+code = "eia4"
+series = ["E24", "E96"]
+
+[[segment]]
+name = "packaging"
+param = "packaging"
+note = "pressed/punched carrier taping is paper, embossed carrier taping is plastic, all on 180 mm (7in) reels (AOA0000C90 pp. 3-4)"
+table = { Y = "reel_7in_paper", C = "reel_7in_paper", X = "reel_7in_paper", V = "reel_7in_paper", U = "reel_7in_embossed" }
+
+# Resistance range per series (Ratings, pp. 2-4)
+[[available]]
+size = { code = "1R" }
+tcr = { code = "H" }
+resistance = { min = "1kΩ", max = "1MΩ" }
+
+[[available]]
+size = { code = "2R" }
+tcr = { code = "H" }
+resistance = { min = "100Ω", max = "100kΩ" }
+
+[[available]]
+size = { code = "2R" }
+tcr = { code = "K" }
+resistance = { min = "10Ω", max = "97.6Ω" }
+[[available]]
+size = { code = "2R" }
+tcr = { code = "K" }
+resistance = { min = "102kΩ", max = "1MΩ" }
+
+[[available]]
+size = { code = "3R" }
+tcr = { code = "B" }
+resistance = { min = "100Ω", max = "100kΩ" }
+
+[[available]]
+size = { code = "3R" }
+tcr = { code = "E" }
+resistance = { min = "10Ω", max = "97.6Ω" }
+[[available]]
+size = { code = "3R" }
+tcr = { code = "E" }
+resistance = { min = "102kΩ", max = "1MΩ" }
+
+[[available]]
+size = { code = "6R" }
+tcr = { code = "B" }
+resistance = { min = "100Ω", max = "100kΩ" }
+
+[[available]]
+size = { code = "6R" }
+tcr = { code = "E" }
+resistance = { min = "10Ω", max = "97.6Ω" }
+[[available]]
+size = { code = "6R" }
+tcr = { code = "E" }
+resistance = { min = "102kΩ", max = "1MΩ" }
+
+[[available]]
+series = { code = "XGN" }
+resistance = { min = "10Ω", max = "1MΩ" }
+
+[[available]]
+series = { code = ["1GN", "1GJ"] }
+resistance = { min = "10Ω", max = "1MΩ" }
+
+[[available]]
+series = { code = "2RC" }
+resistance = { min = "1Ω", max = "9.76Ω" }
+
+[[available]]
+series = { code = "2RK" }
+resistance = { min = "10Ω", max = "1MΩ" }
+
+[[available]]
+series = { code = "3EK" }
+resistance = { min = "10Ω", max = "1MΩ" }
+
+[[available]]
+series = { code = ["6EN", "8EN"] }
+resistance = { min = "10Ω", max = "2.2MΩ" }
+
+[[available]]
+series = { code = ["14N", "12N", "12S", "1TN"] }
+resistance = { min = "10Ω", max = "1MΩ" }
+
+[[example]]
+mpn = "ERJ3RBD1002V"
+params = { case_eia = "0603", tcr = "±50ppm/K", tolerance = "±0.5%", resistance = "10kΩ", packaging = "reel_7in_paper" }
+source = "data sheet p. 1, explanation of part numbers"
+
+[[example]]
+mpn = "ERJ8ENF1002V"
+params = { case_eia = "1206", tolerance = "±1%", resistance = "10kΩ", packaging = "reel_7in_paper" }
+source = "data sheet p. 2, explanation of part numbers"
+
+[[example]]
+mpn = "ERJ-2RKF1003X"
+params = { case_eia = "0402", tolerance = "±1%", resistance = "100kΩ", packaging = "reel_7in_paper" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "ERJ-2RKF56R0X"
+params = { case_eia = "0402", tolerance = "±1%", resistance = "56Ω", packaging = "reel_7in_paper" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"

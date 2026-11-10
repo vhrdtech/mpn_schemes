@@ -9,6 +9,7 @@ every feature and scheme family; this file only records what changed. IDs in par
 ### Added
 
 - Scheme `vishay.crcw` (Vishay Dale D/CRCW e3 standard thick film chip resistors), with examples from the data sheet and Digi-Key listings (DATA-4).
+- Scheme `panasonic.erj_precision` (Panasonic ERJ ±0.5 % and ±1 % precision thick film chip resistors), with examples from the data sheet and Digi-Key listings (DATA-5).
 
 ## [0.1.2] - 2026-11-10
 

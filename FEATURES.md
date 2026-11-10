@@ -66,4 +66,6 @@ One item per family file, with its maker's source document.
 
 - ✅ DATA-4 vishay-crcw: `schemes/vishay/crcw.toml`, Vishay Dale D/CRCW e3 standard thick film chip resistors (Document 20035); 4 examples. Open: packaging codes (EA..EK) are not decoded to a packaging word yet (no "blister tape" word for 1218/2010/2512); resistance below 1 Ω (apart from the jumper) and the ±1 %/±200 ppm/K upper bound (9.76 Ω) are not excluded; some supplier listings spell a whole value without the trailing `R` the data sheet's own examples use (`562F...`) and read as partial.
 
+- ✅ DATA-5 panasonic-erj-precision: `schemes/panasonic/erj_precision.toml`, Panasonic ERJ ±0.5 % (1R/2R/3R/6R) and ±1 % (XGN..1TN) precision chip resistors (AOA0000C304); 4 examples. mx3 corpus (10 Nov 2026): 23 of 37 Panasonic resistor parts read (combined with panasonic.erj_g), none disagree. Open: the ERJ-M low-resistance/current-sense series (2BS, 2BW, 3BW, 3LW, 2BQ, D2D), the wide-terminal power series (P6W, P06) and the ERA series are other families, left out.
+
 ## Dropped and superseded
