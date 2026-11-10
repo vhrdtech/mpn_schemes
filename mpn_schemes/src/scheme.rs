@@ -512,6 +512,15 @@ pub(crate) fn compile(raw: RawFile, errs: &mut Errors, path: Option<&str>) -> Op
                     );
                 }
                 match Value::parse(key.kind, v.get_ref()) {
+                    Some(val) if !keys::allows(key, &val) => errs.at(
+                        line,
+                        None,
+                        format!(
+                            "[implies] {k} = {:?}: one of {}",
+                            v.get_ref(),
+                            key.words.join(", ")
+                        ),
+                    ),
                     Some(val) => implies.push((key, val)),
                     None => errs.at(
                         line,
@@ -913,6 +922,14 @@ impl Expand<'_, '_> {
         if s.optional {
             let absent = match (&s.absent, param) {
                 (Some(t), Some(k)) => match Value::parse(k.kind, t) {
+                    Some(v) if !keys::allows(k, &v) => {
+                        self.errs.at(
+                            line,
+                            Some(label),
+                            format!("absent {t:?}: {} is one of {}", k.name, k.words.join(", ")),
+                        );
+                        None
+                    }
                     Some(v) => Some(v),
                     None => {
                         self.errs.at(
@@ -993,6 +1010,14 @@ impl Expand<'_, '_> {
                 defaults += usize::from(default);
                 let value = match (param, text) {
                     (Some(k), Some(t)) => match Value::parse(k.kind, &t) {
+                        Some(v) if !keys::allows(k, &v) => {
+                            err(format!(
+                                "table {code:?} = {t:?}: {} is one of {}",
+                                k.name,
+                                k.words.join(", ")
+                            ));
+                            None
+                        }
                         Some(v) => Some(v),
                         None => {
                             err(format!(

@@ -134,7 +134,18 @@ pub(crate) fn parse_scheme(scheme: &Scheme, mpn: &str) -> Vec<Parse> {
         let v = &scheme.variants[*vi];
         out.push((v.rank, build(scheme, v, text, hits, false)));
     }
-    out.sort_by_key(|(rank, p)| (p.flags.contains(&Flag::NotInTable), p.free_chars(), *rank));
+    out.sort_by_key(|(rank, p)| {
+        let outside = p
+            .flags
+            .iter()
+            .any(|f| matches!(f, Flag::OutsideSeries { .. }));
+        (
+            p.flags.contains(&Flag::NotInTable),
+            outside,
+            p.free_chars(),
+            *rank,
+        )
+    });
     out.into_iter().map(|(_, p)| p).collect()
 }
 

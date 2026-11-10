@@ -11,6 +11,8 @@ pub struct Key {
     pub name: &'static str,
     pub kind: Kind,
     pub doc: &'static str,
+    /// For a word: the words it may be; empty: any
+    pub words: &'static [&'static str],
 }
 
 const fn q(name: &'static str, unit: &'static str, doc: &'static str) -> Key {
@@ -18,6 +20,7 @@ const fn q(name: &'static str, unit: &'static str, doc: &'static str) -> Key {
         name,
         kind: Kind::Quantity(unit),
         doc,
+        words: &[],
     }
 }
 
@@ -26,6 +29,16 @@ const fn e(name: &'static str, doc: &'static str) -> Key {
         name,
         kind: Kind::Enum,
         doc,
+        words: &[],
+    }
+}
+
+const fn w(name: &'static str, doc: &'static str, words: &'static [&'static str]) -> Key {
+    Key {
+        name,
+        kind: Kind::Enum,
+        doc,
+        words,
     }
 }
 
@@ -43,11 +56,13 @@ pub const KEYS: &[Key] = &[
         name: "tolerance",
         kind: Kind::Tolerance,
         doc: "tolerance of the main value: ±10%, ±0.25pF",
+        words: &[],
     },
     Key {
         name: "tcr",
         kind: Kind::Tolerance,
         doc: "temperature coefficient: ±100ppm/K",
+        words: &[],
     },
     e(
         "dielectric",
@@ -55,16 +70,48 @@ pub const KEYS: &[Key] = &[
     ),
     e("case_eia", "case size, EIA inch code: 0402, 0603"),
     e("case_metric", "case size, metric code: 1005, 1608"),
-    e(
+    w(
         "packaging",
-        "packaging: reel_7in_paper, reel_7in_embossed, reel_13in_paper, bulk",
+        "how the parts are delivered",
+        &[
+            "reel_7in_paper",
+            "reel_7in_embossed",
+            "reel_10in_paper",
+            "reel_10in_embossed",
+            "reel_13in_paper",
+            "reel_13in_embossed",
+            "bulk",
+            "bulk_case",
+            "tube",
+            "tray",
+        ],
     ),
-    e("technology", "construction: mlcc, thick_film, thin_film"),
-    e("aec_q200", "qualified to AEC-Q200: yes or no"),
+    w(
+        "technology",
+        "construction",
+        &[
+            "mlcc",
+            "thick_film",
+            "thin_film",
+            "metal_film",
+            "metal_foil",
+            "wirewound",
+            "carbon_film",
+        ],
+    ),
+    w("aec_q200", "qualified to AEC-Q200", &["yes", "no"]),
     e("series", "the maker's series name: CL, RC, ERJ-3G"),
 ];
 
 /// The key of this name
 pub fn key(name: &str) -> Option<&'static Key> {
     KEYS.iter().find(|k| k.name == name)
+}
+
+/// Whether a value is one the key allows (its word list, when it has one)
+pub fn allows(key: &Key, v: &crate::value::Value) -> bool {
+    match v {
+        crate::value::Value::Text(t) if !key.words.is_empty() => key.words.contains(&t.as_str()),
+        _ => true,
+    }
 }

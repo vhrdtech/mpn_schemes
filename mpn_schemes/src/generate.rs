@@ -50,6 +50,15 @@ pub enum Op {
     EnumIn(Vec<Value>),
 }
 
+impl Choice {
+    fn extra(&self) -> u32 {
+        match self {
+            Choice::Fixed { extra, .. } => *extra,
+            Choice::Hole { .. } => 0,
+        }
+    }
+}
+
 impl Op {
     /// Whether a value satisfies the term
     pub fn accepts(&self, v: &Value) -> bool {
@@ -249,11 +258,17 @@ type Codes = Vec<(String, Option<Value>)>;
 /// Holes (by leaf index) a row narrows, and to which codes
 type Narrowing = Vec<(usize, Codes)>;
 
+/// The rank added to a table entry that is neither preferred nor the default: such entries come after every
+/// combination of preferred ones
+const FALLBACK: u32 = 1000;
+
 #[derive(Clone, Debug)]
 enum Choice {
+    /// `extra` is added to the choice's rank (FALLBACK for a non-preferred entry)
     Fixed {
         code: String,
         value: Option<Value>,
+        extra: u32,
     },
     /// Codes it may hold (with their values), or any text when `codes` is empty
     Hole {
@@ -324,8 +339,9 @@ pub(crate) fn generate_scheme(
             if (idx[k] as usize) + 1 < d[k].len() {
                 let mut n = idx.clone();
                 n[k] += 1;
+                let step = 1 + d[k][n[k] as usize].extra() - d[k][idx[k] as usize].extra();
                 if seen.insert((vi, n.clone())) {
-                    heap.push(Reverse((cost + 1, vrank, vi, n)));
+                    heap.push(Reverse((cost + step, vrank, vi, n)));
                 }
             }
         }
@@ -391,6 +407,7 @@ fn domain(
     let fixed = |code: &str, value: Option<Value>| Choice::Fixed {
         code: code.to_string(),
         value,
+        extra: 0,
     };
     let pref = l
         .param
@@ -417,23 +434,40 @@ fn domain(
                 order_by_terms(&mut all, terms);
                 return all.into_iter().map(|(c, v, _)| fixed(&c, v)).collect();
             }
+            // The preferred values, else the default, first; the other entries after all of them, for the
+            // combinations where those are not available
+            let mut first: Vec<usize> = Vec::new();
             if let Some(p) = pref {
-                let mut chosen = Vec::new();
                 for want in p {
-                    for (c, v, _) in &all {
-                        if v.as_ref().is_some_and(|v| v.matches(want, None)) {
-                            chosen.push(fixed(c, v.clone()));
+                    for (i, (_, v, _)) in all.iter().enumerate() {
+                        if v.as_ref().is_some_and(|v| v.matches(want, None)) && !first.contains(&i)
+                        {
+                            first.push(i);
                         }
                     }
                 }
-                if !chosen.is_empty() {
-                    return chosen;
-                }
             }
-            if prefs.fill_defaults
-                && let Some((c, v, _)) = all.iter().find(|e| e.2)
+            if first.is_empty()
+                && prefs.fill_defaults
+                && let Some(i) = all.iter().position(|e| e.2)
             {
-                return vec![fixed(c, v.clone())];
+                first.push(i);
+            }
+            if !first.is_empty() {
+                let mut out: Vec<Choice> = first
+                    .iter()
+                    .map(|&i| fixed(&all[i].0, all[i].1.clone()))
+                    .collect();
+                for (i, (c, v, _)) in all.iter().enumerate() {
+                    if !first.contains(&i) {
+                        out.push(Choice::Fixed {
+                            code: c.clone(),
+                            value: v.clone(),
+                            extra: FALLBACK,
+                        });
+                    }
+                }
+                return out;
             }
             if all.len() == 1 {
                 return vec![fixed(&all[0].0, all[0].1.clone())];
@@ -596,7 +630,7 @@ fn evaluate(
     let states: Vec<State> = picks
         .iter()
         .map(|c| match c {
-            Choice::Fixed { code, value } => State::Known(code, value.as_ref()),
+            Choice::Fixed { code, value, .. } => State::Known(code, value.as_ref()),
             Choice::Hole { codes, .. } => State::Hole(codes.clone(), codes.is_empty()),
         })
         .collect();
@@ -721,7 +755,7 @@ fn candidate(
     let mut min_stem_len: Option<usize> = None;
     for (i, (l, c)) in v.leaves.iter().zip(picks).enumerate() {
         let (code, value): (Option<String>, Option<Value>) = match c {
-            Choice::Fixed { code, value } => (Some(code.clone()), value.clone()),
+            Choice::Fixed { code, value, .. } => (Some(code.clone()), value.clone()),
             Choice::Hole {
                 codes,
                 chars,

@@ -116,8 +116,18 @@ fn generate_fixes_what_terms_and_rows_decide() {
     };
     let g = set.generate(&req, &Prefs::default());
     let pats: Vec<String> = g.candidates.iter().map(|c| c.pattern.to_string()).collect();
-    // 16 V first; 25 V is excluded for 100 nF in 0402; 50 V is in no row. The optional dash comes first.
-    assert_eq!(pats, ["TC05B104KO5??-C", "TC05B104KO5??C"], "{g:#?}");
+    // 16 V first; 25 V is excluded for 100 nF in 0402; 50 V is in no row. The optional dash comes first, the
+    // default reel before the other one.
+    assert_eq!(
+        pats,
+        [
+            "TC05B104KO5??-C",
+            "TC05B104KO5??C",
+            "TC05B104KO5??-D",
+            "TC05B104KO5??D"
+        ],
+        "{g:#?}"
+    );
     let c = &g.candidates[0];
     assert_eq!(c.pattern.stem(), "TC05B104KO5");
     assert_eq!(c.min_stem, "TC05");
