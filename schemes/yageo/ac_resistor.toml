@@ -1,0 +1,79 @@
+# Yageo AC: automotive grade, anti-sulfurated thick film chip resistors, 0201 to 2512.
+# Not the AC series of automotive-grade MLCC (yageo.ac, capacitor.ceramic), a different family that reuses the
+# same series letters with its own position table (size-tolerance-dielectric-voltage-capacitance).
+# Resistance 1 Ω to 22 MΩ overall (ordering information, p. 2); the per-size/tolerance table (Table 2, pp. 5-6) is
+# too garbled by this document's layout to copy row by row yet, so only the overall bound is excluded.
+# Not covered: the double-power reel codes 7W/3W (same as yageo.rc).
+[scheme]
+id = "yageo.ac_resistor"
+version = 1
+maker = "YAGEO"
+aliases = ["Yageo Corporation", "Phycomp"]
+class = "resistor.chip"
+title = "Yageo AC automotive grade anti-sulfurated chip resistors"
+sources = [
+  { doc = "Yageo data sheet: Chip Resistor Surface Mount AC series, automotive grade, product specification V.7 (10 Jul 2017)", url = "https://www.electronicsdatasheets.com/download/533a8ba8e34e24e37b978596.pdf?format=pdf", fetched = "2026-11-10", pages = "2, 5-6" },
+]
+min_stem = "size"
+
+[implies]
+technology = "thick_film"
+aec_q200 = "yes"
+series = "AC"
+
+[[segment]]
+name = "series"
+literal = "AC"
+
+[[segment]]
+name = "size"
+param = "case_eia"
+note = "p. 2 (1)"
+table = { "0201" = "0201", "0402" = "0402", "0603" = "0603", "0805" = "0805", "1206" = "1206", "1210" = "1210", "1218" = "1218", "2010" = "2010", "2512" = "2512" }
+
+[[segment]]
+name = "value"
+note = "p. 2: (2) tolerance, (3)-(5) packaging, taping reel; (6) resistance; a jumper is ordered with tolerance code J and 0R and has no tolerance"
+[[segment.alternatives]]
+group = [
+  { name = "tolerance", param = "tolerance", table = { D = "±0.5%", F = "±1%", J = "±5%" } },
+  { name = "packing", param = "packaging", table = { "R-07" = { value = "reel_7in_paper", default = true }, "R-10" = "reel_10in_paper", "R-13" = "reel_13in_paper", "K-07" = "reel_7in_embossed", "K-13" = "reel_13in_embossed" } },
+  { name = "resistance", param = "resistance", code = "rkm", series = ["E24", "E96"] },
+]
+[[segment.alternatives]]
+group = [
+  { name = "jumper", literal = "J" },
+  { name = "packing", param = "packaging", table = { "R-07" = { value = "reel_7in_paper", default = true }, "R-10" = "reel_10in_paper", "R-13" = "reel_13in_paper", "K-07" = "reel_7in_embossed", "K-13" = "reel_13in_embossed" } },
+  { name = "resistance", param = "resistance", table = { "0R" = "0Ω" } },
+]
+
+[[segment]]
+name = "default"
+literal = "L"
+note = "p. 2 (7): system default code for ordering"
+
+[[excluded]]
+resistance = { max = "0.99Ω" }
+
+[[excluded]]
+resistance = { min = "22.1MΩ" }
+
+[[example]]
+mpn = "AC0402FR-07100KL"
+params = { case_eia = "0402", tolerance = "±1%", packaging = "reel_7in_paper", resistance = "100kΩ" }
+source = "data sheet p. 2, ordering example"
+
+[[example]]
+mpn = "AC0603FR-071KL"
+params = { case_eia = "0603", tolerance = "±1%", packaging = "reel_7in_paper", resistance = "1kΩ" }
+source = "Farnell listing (jp.farnell.com/en-JP/yageo/ac0603fr-071kl)"
+
+[[example]]
+mpn = "AC0402JR-07330RL"
+params = { case_eia = "0402", tolerance = "±5%", packaging = "reel_7in_paper", resistance = "330Ω" }
+source = "Farnell listing (jp.farnell.com/en-JP/yageo/ac0402jr-07330rl)"
+
+[[example]]
+mpn = "AC0603JR-071ML"
+params = { case_eia = "0603", tolerance = "±5%", packaging = "reel_7in_paper", resistance = "1MΩ" }
+source = "Farnell listing (jp.farnell.com/en-JP/yageo/ac0603jr-071ml)"

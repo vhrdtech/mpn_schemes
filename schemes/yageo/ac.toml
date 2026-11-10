@@ -1,6 +1,7 @@
 # Yageo AC: automotive-grade (AEC-Q200) surface-mount MLCC, global part number.
-# Not the AC series of automotive thick-film chip resistors, a different family that reuses the same series
-# letters with its own position table (size-tolerance-packing-TCR-reel-resistance-default, dash-separated).
+# Not the AC series of automotive thick-film chip resistors (yageo.ac_resistor), a different family that reuses
+# the same series letters with its own position table (size-tolerance-packing-TCR-reel-resistance-default,
+# dash-separated).
 # Not covered yet (DATA-14): dielectrics X5R, X6S, X8R, X8G (the datasheet's own whitepaper lists them, but no
 # ordering-code document for them is at hand); sizes 0508 and 0612 (capacitor-array positions, a different body
 # style); voltage codes beyond 630 V (Yageo's AC MLCC goes to 1 kV-2 kV per the maker's own announcements, but no
