@@ -628,7 +628,7 @@ fn evaluate(
     cost: u32,
     unchecked: &[String],
 ) -> Vec<Candidate> {
-    let states: Vec<State> = picks
+    let mut states: Vec<State> = picks
         .iter()
         .map(|c| match c {
             Choice::Fixed { code, value, .. } => State::Known(code, value.as_ref()),
@@ -637,16 +637,35 @@ fn evaluate(
         .collect();
     let index = |name: &str| v.leaves.iter().position(|l| l.name == name);
     // `when`: a fixed segment must pass, a hole is narrowed to the codes that pass
+    let mut base: Narrowing = Vec::new();
     for l in &v.leaves {
         for c in &l.when {
             let Some(i) = index(&c.segment) else {
                 return Vec::new();
             };
-            if let State::Known(code, val) = &states[i]
-                && !c.test.passes(code, *val)
-            {
+            let kept: Codes = match &states[i] {
+                State::Known(code, val) => {
+                    if !c.test.passes(code, *val) {
+                        return Vec::new();
+                    }
+                    continue;
+                }
+                State::Hole(_, true) => match &c.test {
+                    Test::Codes(cs) => cs.iter().map(|c| (c.clone(), None)).collect(),
+                    _ => continue,
+                },
+                State::Hole(codes, false) => codes
+                    .iter()
+                    .filter(|(cd, v)| c.test.passes(cd, v.as_ref()))
+                    .cloned()
+                    .collect(),
+            };
+            if kept.is_empty() {
                 return Vec::new();
             }
+            states[i] = State::Hole(kept.clone(), false);
+            base.retain(|(j, _)| *j != i);
+            base.push((i, kept));
         }
     }
     // Excluded rows: out when every segment they name is fixed and passes
@@ -678,7 +697,14 @@ fn evaluate(
     }
     let mut out = Vec::new();
     for n in narrowings {
-        out.push(candidate(scheme, v, picks, &n, req, cost, unchecked));
+        // A row's narrowing is of the holes as `when` left them: it replaces theirs
+        let mut all: Narrowing = base
+            .iter()
+            .filter(|(i, _)| !n.iter().any(|(j, _)| j == i))
+            .cloned()
+            .collect();
+        all.extend(n);
+        out.push(candidate(scheme, v, picks, &all, req, cost, unchecked));
     }
     out
 }

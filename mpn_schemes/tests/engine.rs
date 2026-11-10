@@ -342,3 +342,24 @@ fn validator_refuses_each_broken_fixture() {
     }
     assert!(n >= 15, "only {n} broken fixtures");
 }
+
+#[test]
+fn generate_when_narrows_holes() {
+    let set = fixtures();
+    // No size given: the thickness alternative for 0402 narrows the size hole to 05, so the pattern is fixed
+    let req = Requirement {
+        schemes: vec!["toy.mlcc".into()],
+        terms: terms(&[
+            "capacitance=10nF",
+            "dielectric=X5R",
+            "rated_voltage=16V",
+            "tolerance=±10%",
+        ]),
+        ..Requirement::default()
+    };
+    let g = set.generate(&req, &Prefs::default());
+    let pats: Vec<String> = g.candidates.iter().map(|c| c.pattern.to_string()).collect();
+    assert_eq!(pats[0], "TC05A103KO5??-C", "{pats:?}");
+    // X5R exists only in 0402 (the rows), so no 0603 pattern
+    assert!(pats.iter().all(|p| p.starts_with("TC05")), "{pats:?}");
+}
