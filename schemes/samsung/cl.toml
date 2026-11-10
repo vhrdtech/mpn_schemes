@@ -1,0 +1,115 @@
+# Samsung Electro-Mechanics CL: multilayer ceramic capacitors, sizes 01005 to 2220.
+# Not covered yet (DATA-1): availability rows (the catalog's product lineup lists every part; open until they are
+# copied), the sizes R1/L5/L6/01/19 (008004 and reverse geometry, no thickness codes in the table), the
+# dielectric J (JIS-B) and the one-sided tolerances H, L, U, V.
+[scheme]
+id = "samsung.cl"
+version = 1
+maker = "Samsung Electro-Mechanics"
+aliases = ["SEMCO", "Samsung", "Samsung Electro Mechanics"]
+class = "capacitor.ceramic"
+title = "Samsung MLCC, general purpose (CL)"
+sources = [
+  { doc = "Samsung Electro-Mechanics, Multilayer Ceramic Capacitors catalog (Jan 2024), Part Numbering", url = "https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/7133/MLCC.pdf", fetched = "2026-11-10", pages = "6-8", note = "Samsung's catalog as Digi-Key hosts it" },
+]
+availability = "open"
+min_stem = "size"
+
+[implies]
+technology = "mlcc"
+series = "CL"
+
+[[segment]]
+name = "series"
+literal = "CL"
+
+[[segment]]
+name = "size"
+param = "case_eia"
+note = "(2) size code"
+table = { "02" = "01005", "03" = "0201", "05" = "0402", "10" = "0603", "21" = "0805", "31" = "1206", "32" = "1210", "42" = "1808", "43" = "1812", "55" = "2220" }
+
+[[segment]]
+name = "dielectric"
+param = "dielectric"
+note = "(3) dielectric code; K is X7R specified at 0.5 Vr DC bias"
+table = { C = "C0G", G = "X8G", A = "X5R", X = "X6S", W = "X6T", B = "X7R", K = "X7R", Y = "X7S", Z = "X7T", F = "Y5V", M = "X8M", E = "X8L" }
+
+[[segment]]
+name = "capacitance"
+param = "capacitance"
+note = "(4) in pF, two digits and the number of zeros, R for the point below 10 pF; whole values below 10 pF as 010 (catalog lineup)"
+code = "eia3"
+unit = "pF"
+lead_zero = true
+pad_whole = true
+
+[[segment]]
+name = "tolerance"
+param = "tolerance"
+note = "(5) F is ±1 pF below 10 pF and ±1 % from 10 pF"
+[[segment.alternatives]]
+table = { N = "±0.03pF", A = "±0.05pF", B = "±0.1pF", C = "±0.25pF", D = "±0.5pF", G = "±2%", J = "±5%", K = "±10%", M = "±20%", Z = "+80%/-20%" }
+[[segment.alternatives]]
+when = { capacitance = { max = "9.99pF" } }
+table = { F = "±1pF" }
+[[segment.alternatives]]
+when = { capacitance = { min = "10pF" } }
+table = { F = "±1%" }
+
+[[segment]]
+name = "voltage"
+param = "rated_voltage"
+note = "(6) rated voltage code"
+table = { S = "2.5V", R = "4V", Q = "6.3V", P = "10V", O = "16V", A = "25V", L = "35V", B = "50V", C = "100V", D = "200V", E = "250V", F = "350V", G = "500V", H = "630V", I = "1kV", J = "2kV", K = "3kV" }
+
+[[segment]]
+name = "thickness"
+param = "height"
+note = "(7) thickness code, nominal thickness per size"
+[[segment.alternatives]]
+when = { size = "01005" }
+table = { "2" = "0.2mm" }
+[[segment.alternatives]]
+when = { size = "0201" }
+table = { "3" = "0.3mm" }
+[[segment.alternatives]]
+when = { size = "0402" }
+table = { "3" = "0.3mm", "5" = "0.5mm" }
+[[segment.alternatives]]
+when = { size = "0603" }
+table = { "5" = "0.5mm", "8" = "0.8mm" }
+[[segment.alternatives]]
+when = { size = "0805" }
+table = { A = "0.65mm", C = "0.85mm", M = "1.15mm", F = "1.25mm", Q = "1.25mm", Y = "1.25mm" }
+[[segment.alternatives]]
+when = { size = "1206" }
+table = { C = "0.85mm", E = "1.1mm", P = "1.15mm", M = "1.15mm", F = "1.25mm", H = "1.6mm" }
+[[segment.alternatives]]
+when = { size = "1210" }
+table = { C = "0.85mm", "9" = "0.9mm", F = "1.25mm", S = "1.35mm", H = "1.6mm", U = "1.8mm", I = "2mm", J = "2.5mm", V = "2.5mm" }
+[[segment.alternatives]]
+when = { size = "1808" }
+table = { F = "1.25mm", G = "1.4mm", I = "2mm" }
+[[segment.alternatives]]
+when = { size = "1812" }
+table = { F = "1.25mm", H = "1.6mm", I = "2mm", J = "2.5mm", L = "3.2mm" }
+[[segment.alternatives]]
+when = { size = "2220" }
+table = { H = "1.6mm", I = "2mm", J = "2.5mm", L = "3.2mm" }
+
+[[segment]]
+name = "spec"
+note = "(8) inner electrode, termination and plating, (9) product or size control, (10) control code: the lineup uses more values than the tables explain, so they are not decoded"
+free = { chars = "A-Z0-9", len = 3 }
+
+[[segment]]
+name = "packaging"
+param = "packaging"
+note = "(11) packaging code: the normal tapings; 1 mm pitch and aligned-chip tapings (J, Z, Y, 2, 7, R, W) are not listed"
+table = { "8" = "reel_7in_paper", C = { value = "reel_7in_paper", default = true }, H = "reel_7in_paper", O = "reel_10in_paper", "3" = "reel_13in_paper", D = "reel_13in_paper", L = "reel_13in_paper", E = "reel_7in_embossed", G = "reel_7in_embossed", S = "reel_10in_embossed", F = "reel_13in_embossed" }
+
+[[example]]
+mpn = "CL10A106MQ8NNNC"
+params = { case_eia = "0603", dielectric = "X5R", capacitance = "10uF", tolerance = "±20%", rated_voltage = "6.3V", height = "0.8mm", packaging = "reel_7in_paper" }
+source = "catalog p. 6, the part numbering example"

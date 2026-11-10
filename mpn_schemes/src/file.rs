@@ -79,6 +79,7 @@ pub(crate) struct RawSegment {
     pub places: Option<usize>,
     pub letters: Option<BTreeMap<String, i32>>,
     pub lead_zero: Option<bool>,
+    pub pad_whole: Option<bool>,
 }
 
 #[derive(Deserialize, Debug, Clone)]
@@ -129,6 +130,10 @@ impl OneOrMany {
 pub(crate) enum RawRowValue {
     One(String),
     Many(Vec<String>),
+    /// The segment's code itself, for a segment with a param whose codes share a value
+    Code {
+        code: OneOrMany,
+    },
     Range {
         min: Option<String>,
         max: Option<String>,

@@ -1,0 +1,133 @@
+# Yageo RC_L: general purpose thick-film chip resistors, 0100 to 2512.
+# Not covered yet (DATA-2): RC0075 (ESD-safe reel only), the ESD-safe reel S/7N, and the reel codes 7W/3W
+# (2x standard power) and 7D (2x standard quantity), which mean a different power or reel quantity that no
+# segment can carry beside the packaging.
+[scheme]
+id = "yageo.rc"
+version = 1
+maker = "YAGEO"
+aliases = ["Yageo Corporation", "Phycomp"]
+class = "resistor.chip"
+title = "Yageo RC_L general purpose chip resistors"
+sources = [
+  { doc = "Yageo data sheet: General purpose chip resistors RC_L series, product specification V.14 (14 Nov 2025)", url = "https://www.yageogroup.com/content/datasheet/asset/file/PYU-RC_GROUP_51_ROHS_L", fetched = "2026-11-10", pages = "2, 4-7" },
+]
+availability = "closed"
+min_stem = "size"
+
+[implies]
+technology = "thick_film"
+series = "RC"
+
+[[segment]]
+name = "series"
+literal = "RC"
+
+[[segment]]
+name = "size"
+param = "case_eia"
+note = "p. 2 (1)"
+table = { "0100" = "01005", "0201" = "0201", "0402" = "0402", "0603" = "0603", "0805" = "0805", "1206" = "1206", "1210" = "1210", "1218" = "1218", "2010" = "2010", "2512" = "2512" }
+
+[[segment]]
+name = "tolerance"
+param = "tolerance"
+note = "p. 2 (2); J also for the jumper"
+table = { B = "±0.1%", D = "±0.5%", F = "±1%", J = "±5%" }
+
+[[segment]]
+name = "packing"
+param = "packaging"
+note = "p. 2 (3) packaging type R paper, K embossed; (4) TCR `-` based on spec; (5) reel 07, 10, 13 inch"
+table = { "R-07" = { value = "reel_7in_paper", default = true }, "R-10" = "reel_10in_paper", "R-13" = "reel_13in_paper", "K-07" = "reel_7in_embossed", "K-13" = "reel_13in_embossed" }
+
+[[segment]]
+name = "resistance"
+param = "resistance"
+note = "p. 2 (6): 2 to 4 characters, R/K/M as the decimal point; the jumper is 0R"
+[[segment.alternatives]]
+code = "rkm"
+series = ["E24", "E96"]
+[[segment.alternatives]]
+table = { "0R" = "0Ω" }
+
+[[segment]]
+name = "default"
+literal = "L"
+note = "p. 2 (7): system default code for ordering"
+
+# Resistance ranges per size and tolerance, Table 2 and 3 (pp. 4-6), standard power. ±5 % is E24, the others
+# E24/E96. The 10 % and 20 % grades of RC0805/RC1206 have no tolerance code in the ordering information.
+
+[[available]]
+size = ["0201", "0402", "0805", "1206"]
+tolerance = "±5%"
+resistance = { min = "1Ω", max = "100MΩ", series = "E24" }
+
+[[available]]
+size = ["01005", "0603", "1210", "2010", "2512"]
+tolerance = "±5%"
+resistance = { min = "1Ω", max = "22MΩ", series = "E24" }
+
+[[available]]
+size = "1218"
+tolerance = "±5%"
+resistance = { min = "1Ω", max = "1MΩ", series = "E24" }
+
+[[available]]
+size = ["01005", "0201", "0402", "0603", "0805", "1206", "1210", "2010", "2512"]
+tolerance = "±1%"
+resistance = { min = "1Ω", max = "10MΩ" }
+
+[[available]]
+size = "1218"
+tolerance = "±1%"
+resistance = { min = "1Ω", max = "1MΩ" }
+
+[[available]]
+size = "01005"
+tolerance = "±0.5%"
+resistance = { min = "33Ω", max = "470kΩ" }
+
+[[available]]
+size = ["0201", "0402", "0603", "0805", "1206"]
+tolerance = "±0.5%"
+resistance = { min = "1Ω", max = "1MΩ" }
+
+[[available]]
+size = ["0201", "0402", "0603", "0805", "1206"]
+tolerance = "±0.1%"
+resistance = { min = "10Ω", max = "1MΩ" }
+
+[[available]]
+size = ["1210", "1218", "2010", "2512"]
+tolerance = ["±0.1%", "±0.5%"]
+resistance = { min = "10Ω", max = "1MΩ" }
+
+[[available]]
+note = "jumper, every size"
+tolerance = "±5%"
+resistance = "0Ω"
+
+# Reels per size, Table 4 (p. 7)
+
+[[excluded]]
+size = ["1218", "2010", "2512"]
+packing = ["reel_7in_paper", "reel_10in_paper", "reel_13in_paper"]
+
+[[excluded]]
+size = "01005"
+packing = ["reel_10in_paper", "reel_7in_embossed", "reel_13in_embossed"]
+
+[[excluded]]
+size = ["0201", "0402", "0603", "0805", "1206", "1210"]
+packing = ["reel_7in_embossed", "reel_13in_embossed"]
+
+[[excluded]]
+size = ["1218", "2512"]
+packing = "reel_13in_embossed"
+
+[[example]]
+mpn = "RC0402JR-07100KL"
+params = { case_eia = "0402", tolerance = "±5%", packaging = "reel_7in_paper", resistance = "100kΩ" }
+source = "data sheet p. 2, ordering example"

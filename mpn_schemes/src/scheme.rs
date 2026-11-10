@@ -241,6 +241,8 @@ pub(crate) enum Test {
         max: Option<Value>,
         series: Vec<ESeries>,
     },
+    /// A `when` as written, until the param of the segment it names is known
+    Raw(RawRowValue),
 }
 
 impl Test {
@@ -249,6 +251,7 @@ impl Test {
         match self {
             Test::Codes(c) => c.iter().any(|c| c.eq_ignore_ascii_case(code)),
             Test::Values(vs) => value.is_some_and(|v| vs.iter().any(|x| x.matches(v, None))),
+            Test::Raw(_) => false,
             Test::Range { min, max, series } => {
                 let Some(v) = value else { return false };
                 let lo = min
@@ -694,6 +697,7 @@ fn row_cond(
         Value::parse(k.kind, t).ok_or_else(|| format!("{t:?} is not a {}", kind_name(k.kind)))
     };
     let test = match (v, param) {
+        (RawRowValue::Code { code }, _) => Test::Codes(code.list()),
         (RawRowValue::One(s), None) => Test::Codes(vec![s.clone()]),
         (RawRowValue::Many(l), None) => Test::Codes(l.clone()),
         (RawRowValue::Range { .. }, None) => {
@@ -771,7 +775,7 @@ fn check_cond(c: &Cond, variants: &[Variant], errs: &mut Errors, line: usize) {
                 }
             }
         }
-        Test::Range { .. } => {}
+        Test::Range { .. } | Test::Raw(_) => {}
     }
 }
 
@@ -867,7 +871,7 @@ impl Expand<'_, '_> {
                     // resolved below in `resolve_when`
                     out.push(Cond {
                         segment: k.clone(),
-                        test: raw_test(v),
+                        test: Test::Raw(v.clone()),
                     });
                 }
                 out
@@ -978,9 +982,10 @@ impl Expand<'_, '_> {
             || s.scale.is_some()
             || s.places.is_some()
             || s.letters.is_some()
-            || s.lead_zero.is_some();
+            || s.lead_zero.is_some()
+            || s.pad_whole.is_some();
         if s.code.is_none() && (code_opts || s.digits.is_some()) {
-            err("unit, series, digits, scale, places, letters and lead_zero belong to a code segment".into());
+            err("unit, series, digits, scale, places, letters, lead_zero and pad_whole belong to a code segment".into());
         }
         let kind = if let Some(l) = &s.literal {
             if l.is_empty() || !l.is_ascii() {
@@ -1084,6 +1089,7 @@ impl Expand<'_, '_> {
             code.scale = s.scale;
             code.places = s.places.unwrap_or(0);
             code.lead_zero = s.lead_zero.unwrap_or(false);
+            code.pad_whole = s.pad_whole.unwrap_or(false);
             if kind == CodeKind::Rkm {
                 code.letters = match &s.letters {
                     Some(l) => {
@@ -1116,8 +1122,10 @@ impl Expand<'_, '_> {
             if kind != CodeKind::Decimal && (s.scale.is_some() || s.places.is_some()) {
                 err("scale and places belong to a decimal code".into());
             }
-            if s.lead_zero.is_some() && !matches!(kind, CodeKind::Eia3 | CodeKind::Eia4) {
-                err("lead_zero belongs to an eia3 or eia4 code".into());
+            if (s.lead_zero.is_some() || s.pad_whole.is_some())
+                && !matches!(kind, CodeKind::Eia3 | CodeKind::Eia4)
+            {
+                err("lead_zero and pad_whole belong to an eia3 or eia4 code".into());
             }
             LeafKind::Code {
                 code,
@@ -1155,22 +1163,7 @@ impl Expand<'_, '_> {
     }
 }
 
-/// A `when` condition before the param of its segment is known: texts kept as codes, resolved by
-/// `resolve_when` once every segment is read
-fn raw_test(v: &RawRowValue) -> Test {
-    match v {
-        RawRowValue::One(s) => Test::Codes(vec![s.clone()]),
-        RawRowValue::Many(l) => Test::Codes(l.clone()),
-        RawRowValue::Range { min, max, .. } => Test::Codes(
-            min.iter()
-                .chain(max.iter())
-                .map(|s| format!("\u{0}range:{s}"))
-                .collect(),
-        ),
-    }
-}
-
-/// Turn the `when` texts into tests on the named segment's values, now that its param is known
+/// Turn the `when` conditions into tests on the named segment's values, now that its param is known
 fn resolve_when(scheme_variants: &mut [Variant], errs: &mut Errors) {
     let mut params_of: BTreeMap<String, Option<&'static Key>> = BTreeMap::new();
     for v in scheme_variants.iter() {
@@ -1180,35 +1173,15 @@ fn resolve_when(scheme_variants: &mut [Variant], errs: &mut Errors) {
     }
     for v in scheme_variants.iter_mut() {
         for l in &mut v.leaves {
-            let line = l.line;
-            let name = l.name.clone();
             for c in &mut l.when {
-                let Test::Codes(texts) = &c.test else {
-                    continue;
-                };
-                if texts.iter().any(|t| t.starts_with('\u{0}')) {
-                    errs.at(
-                        line,
-                        Some(&name),
-                        "when takes values or a list, not a range",
-                    );
-                    continue;
-                }
-                let Some(Some(k)) = params_of.get(&c.segment) else {
-                    continue;
-                };
-                let mut vals = Vec::new();
-                for t in texts.iter() {
-                    match Value::parse(k.kind, t) {
-                        Some(v) => vals.push(v),
-                        None => errs.at(
-                            line,
-                            Some(&name),
-                            format!("when {} = {t:?}: not a {}", c.segment, kind_name(k.kind)),
-                        ),
+                let Test::Raw(raw) = &c.test else { continue };
+                match row_cond(&c.segment, raw, &params_of) {
+                    Ok(done) => c.test = done.test,
+                    Err(m) => {
+                        errs.at(l.line, Some(&l.name), format!("when: {m}"));
+                        c.test = Test::Codes(Vec::new());
                     }
                 }
-                c.test = Test::Values(vals);
             }
         }
     }

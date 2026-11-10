@@ -392,8 +392,9 @@ fn order_by_terms(vals: &mut Vec<(String, Option<Value>, bool)>, terms: &[&Term]
         v.as_ref()
             .is_some_and(|v| terms.iter().all(|t| t.op.accepts(v)))
     });
+    // Closest to the bound first; among equals the table's default
     if let Some(t) = terms.first() {
-        vals.sort_by_key(|(_, v, _)| v.as_ref().map(|v| t.op.rank(v)));
+        vals.sort_by_key(|(_, v, d)| (v.as_ref().map(|v| t.op.rank(v)), !*d));
     }
 }
 

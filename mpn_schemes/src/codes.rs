@@ -67,6 +67,9 @@ pub struct Code {
     pub letters: Vec<(char, i32)>,
     /// `eia3`/`eia4` below 1: write `0R5` rather than `R50` (Samsung does, Murata does not)
     pub lead_zero: bool,
+    /// `eia3`/`eia4`: write a whole number below 10 with a leading zero and multiplier 0 (`010` for 1) rather
+    /// than with `R` (`1R0`); Samsung does
+    pub pad_whole: bool,
 }
 
 impl Code {
@@ -78,6 +81,7 @@ impl Code {
             places: 0,
             letters: Vec::new(),
             lead_zero: false,
+            pad_whole: false,
         }
     }
 
@@ -150,8 +154,8 @@ impl Code {
             return None;
         }
         let s = match self.kind {
-            CodeKind::Eia3 => write_eia(v, 2, self.lead_zero)?,
-            CodeKind::Eia4 => write_eia(v, 3, self.lead_zero)?,
+            CodeKind::Eia3 => write_eia(v, 2, self.lead_zero, self.pad_whole)?,
+            CodeKind::Eia4 => write_eia(v, 3, self.lead_zero, self.pad_whole)?,
             CodeKind::Eia96 => write_eia96(v)?,
             CodeKind::Rkm => self.write_rkm(v)?,
             CodeKind::Int => {
@@ -272,9 +276,15 @@ fn read_eia(c: &[u8]) -> Option<Dec> {
 }
 
 /// Write with `sig` significant digits (2 for eia3, 3 for eia4)
-fn write_eia(v: Dec, sig: u32, lead_zero: bool) -> Option<String> {
+fn write_eia(v: Dec, sig: u32, lead_zero: bool, pad_whole: bool) -> Option<String> {
     if v.is_zero() || v.digits() > sig {
         return None;
+    }
+    if pad_whole
+        && let Some(n) = v.to_i64()
+        && n < 10i64.pow(sig - 1)
+    {
+        return Some(format!("{n:0w$}0", w = sig as usize));
     }
     let len = sig as i32 + 1;
     let mag = v.magnitude();
@@ -483,6 +493,17 @@ mod tests {
         assert_eq!(z.write(d("0.5")).as_deref(), Some("0R5"));
         assert_eq!(z.write(d("0.47")).as_deref(), Some("R47"));
         assert_eq!(c.read("0R5"), vec![(3, d("0.5"))]);
+        let p = Code {
+            lead_zero: true,
+            pad_whole: true,
+            ..Code::new(CodeKind::Eia3)
+        };
+        assert_eq!(p.write(d("1")).as_deref(), Some("010"));
+        assert_eq!(p.write(d("9")).as_deref(), Some("090"));
+        assert_eq!(p.write(d("1.1")).as_deref(), Some("1R1"));
+        assert_eq!(p.write(d("0.75")).as_deref(), Some("R75"));
+        assert_eq!(p.write(d("10")).as_deref(), Some("100"));
+        assert_eq!(p.read("010"), vec![(3, d("1"))]);
         assert_eq!(c.write(d("0")), None);
     }
 

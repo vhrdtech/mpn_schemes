@@ -12,3 +12,6 @@ include = ["src/**/*.rs", "build.rs", "../schemes/**/*.toml", "Cargo.toml"]
 [dependencies]
 serde = { version = "1", default-features = false, features = ["std", "derive"] }
 toml = { version = "1", default-features = false, features = ["std", "parse", "serde"] }
+
+[dev-dependencies]
+serde_json = { version = "1", default-features = false, features = ["std"] }

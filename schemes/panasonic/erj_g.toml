@@ -1,0 +1,86 @@
+# Panasonic ERJ general purpose thick-film chip resistors, ±5 % and jumpers: ERJ XGN, 1GN, 1GJ, 2GE, 3GE, 6GE,
+# 8GE, 14, 12, 12Z, 1T. The precision ERJ series (±0.5 %, ±1 %, 4-digit values) are another family.
+# Panasonic writes the part numbers without a dash (ERJ3GEYJ102V); distributors and most BOMs write ERJ-3GEYJ102V.
+[scheme]
+id = "panasonic.erj_g"
+version = 1
+maker = "Panasonic"
+aliases = ["Panasonic Industry", "Panasonic Electronic Components", "Matsushita"]
+class = "resistor.chip"
+title = "Panasonic ERJ general purpose thick-film chip resistors, ±5 %"
+sources = [
+  { doc = "Panasonic Thick Film Chip Resistors, ERJ XG, 1G, 2G, 3G, 6G series / ERJ 8G, 14, 12, 12Z, 1T series (AOA0000C301, 22-Dec-22)", url = "https://industrial.panasonic.com/cdbs/www-data/pdf/RDA0000/AOA0000C301.pdf", fetched = "2026-11-10", pages = "1-2" },
+]
+min_stem = "size"
+
+[implies]
+technology = "thick_film"
+
+[[segment]]
+name = "maker"
+literal = "ERJ"
+
+[[segment]]
+name = "dash"
+literal = "-"
+optional = true
+
+[[segment]]
+name = "size"
+param = "case_eia"
+note = "size and power code with the marking letter Y, which XGN, 1GN, 1GJ and 2GE leave out; 8GE, 14, 12, 12Z and 1T are not recommended for new design"
+table = { XGN = "01005", "1GN" = "0201", "1GJ" = "0201", "2GE" = "0402", "3GEY" = "0603", "6GEY" = "0805", "8GEY" = "1206", "14Y" = "1210", "12Y" = "1812", "12ZY" = "2010", "1TY" = "2512" }
+
+[[segment]]
+name = "value"
+note = "tolerance J with a 3-digit value (R as the point), or the jumper: tolerance code 0 and R00"
+[[segment.alternatives]]
+group = [
+  { name = "tolerance", param = "tolerance", table = { J = "±5%" } },
+  { name = "resistance", param = "resistance", code = "eia3", series = "E24" },
+]
+[[segment.alternatives]]
+group = [
+  { name = "jumper", literal = "0" },
+  { name = "resistance", param = "resistance", table = { R00 = "0Ω" } },
+]
+
+[[segment]]
+name = "packaging"
+param = "packaging"
+note = "packaging methods: the code depends on the size"
+[[segment.alternatives]]
+when = { size = { code = "XGN" } }
+table = { Y = "reel_7in_paper" }
+[[segment.alternatives]]
+when = { size = { code = "1GN" } }
+table = { U = "reel_7in_embossed" }
+[[segment.alternatives]]
+when = { size = { code = "1GJ" } }
+table = { C = "reel_7in_paper" }
+[[segment.alternatives]]
+when = { size = { code = "2GE" } }
+table = { X = "reel_7in_paper" }
+[[segment.alternatives]]
+when = { size = { code = ["3GEY", "6GEY", "8GEY", "14Y"] } }
+table = { V = "reel_7in_paper" }
+[[segment.alternatives]]
+when = { size = { code = ["12Y", "12ZY", "1TY"] } }
+table = { U = "reel_7in_embossed" }
+
+# Resistance range: 1 Ω to 10 MΩ, XG and 1T 1 Ω to 1 MΩ (Ratings, p. 2)
+
+[[excluded]]
+resistance = { min = "0.1Ω", max = "0.91Ω" }
+
+[[excluded]]
+resistance = { min = "11MΩ" }
+
+[[excluded]]
+size = ["01005", "2512"]
+resistance = { min = "1.1MΩ" }
+
+[[example]]
+mpn = "ERJ3GEYJ102V"
+params = { case_eia = "0603", tolerance = "±5%", resistance = "1kΩ", packaging = "reel_7in_paper" }
+source = "data sheet p. 1, explanation of part numbers"
