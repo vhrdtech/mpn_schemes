@@ -6,6 +6,8 @@ every feature and scheme family; this file only records what changed. IDs in par
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-11-10
+
 ### Added
 
 - Schemes `yageo.cc` (Yageo CC commercial MLCC), `yageo.ac` (Yageo AC automotive-grade MLCC), `kemet.c` (KEMET C
