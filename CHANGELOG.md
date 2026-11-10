@@ -12,6 +12,8 @@ every feature and scheme family; this file only records what changed. IDs in par
 - Parameter key `package` (word) and packaging word `reel_11in_embossed` (DATA-12, LANG-5).
 - `schemes/nexperia/bat54.toml`: Nexperia BAT54 Schottky diodes, single and dual configurations in SOT23/SOT323 (DATA-13).
 - Parameter key `configuration` (word) and package word `sot323` (DATA-13, LANG-5).
+- `schemes/nexperia/bc8x7.toml`: Nexperia BC847/BC857 general-purpose transistors, ungraded and hFE groups A/B/C (DATA-14).
+- Parameter keys `polarity` and `gain_group` (DATA-14, LANG-5).
 
 ## [0.1.3] - 2026-11-10
 

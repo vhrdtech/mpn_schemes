@@ -1,0 +1,72 @@
+# Nexperia BC847 (NPN, 45 V) and its PNP complement BC857 (65 V): general-purpose SOT23 transistors in three hFE
+# (DC current gain) selection groups A/B/C, plus the ungraded type (no letter, full 110-800 range). BC847 and
+# BC857 share everything but the two digits after "BC8" and VCEO/hFE numbers, so one scheme covers both.
+# Leaves out the W (SOT323), AW/BW/CW and other package-size letters, which have their own data sheets with
+# different packing suffixes (see nexperia.bat54 for the same split on BAT54/BAT54W); only the bare SOT23 type is
+# modelled here.
+[scheme]
+id = "nexperia.bc8x7"
+version = 1
+maker = "Nexperia"
+aliases = ["NXP", "Philips Semiconductors"]
+class = "transistor.bjt"
+title = "Nexperia BC847/BC857 series general-purpose transistors"
+sources = [
+  { doc = "BC847x series, 45 V, 100 mA NPN general-purpose transistors (BC847X_SER, Rev. 13, 1 Jul 2022)", url = "https://assets.nexperia.com/documents/data-sheet/BC847X_SER.pdf", fetched = "2026-11-10", pages = "1-2" },
+  { doc = "BC856; BC857; BC858, 65 V, 100 mA PNP general-purpose transistors (BC856_BC857_BC858)", url = "https://assets.nexperia.com/documents/data-sheet/BC856_BC857_BC858.pdf", fetched = "2026-11-10", pages = "1-2" },
+  { doc = "SOT23, Reel pack for SMD, 7\"; Q3/T4 product orientation (SOT23_215)", url = "https://assets.nexperia.com/documents/packing-information/SOT23_215.pdf", fetched = "2026-11-10" },
+  { doc = "SOT23, Reel pack for SMD, 11\"; Q3/T4 product orientation (SOT23_235)", url = "https://assets.nexperia.com/documents/packing-information/SOT23_235.pdf", fetched = "2026-11-10" },
+]
+
+[implies]
+package = "sot23"
+
+[[segment]]
+name = "prefix"
+literal = "BC8"
+
+[[segment]]
+name = "polarity"
+param = "polarity"
+table = { "47" = "npn", "57" = "pnp" }
+
+[[segment]]
+name = "gain"
+param = "gain_group"
+optional = true
+absent = "ungraded"
+table = { A = "A", B = "B", C = "C" }
+
+[[segment]]
+name = "comma"
+literal = ","
+
+[[segment]]
+name = "packing"
+param = "packaging"
+table = { "215" = "reel_7in_embossed", "235" = "reel_11in_embossed" }
+
+[[example]]
+mpn = "BC847,215"
+params = { polarity = "npn", gain_group = "ungraded", packaging = "reel_7in_embossed" }
+source = "Nexperia product page, orderable parts (nexperia.com/pip/BC847, 10 Nov 2026)"
+
+[[example]]
+mpn = "BC847B,215"
+params = { polarity = "npn", gain_group = "B", packaging = "reel_7in_embossed" }
+source = "Nexperia product page, orderable parts (nexperia.com/pip/BC847B, 10 Nov 2026)"
+
+[[example]]
+mpn = "BC847B,235"
+params = { polarity = "npn", gain_group = "B", packaging = "reel_11in_embossed" }
+source = "Nexperia product page, orderable parts (nexperia.com/pip/BC847B, 10 Nov 2026)"
+
+[[example]]
+mpn = "BC857A,215"
+params = { polarity = "pnp", gain_group = "A", packaging = "reel_7in_embossed" }
+source = "Nexperia product page, orderable parts (nexperia.com/pip/BC857A, 10 Nov 2026)"
+
+[[example]]
+mpn = "BC857B,235"
+params = { polarity = "pnp", gain_group = "B", packaging = "reel_11in_embossed" }
+source = "Nexperia product page, orderable parts (nexperia.com/pip/BC857B, 10 Nov 2026)"

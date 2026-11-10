@@ -117,6 +117,12 @@ pub const KEYS: &[Key] = &[
             "dual_series",
         ],
     ),
+    w("polarity", "NPN or PNP", &["npn", "pnp"]),
+    w(
+        "gain_group",
+        "the maker's hFE (DC current gain) selection group letter, as written: A, B, C",
+        &[],
+    ),
 ];
 
 /// The key of this name
