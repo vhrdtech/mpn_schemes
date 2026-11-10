@@ -6,6 +6,8 @@ every feature and scheme family; this file only records what changed. IDs in par
 
 ## [Unreleased]
 
+## [0.1.3] - 2026-11-10
+
 ### Added
 
 - Scheme `vishay.crcw` (Vishay Dale D/CRCW e3 standard thick film chip resistors), with examples from the data sheet and Digi-Key listings (DATA-4).
