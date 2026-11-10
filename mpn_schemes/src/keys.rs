@@ -78,6 +78,7 @@ pub const KEYS: &[Key] = &[
             "reel_7in_embossed",
             "reel_10in_paper",
             "reel_10in_embossed",
+            "reel_11in_embossed",
             "reel_13in_paper",
             "reel_13in_embossed",
             "bulk",
@@ -101,6 +102,11 @@ pub const KEYS: &[Key] = &[
     ),
     w("aec_q200", "qualified to AEC-Q200", &["yes", "no"]),
     e("series", "the maker's series name: CL, RC, ERJ-3G"),
+    w(
+        "package",
+        "the physical package (JEDEC or EIAJ outline), lower case with no punctuation",
+        &["sot23"],
+    ),
 ];
 
 /// The key of this name

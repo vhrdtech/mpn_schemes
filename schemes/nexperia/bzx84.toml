@@ -1,0 +1,78 @@
+# Nexperia BZX84 series, voltage regulator (zener) diodes in SOT23: 37 breakdown voltages (E24, 2.4 V to 75 V) in
+# three tolerance classes. The ±1 % class (A) leaves out 47 V, 56 V, 62 V and 68 V; B and C carry the full set.
+# Voltages below 10 V are written with V as the decimal point (2V4 = 2.4 V); from 10 V up they are plain integers
+# (no V), so the segment reads either form as an alternative rather than one code kind. Packing suffixes ,215 and
+# ,235 are the SOT23 package's own (not part-specific); which of the two a given type actually ships with varies
+# and is not modelled here, since parse never rejects on availability.
+[scheme]
+id = "nexperia.bzx84"
+version = 1
+maker = "Nexperia"
+aliases = ["NXP", "Philips Semiconductors"]
+class = "diode.zener"
+title = "Nexperia BZX84 series voltage regulator (zener) diodes"
+sources = [
+  { doc = "BZX84 series, Voltage regulator diodes (BZX84_SER, Rev. 7, 1 Jan 2023)", url = "https://assets.nexperia.com/documents/data-sheet/BZX84_SER.pdf", fetched = "2026-11-10", pages = "2-3" },
+  { doc = "Reel pack for SMD, 7\"; Q3/T4 product orientation (SOT23, packing suffix ,215)", url = "https://assets.nexperia.com/documents/packing-information/SOT23_215.pdf", fetched = "2026-11-10" },
+  { doc = "Reel pack for SMD, 11\"; Q3/T4 product orientation (SOT23, packing suffix ,235)", url = "https://assets.nexperia.com/documents/packing-information/SOT23_235.pdf", fetched = "2026-11-10" },
+]
+
+[implies]
+package = "sot23"
+
+[[segment]]
+name = "series"
+literal = "BZX84"
+
+[[segment]]
+name = "dash"
+literal = "-"
+
+[[segment]]
+name = "tolerance"
+param = "tolerance"
+table = { A = "±1%", B = "±2%", C = "±5%" }
+
+[[segment]]
+name = "voltage"
+param = "zener_voltage"
+note = "below 10 V: rkm with V as the point (2V4 = 2.4 V); 10 V and up: plain integer, no letter"
+[[segment.alternatives]]
+code = "rkm"
+letters = { V = 0 }
+unit = "V"
+[[segment.alternatives]]
+table = { "10" = "10V", "11" = "11V", "12" = "12V", "13" = "13V", "15" = "15V", "16" = "16V", "18" = "18V", "20" = "20V", "22" = "22V", "24" = "24V", "27" = "27V", "30" = "30V", "33" = "33V", "36" = "36V", "39" = "39V", "43" = "43V", "47" = "47V", "51" = "51V", "56" = "56V", "62" = "62V", "68" = "68V", "75" = "75V" }
+
+[[segment]]
+name = "comma"
+literal = ","
+
+[[segment]]
+name = "packing"
+param = "packaging"
+table = { "215" = "reel_7in_embossed", "235" = "reel_11in_embossed" }
+
+[[excluded]]
+tolerance = "±1%"
+voltage = ["47V", "56V", "62V", "68V"]
+
+[[example]]
+mpn = "BZX84-C5V1,215"
+params = { tolerance = "±5%", zener_voltage = "5.1V", packaging = "reel_7in_embossed" }
+source = "Nexperia product page, orderable parts (nexperia.com/pip/BZX84-C5V1, 10 Nov 2026)"
+
+[[example]]
+mpn = "BZX84-C5V1,235"
+params = { tolerance = "±5%", zener_voltage = "5.1V", packaging = "reel_11in_embossed" }
+source = "Nexperia product page, orderable parts (nexperia.com/pip/BZX84-C5V1, 10 Nov 2026)"
+
+[[example]]
+mpn = "BZX84-A10,215"
+params = { tolerance = "±1%", zener_voltage = "10V", packaging = "reel_7in_embossed" }
+source = "Nexperia product page, orderable parts (nexperia.com/pip/BZX84-A10, 10 Nov 2026)"
+
+[[example]]
+mpn = "BZX84-B47,215"
+params = { tolerance = "±2%", zener_voltage = "47V", packaging = "reel_7in_embossed" }
+source = "Nexperia product page, orderable parts (nexperia.com/pip/BZX84-B47, 10 Nov 2026)"

@@ -6,6 +6,11 @@ every feature and scheme family; this file only records what changed. IDs in par
 
 ## [Unreleased]
 
+### Added
+
+- `schemes/nexperia/bzx84.toml`: Nexperia BZX84 zener diodes, with examples from Nexperia's orderable-parts pages (DATA-12).
+- Parameter key `package` (word) and packaging word `reel_11in_embossed` (DATA-12, LANG-5).
+
 ## [0.1.3] - 2026-11-10
 
 ### Added
