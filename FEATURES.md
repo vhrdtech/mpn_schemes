@@ -70,4 +70,6 @@ One item per family file, with its maker's source document.
 
 - ✅ DATA-6 yageo-ac-resistor: `schemes/yageo/ac_resistor.toml`, Yageo AC automotive grade anti-sulfurated chip resistors (product specification V.7); 4 examples, one AC part in the mx3 corpus (10 Nov 2026), reads and agrees. Not DATA-14's `yageo.ac` (MLCC): the same series letters, a different maker's family, so a different file and id (`yageo.ac_resistor`) to avoid the collision. Open: the per-size/tolerance resistance-range table (Table 2) is garbled by the document's layout and not copied row by row yet, only the overall 1 Ω–22 MΩ bound is excluded; the double-power reel codes 7W/3W are left out, same as yageo.rc.
 
+- ✅ DATA-7 uni-royal-chip: `schemes/uni-royal/chip.toml`, UNI-ROYAL (Uniroyal Electronics Global) generic thick film chip resistors (File No. SMD-SP-001, V.9); 5 examples. Open: resistance values needing the ordering code's negative multiplier letters (J K L M N P, under 10 Ω at ±2 %/±5 %, under 100 Ω at ±0.5 %/±1 %) are not covered (no code kind writes a letter-suffix negative multiplier, only the `R`-embedded one eia3/eia4 use); `power`, `packaging` (no reel diameter in this document) and the packing-quantity code are not decoded to params; the per-size/power resistance-range table (§6) is not reproduced, only the overall 10 MΩ bound is excluded.
+
 ## Dropped and superseded

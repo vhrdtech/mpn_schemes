@@ -1,0 +1,100 @@
+# UNI-ROYAL (Uniroyal Electronics Global) thick film chip resistors, generic "Chip Series" (file SMD-SP-001).
+# Power rating (positions 5-6) is not decoded to a `power` param: one of its codes (W3 = 1/3 W, used on 1210 and
+# 1206) is not an exact decimal, so the segment carries no param (its table is for documentation only).
+# The resistance value's negative multiplier letters (J K L M N P, §2.4.3) are not covered: no code kind here
+# writes a letter-suffix negative multiplier (only the `R`-embedded one eia3/eia4 use), so resistance values below
+# the significant figures' floor (under 10 Ω for ±2 %/±5 %, under 100 Ω for ±0.5 %/±1 %) read as partial.
+# Packaging type, quantity and the special-feature code are only documented (T = Tape/Reel, E = standard); the
+# reel diameter is not given in this document, so `packaging` is not decoded.
+[scheme]
+id = "uni-royal.chip"
+version = 1
+maker = "Uniroyal Electronics Global"
+aliases = ["UNI-ROYAL", "Uniroyal Elec", "UR"]
+class = "resistor.chip"
+title = "UNI-ROYAL thick film chip resistors (Chip Series)"
+sources = [
+  { doc = "UNI-ROYAL Thick Film Chip Resistors, Chip Series (File No. SMD-SP-001, V.9, 21-Jun-2025)", url = "https://atta.szlcsc.com/upload/public/pdf/source/20260810/D6DC9D541D0653FFFD59BFAA59F2E971.pdf", fetched = "2026-11-10", pages = "1-2" },
+]
+min_stem = "size"
+
+[implies]
+technology = "thick_film"
+
+[[segment]]
+name = "size"
+param = "case_eia"
+note = "p. 2 §2.1; 01005 is coded 0105 (4 digits, not 01005)"
+table = { "0105" = "01005", "0201" = "0201", "0402" = "0402", "0603" = "0603", "0805" = "0805", "1206" = "1206", "1210" = "1210", "1812" = "1812", "2010" = "2010", "2512" = "2512" }
+
+[[segment]]
+name = "power"
+note = "p. 2 §2.2: power rating, not decoded to a param (1/3 W has no exact decimal text form)"
+table = { WH = "1/32W", "07" = "3/4W", W2 = "1/2W", W3 = "1/3W", W4 = "1/4W", W8 = "1/8W", WA = "1/10W", WG = "1/16W", WM = "1/20W", "1W" = "1W" }
+
+[[segment]]
+name = "tolerance"
+param = "tolerance"
+table = { D = "±0.5%", F = "±1%", G = "±2%", J = "±5%" }
+
+[[segment]]
+name = "value"
+note = "p. 2 §2.4: E-24 series (±2 %, ±5 %) is a forced 0, 2 significant digits and a multiplier 0-6; E-96 series (±0.5 %, ±1 %) is 3 significant digits and a multiplier 0-6"
+[[segment.alternatives]]
+when = { tolerance = ["±2%", "±5%"] }
+group = [
+  { name = "zero", literal = "0" },
+  { name = "resistance", param = "resistance", code = "eia3", series = "E24" },
+]
+[[segment.alternatives]]
+when = { tolerance = ["±2%", "±5%"] }
+param = "resistance"
+table = { "0000" = "0Ω" }
+[[segment.alternatives]]
+when = { tolerance = ["±0.5%", "±1%"] }
+param = "resistance"
+code = "eia4"
+series = "E96"
+
+[[segment]]
+name = "packaging_type"
+literal = "T"
+note = "p. 2 §2.5.1: only Tape/Reel is documented"
+
+[[segment]]
+name = "quantity"
+note = "p. 2 §2.5.2: standard packing quantity, not decoded to a param"
+table = { "4" = "4000pcs", "5" = "5000pcs", C = "10000pcs", D = "20000pcs", E = "15000pcs" }
+
+[[segment]]
+name = "feature"
+literal = "E"
+note = "p. 2 §2.5.3: only the standard (lead-free) feature is documented"
+
+[[excluded]]
+resistance = { min = "10.1MΩ" }
+
+[[example]]
+mpn = "0805W8J0103T5E"
+params = { case_eia = "0805", tolerance = "±5%", resistance = "10kΩ" }
+source = "data sheet p. 2, ordering procedure"
+
+[[example]]
+mpn = "0402WGJ0000TCE"
+params = { case_eia = "0402", tolerance = "±5%", resistance = "0Ω" }
+source = "LCSC listing (uniroyal-elec-0402wgj0000tce, C21376)"
+
+[[example]]
+mpn = "1210W3J0220T5E"
+params = { case_eia = "1210", tolerance = "±5%", resistance = "22Ω" }
+source = "LCSC listing (uniroyal-elec-1210w3j0220t5e)"
+
+[[example]]
+mpn = "1206W4F1002T5E"
+params = { case_eia = "1206", tolerance = "±1%", resistance = "10kΩ" }
+source = "LCSC listing (uniroyal-elec-1206w4f1002t5e, C17902)"
+
+[[example]]
+mpn = "0603WAJ0101T5E"
+params = { case_eia = "0603", tolerance = "±5%", resistance = "100Ω" }
+source = "LCSC listing (uniroyal-elec-0603waj0101t5e, C25201)"
