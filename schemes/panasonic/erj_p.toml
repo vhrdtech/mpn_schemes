@@ -1,0 +1,142 @@
+# Panasonic ERJ-P/PA/PM anti-surge thick film chip resistors: ERJ PA2, PA3, P03, P06, P08, PM8, P14. ERJ-P6W
+# (double-sided resistive elements, its own data sheet RDO0000C337) is a different family and not covered here.
+# T.C.R. is in the ratings table but depends on both size and resistance value, and is not a position in the part
+# number, so it is not decoded here, the same reasoning as erj_m and erj_b.
+# Panasonic writes the part numbers without a dash (ERJP06D1002V); distributors write ERJ-P06D1002V.
+[scheme]
+id = "panasonic.erj_p"
+version = 1
+maker = "Panasonic"
+aliases = ["Panasonic Industry", "Panasonic Electronic Components", "Matsushita"]
+class = "resistor.chip"
+title = "Panasonic ERJ-P/PA/PM anti-surge thick film chip resistors"
+sources = [
+  { doc = "Panasonic Anti-Surge Thick Film Chip Resistors, ERJ P, PA, PM type, ERJ PA2, PA3, P03, P06, P08, PM8, P14 series (AOA0000C331, 28-Mar-26)", url = "https://industrial.panasonic.com/cdbs/www-data/pdf/RDO0000/AOA0000C331.pdf", fetched = "2026-11-10", pages = "1-3" },
+]
+availability = "closed"
+min_stem = "size"
+
+[implies]
+technology = "thick_film"
+aec_q200 = "yes"
+
+[[segment]]
+name = "maker"
+literal = "ERJ"
+
+[[segment]]
+name = "dash"
+literal = "-"
+optional = true
+
+[[segment]]
+name = "group"
+literal = "P"
+
+[[segment]]
+name = "size"
+param = "case_eia"
+table = { A2 = "0402", A3 = "0603", "03" = "0603", "06" = "0805", "08" = "1206", M8 = "1206", "14" = "1210" }
+
+[[segment]]
+name = "tolerance"
+param = "tolerance"
+table = { D = "±0.5%", F = "±1%", J = "±5%" }
+
+[[segment]]
+name = "resistance"
+note = "four figures (eia4, with R as the point) for ±0.5 %/±1 %, three figures (eia3) for ±5 % (p. 1)"
+[[segment.alternatives]]
+when = { tolerance = ["±0.5%", "±1%"] }
+param = "resistance"
+code = "eia4"
+series = ["E24", "E96"]
+[[segment.alternatives]]
+when = { tolerance = "±5%" }
+param = "resistance"
+code = "eia3"
+series = "E24"
+
+[[segment]]
+name = "packaging"
+param = "packaging"
+note = "punched (paper) for PA2/PA3/P03 (2 mm pitch) and P06/P08/PM8 (4 mm pitch), embossed for P14, all on 180 mm (7 in) reels (p. 1)"
+[[segment.alternatives]]
+when = { size = { code = ["A2", "A3", "03"] } }
+table = { X = "reel_7in_paper" }
+[[segment.alternatives]]
+when = { size = { code = ["06", "08", "M8"] } }
+table = { V = "reel_7in_paper" }
+[[segment.alternatives]]
+when = { size = { code = "14" } }
+table = { U = "reel_7in_embossed" }
+
+# Ratings (p. 2): resistance range per size and tolerance
+[[available]]
+size = { code = "A2" }
+tolerance = ["±0.5%", "±1%"]
+resistance = { min = "10Ω", max = "1MΩ", series = ["E24", "E96"] }
+[[available]]
+size = { code = "A2" }
+tolerance = "±5%"
+resistance = { min = "1Ω", max = "1MΩ", series = "E24" }
+
+[[available]]
+size = { code = "A3" }
+tolerance = ["±0.5%", "±1%"]
+resistance = { min = "1Ω", max = "1MΩ", series = ["E24", "E96"] }
+[[available]]
+size = { code = "A3" }
+tolerance = "±5%"
+resistance = { min = "1Ω", max = "1.5MΩ", series = "E24" }
+
+[[available]]
+size = { code = "03" }
+tolerance = ["±0.5%", "±1%"]
+resistance = { min = "10Ω", max = "1MΩ", series = ["E24", "E96"] }
+[[available]]
+size = { code = "03" }
+tolerance = "±5%"
+resistance = { min = "1Ω", max = "1MΩ", series = "E24" }
+
+[[available]]
+size = { code = "06" }
+tolerance = ["±0.5%", "±1%"]
+resistance = { min = "10Ω", max = "1MΩ", series = ["E24", "E96"] }
+[[available]]
+size = { code = "06" }
+tolerance = "±5%"
+resistance = { min = "1Ω", max = "3.3MΩ", series = "E24" }
+
+[[available]]
+size = { code = "08" }
+tolerance = ["±0.5%", "±1%"]
+resistance = { min = "10Ω", max = "1MΩ", series = ["E24", "E96"] }
+[[available]]
+size = { code = "08" }
+tolerance = "±5%"
+resistance = { min = "1Ω", max = "10MΩ", series = "E24" }
+
+[[available]]
+size = { code = "M8" }
+tolerance = "±1%"
+resistance = { min = "1.02MΩ", max = "10MΩ", series = ["E24", "E96"] }
+
+[[available]]
+size = { code = "14" }
+tolerance = ["±0.5%", "±1%"]
+resistance = { min = "10Ω", max = "1MΩ", series = ["E24", "E96"] }
+[[available]]
+size = { code = "14" }
+tolerance = "±5%"
+resistance = { min = "1Ω", max = "1MΩ", series = "E24" }
+
+[[example]]
+mpn = "ERJP06D1002V"
+params = { case_eia = "0805", tolerance = "±0.5%", resistance = "10kΩ", packaging = "reel_7in_paper" }
+source = "data sheet p. 1, explanation of part numbers"
+
+[[example]]
+mpn = "ERJ-P06F1201V"
+params = { case_eia = "0805", tolerance = "±1%", resistance = "1.2kΩ", packaging = "reel_7in_paper" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"

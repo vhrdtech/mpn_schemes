@@ -12,6 +12,7 @@ every feature and scheme family; this file only records what changed. IDs in par
 - Scheme `panasonic.era_a` (Panasonic ERA-A thin film chip resistors, high reliability type), with examples from the data sheet, Digi-Key listings and a Mouser listing (DATA-19).
 - Scheme `panasonic.erj_m` (Panasonic ERJ-M1W current sensing resistors, metal plate type), with examples from the data sheet and distributor listings (DATA-20).
 - Scheme `panasonic.erj_b` (Panasonic ERJ A1/B1/B2/B3 high power chip resistors, wide terminal type), with examples from the data sheet and a distributor listing (DATA-21).
+- Scheme `panasonic.erj_p` (Panasonic ERJ-PA2/PA3/P03/P06/P08/PM8/P14 anti-surge thick film chip resistors), with examples from the data sheet and a Digi-Key listing (DATA-22).
 
 ## [0.1.4] - 2026-11-10
 

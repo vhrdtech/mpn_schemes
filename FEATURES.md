@@ -86,4 +86,6 @@ One item per family file, with its maker's source document.
 
 - 🚧 DATA-21 panasonic-erj-b: `schemes/panasonic/erj_b.toml`, ERJ A1/B1/B2/B3 high power chip resistors, wide terminal type, current sensing (DOC043129820, a distributor's copy of the data sheet); open, no availability rows yet; 2 examples. No parts in the mx3 corpus. Open: the resistance range per size (ratings table, p. 2) is not yet copied as rows; T.C.R. (non-uniform, not a position in the part number) is not decoded, same reasoning as erj_m.
 
+- 🚧 DATA-22 panasonic-erj-p: `schemes/panasonic/erj_p.toml`, ERJ-PA2/PA3/P03/P06/P08/PM8/P14 anti-surge thick film chip resistors (AOA0000C331); closed, rows from the ratings table's resistance range per size and tolerance; 2 examples. mx3 corpus (10 Nov 2026): the 1 ERJ-P part read, 1 value agrees (the double-sided ERJ-P6W variant, a different data sheet, is not covered and read 0). Open: T.C.R. (non-uniform, not a position in the part number) is not decoded, same reasoning as erj_m/erj_b.
+
 ## Dropped and superseded
