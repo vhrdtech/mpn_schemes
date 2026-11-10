@@ -1,0 +1,76 @@
+# onsemi MMSZ52xx series zener diodes in SOD-123: 51 nominal voltages (2.4 V to 110 V) at ±5 % tolerance (B
+# suffix), 9 of them also offered at ±2 % (C suffix). An optional SZ prefix is the automotive (AEC-Q101) version
+# of the same electrical part, with its own site/control-change process. The last letter pair is the tape-and-reel
+# code (onsemi Tape and Reel Packaging Specifications, BRD8011/D): T1G is the 178 mm (7") reel at 3,000 pieces,
+# T3G the 330 mm (13") reel at 10,000 pieces. Index 71 (would-be 2N-style "5271") does not exist in either table.
+[scheme]
+id = "onsemi.mmsz"
+version = 1
+maker = "onsemi"
+aliases = ["ON Semiconductor", "Semiconductor Components Industries", "SCILLC"]
+class = "diode.zener"
+title = "onsemi MMSZ52xx series zener voltage regulators"
+sources = [
+  { doc = "MMSZ5221BT1/D, MMSZ52xxxT1G Series, SZMMSZ52xxxT1G Series, Zener Voltage Regulators (Rev. 17, Mar 2024)", url = "https://www.onsemi.com/download/data-sheet/pdf/mmsz5221bt1-d.pdf", fetched = "2026-11-10", pages = "1-4" },
+  { doc = "BRD8011/D, Tape and Reel Packaging Specifications Brochure, SOD-123 (425-04) row", url = "https://www.onsemi.com/download/reference-manuals/pdf/brd8011-d.pdf", fetched = "2026-11-10" },
+]
+availability = "closed"
+
+[implies]
+package = "sod123"
+
+[[segment]]
+name = "automotive"
+param = "aec_q101"
+optional = true
+absent = "no"
+table = { SZ = "yes" }
+
+[[segment]]
+name = "series"
+literal = "MMSZ"
+
+[[segment]]
+name = "number"
+param = "zener_voltage"
+table = { "5221" = "2.4V", "5222" = "2.5V", "5223" = "2.7V", "5224" = "2.8V", "5225" = "3.0V", "5226" = "3.3V", "5227" = "3.6V", "5228" = "3.9V", "5229" = "4.3V", "5230" = "4.7V", "5231" = "5.1V", "5232" = "5.6V", "5233" = "6.0V", "5234" = "6.2V", "5235" = "6.8V", "5236" = "7.5V", "5237" = "8.2V", "5238" = "8.7V", "5239" = "9.1V", "5240" = "10V", "5241" = "11V", "5242" = "12V", "5243" = "13V", "5244" = "14V", "5245" = "15V", "5246" = "16V", "5247" = "17V", "5248" = "18V", "5249" = "19V", "5250" = "20V", "5251" = "22V", "5252" = "24V", "5253" = "25V", "5254" = "27V", "5255" = "28V", "5256" = "30V", "5257" = "33V", "5258" = "36V", "5259" = "39V", "5260" = "43V", "5261" = "47V", "5262" = "51V", "5263" = "56V", "5264" = "60V", "5265" = "62V", "5266" = "68V", "5267" = "75V", "5268" = "82V", "5269" = "87V", "5270" = "91V", "5272" = "110V" }
+
+[[segment]]
+name = "tolerance"
+param = "tolerance"
+table = { B = "±5%", C = "±2%" }
+
+[[segment]]
+name = "t"
+literal = "T"
+
+[[segment]]
+name = "reel"
+param = "packaging"
+table = { "1" = "reel_7in_embossed", "3" = "reel_13in_embossed" }
+
+[[segment]]
+name = "g"
+literal = "G"
+
+[[available]]
+tolerance = "±5%"
+
+[[available]]
+tolerance = "±2%"
+number = ["3.3V", "5.1V", "5.6V", "15V", "18V", "20V", "24V", "30V", "36V"]
+
+[[example]]
+mpn = "MMSZ5232BT1G"
+params = { aec_q101 = "no", zener_voltage = "5.6V", tolerance = "±5%", packaging = "reel_7in_embossed" }
+source = "mx3 corpus (real lab part, 10 Nov 2026)"
+
+[[example]]
+mpn = "MMSZ5267BT3G"
+params = { aec_q101 = "no", zener_voltage = "75V", tolerance = "±5%", packaging = "reel_13in_embossed" }
+source = "data sheet p. 3 device table and p. 2 ordering information"
+
+[[example]]
+mpn = "SZMMSZ5245CT3G"
+params = { aec_q101 = "yes", zener_voltage = "15V", tolerance = "±2%", packaging = "reel_13in_embossed" }
+source = "data sheet p. 2 ordering information and p. 4 device table"

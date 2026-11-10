@@ -101,11 +101,12 @@ pub const KEYS: &[Key] = &[
         ],
     ),
     w("aec_q200", "qualified to AEC-Q200", &["yes", "no"]),
+    w("aec_q101", "qualified to AEC-Q101", &["yes", "no"]),
     e("series", "the maker's series name: CL, RC, ERJ-3G"),
     w(
         "package",
         "the physical package (JEDEC or EIAJ outline), lower case with no punctuation",
-        &["sot23", "sot323"],
+        &["sot23", "sot323", "sod123"],
     ),
     w(
         "configuration",

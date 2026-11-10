@@ -16,6 +16,8 @@ every feature and scheme family; this file only records what changed. IDs in par
 - Parameter keys `polarity` and `gain_group` (DATA-14, LANG-5).
 - `schemes/nexperia/2n7002.toml`: Nexperia 2N7002 N-channel MOSFET and the ESD-protected 2N7002K (DATA-15).
 - Parameter key `esd_protected` (DATA-15, LANG-5).
+- `schemes/onsemi/mmsz.toml`: onsemi MMSZ52xx zener diodes, closed with availability rows for the ±2 % subset (DATA-16).
+- Parameter key `aec_q101` and package word `sod123` (DATA-16, LANG-5).
 
 ## [0.1.3] - 2026-11-10
 
