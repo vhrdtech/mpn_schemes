@@ -6,6 +6,8 @@ every feature and scheme family; this file only records what changed. IDs in par
 
 ## [Unreleased]
 
+## [0.1.4] - 2026-11-10
+
 ### Added
 
 - `schemes/nexperia/bzx84.toml`: Nexperia BZX84 zener diodes, with examples from Nexperia's orderable-parts pages (DATA-12).
