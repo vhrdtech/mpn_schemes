@@ -14,6 +14,8 @@ every feature and scheme family; this file only records what changed. IDs in par
 - Parameter key `configuration` (word) and package word `sot323` (DATA-13, LANG-5).
 - `schemes/nexperia/bc8x7.toml`: Nexperia BC847/BC857 general-purpose transistors, ungraded and hFE groups A/B/C (DATA-14).
 - Parameter keys `polarity` and `gain_group` (DATA-14, LANG-5).
+- `schemes/nexperia/2n7002.toml`: Nexperia 2N7002 N-channel MOSFET and the ESD-protected 2N7002K (DATA-15).
+- Parameter key `esd_protected` (DATA-15, LANG-5).
 
 ## [0.1.3] - 2026-11-10
 

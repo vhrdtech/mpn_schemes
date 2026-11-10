@@ -119,6 +119,11 @@ pub const KEYS: &[Key] = &[
     ),
     w("polarity", "NPN or PNP", &["npn", "pnp"]),
     w(
+        "esd_protected",
+        "has an integrated ESD protection diode",
+        &["yes", "no"],
+    ),
+    w(
         "gain_group",
         "the maker's hFE (DC current gain) selection group letter, as written: A, B, C",
         &[],

@@ -1,0 +1,41 @@
+# Nexperia 2N7002 (60 V, 300 mA N-channel trench MOSFET, JEDEC type) and 2N7002K, the same body with an added
+# gate-source ESD protection diode (and a slightly higher 340 mA rating). Both are SOT23. No packing suffix is
+# modelled: bare 2N7002 does offer Nexperia's usual ,215/,235 (like nexperia.bc8x7), but 2N7002K's own product
+# page lists no 12NC/packing code for it (N/A) and the real lab part is used bare in BOMs (mx3 corpus), so a
+# packing segment would be honest for one type and invented for the other. The W/WX/E/ES/BK/DW and other Nexperia
+# 2N7002 variants (SOT323, dual, different VDS/RDSon) are left out; each has its own data sheet.
+[scheme]
+id = "nexperia.2n7002"
+version = 1
+maker = "Nexperia"
+aliases = ["NXP", "Philips Semiconductors"]
+class = "transistor.mosfet"
+title = "Nexperia 2N7002 series N-channel MOSFETs"
+sources = [
+  { doc = "2N7002, 60 V, 300 mA N-channel Trench MOSFET (Rev. 7, 8 Sep 2011)", url = "https://assets.nexperia.com/documents/data-sheet/2N7002.pdf", fetched = "2026-11-10", pages = "1-2" },
+  { doc = "2N7002K, TrenchMOS logic level FET (M3D088, Rev. 01, 20 Oct 2003)", url = "https://assets.nexperia.com/documents/data-sheet/2N7002K.pdf", fetched = "2026-11-10", pages = "1-2" },
+]
+
+[implies]
+package = "sot23"
+
+[[segment]]
+name = "series"
+literal = "2N7002"
+
+[[segment]]
+name = "esd"
+param = "esd_protected"
+optional = true
+absent = "no"
+table = { K = "yes" }
+
+[[example]]
+mpn = "2N7002"
+params = { esd_protected = "no" }
+source = "data sheet, ordering information (2N7002, p. 2)"
+
+[[example]]
+mpn = "2N7002K"
+params = { esd_protected = "yes" }
+source = "mx3 corpus (real lab part, 10 Nov 2026)"
