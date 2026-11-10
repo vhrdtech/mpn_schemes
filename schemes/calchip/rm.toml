@@ -1,0 +1,100 @@
+# Cal-Chip RM: thick-film chip resistors, sizes 01005 to 4527.
+# Not covered yet (DATA-n, Cal-Chip RM): availability rows (the resistance range depends on size, tolerance and the
+# function-code power variant across three different tables, pp. 2-4; open until they are copied), the function
+# code (blank standard, -H high power, -U ultra high power, -X high precision, p. 1): it changes the power rating
+# and resistance range per size rather than a single parameter, so it is read without a value, and the standard
+# (non-suffixed) TCR, which the big resistance-range tables give per value and is not transcribed.
+[scheme]
+id = "calchip.rm"
+version = 1
+maker = "Cal-Chip Electronics, Inc."
+aliases = ["Cal-Chip", "CalChip"]
+class = "resistor.chip"
+title = "Cal-Chip RM thick-film chip resistors"
+sources = [
+  { doc = "Cal-Chip, Thick Film Chip Resistor RM Series (revision May '26)", url = "https://calchip.com/wp-content/uploads/2026/05/RM-SERIES.pdf", fetched = "2026-11-10", pages = "1, 4, 8", note = "part number guide p. 1, TC50 table p. 4, RM packaging designators p. 8" },
+]
+availability = "open"
+min_stem = "size"
+
+[implies]
+technology = "thick_film"
+series = "RM"
+
+[[segment]]
+name = "series"
+literal = "RM"
+
+[[segment]]
+name = "size"
+param = "case_eia"
+note = "(1) dimensions code"
+table = { "01" = "01005", "02" = "0201", "04" = "0402", "06" = "0603", "10" = "0805", "12" = "1206", "14" = "1210", "18" = "1812", "20" = "2010", "25" = "2512", "28" = "2817", "43" = "4320", "45" = "4527" }
+
+[[segment]]
+name = "value"
+note = "(2)-(3) tolerance and nominal resistance: ±5% a 3-digit code (2 significant + multiplier, 000 is the jumper); ±0.1/0.25/0.5/1% a 4-digit code (3 significant + multiplier)"
+[[segment.alternatives]]
+group = [
+  { name = "tolerance", param = "tolerance", table = { J = "±5%" } },
+  { name = "resistance", param = "resistance", code = "eia3", unit = "ohm", series = "E24" },
+]
+[[segment.alternatives]]
+group = [
+  { name = "tolerance", param = "tolerance", table = { B = "±0.1%", C = "±0.25%", D = "±0.5%", F = "±1%" } },
+  { name = "resistance", param = "resistance", code = "eia4", unit = "ohm", series = ["E24", "E96"] },
+]
+[[segment.alternatives]]
+group = [
+  { name = "jumper_tolerance", param = "tolerance", table = { J = "±5%" } },
+  { name = "jumper_resistance", param = "resistance", table = { "000" = "0Ω" } },
+]
+
+[[segment]]
+name = "packaging"
+param = "packaging"
+note = "(4) packaging designator: CT/CTD/CTG/CTQ are all paper tape on a 7\" reel, 8/12/16/24 mm wide, differing only in reel quantity by size (p. 8)"
+table = { CT = { value = "reel_7in_paper", default = true }, CTD = "reel_7in_paper", CTG = "reel_7in_paper", CTQ = "reel_7in_paper" }
+
+[[segment]]
+name = "function"
+note = "(5) function code (see header note)"
+optional = true
+table = { "-H" = "high power", "-U" = "ultra high power", "-X" = "high precision" }
+
+[[segment]]
+name = "tc50"
+param = "tcr"
+note = "(6) TCR50 option; blank is the standard TCR, which depends on resistance value and is not decoded"
+optional = true
+table = { "50" = "±50ppm/K" }
+
+[[example]]
+mpn = "RM06J100CT-H"
+params = { case_eia = "0603", tolerance = "±5%", resistance = "10Ω", packaging = "reel_7in_paper" }
+source = "catalog p. 1, the part numbering example"
+
+[[example]]
+mpn = "RM04F1002CT"
+params = { case_eia = "0402", tolerance = "±1%", resistance = "10kΩ", packaging = "reel_7in_paper" }
+source = "mx3 corpus, 10 Nov 2026"
+
+[[example]]
+mpn = "RM04F6982CT"
+params = { case_eia = "0402", tolerance = "±1%", resistance = "69.8kΩ", packaging = "reel_7in_paper" }
+source = "mx3 corpus, 10 Nov 2026"
+
+[[example]]
+mpn = "RM10F1001CT"
+params = { case_eia = "0805", tolerance = "±1%", resistance = "1kΩ", packaging = "reel_7in_paper" }
+source = "catalog p. 2, RM10 (0805) standard electrical specifications, ±1% resistance range"
+
+[[example]]
+mpn = "RM06J000CT"
+params = { case_eia = "0603", tolerance = "±5%", resistance = "0Ω", packaging = "reel_7in_paper" }
+source = "catalog p. 1 (jumper code 000) and p. 2 (RM06 jumper current rating)"
+
+[[example]]
+mpn = "RM04F1002CT50"
+params = { case_eia = "0402", tolerance = "±1%", resistance = "10kΩ", packaging = "reel_7in_paper", tcr = "±50ppm/K" }
+source = "catalog p. 4, TC50 electrical specifications, RM04 resistance range"

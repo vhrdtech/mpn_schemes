@@ -10,6 +10,8 @@ every feature and scheme family; this file only records what changed. IDs in par
 
 - Scheme `calchip.gmc` (Cal-Chip GMC general purpose MLCC), with examples from the maker's catalog and the mx3
   corpus (DATA-23).
+- Scheme `calchip.rm` (Cal-Chip RM thick-film chip resistors), with examples from the maker's catalog and the mx3
+  corpus (DATA-24).
 
 ## [0.1.5] - 2026-11-10
 
