@@ -1,0 +1,21 @@
+# expect: more than one default
+[scheme]
+id = "toy.broken"
+version = 1
+maker = "Toy"
+class = "capacitor.ceramic"
+title = "Broken"
+sources = [{ doc = "test", url = "https://example.com/t", fetched = "2026-11-10" }]
+
+[[segment]]
+name = "series"
+literal = "TB"
+
+[[segment]]
+name = "size"
+param = "case_eia"
+table = { "1" = { value = "0402", default = true }, "2" = { value = "0603", default = true } }
+
+[[example]]
+mpn = "TB1"
+params = { case_eia = "0402" }

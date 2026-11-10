@@ -1,0 +1,107 @@
+# A made-up family for the engine's tests; no real maker writes these
+[scheme]
+id = "toy.mlcc"
+version = 1
+maker = "Toy Capacitors"
+aliases = ["ToyCap"]
+class = "capacitor.ceramic"
+title = "Toy MLCC"
+sources = [{ doc = "none, a test fixture", url = "https://example.com/toy", fetched = "2026-11-10" }]
+availability = "closed"
+min_stem = "size"
+
+[implies]
+technology = "mlcc"
+
+[[segment]]
+name = "series"
+literal = "TC"
+
+[[segment]]
+name = "size"
+param = "case_eia"
+table = { "05" = "0402", "10" = "0603" }
+
+[[segment]]
+name = "dielectric"
+param = "dielectric"
+table = { B = "X7R", A = "X5R", C = "C0G" }
+
+[[segment]]
+name = "capacitance"
+param = "capacitance"
+code = "eia3"
+unit = "pF"
+lead_zero = true
+series = "E12"
+
+[[segment]]
+name = "tolerance"
+param = "tolerance"
+table = { J = "±5%", K = "±10%", C = "±0.25pF" }
+
+[[segment]]
+name = "voltage"
+param = "rated_voltage"
+table = { O = "16V", A = "25V", B = "50V" }
+
+[[segment]]
+name = "thickness"
+param = "height"
+[[segment.alternatives]]
+when = { size = "0402" }
+table = { "5" = "0.5mm" }
+[[segment.alternatives]]
+when = { size = "0603" }
+table = { "8" = "0.8mm", "A" = "0.65mm" }
+
+[[segment]]
+name = "spec"
+free = { chars = "A-Z", len = 2 }
+
+[[segment]]
+name = "dash"
+literal = "-"
+optional = true
+
+[[segment]]
+name = "packaging"
+param = "packaging"
+table = { C = { value = "reel_7in_paper", default = true }, D = "reel_13in_paper" }
+
+[[available]]
+size = "0402"
+dielectric = ["X7R", "X5R"]
+capacitance = { min = "1nF", max = "100nF" }
+voltage = ["16V", "25V"]
+
+[[available]]
+size = "0603"
+dielectric = "X7R"
+capacitance = { min = "1nF", max = "1uF" }
+voltage = ["16V", "25V", "50V"]
+thickness = "0.8mm"
+
+[[available]]
+size = "0402"
+dielectric = "C0G"
+capacitance = { max = "1nF" }
+tolerance = "±0.25pF"
+voltage = "50V"
+
+[[excluded]]
+size = "0402"
+capacitance = "100nF"
+voltage = "25V"
+
+[[example]]
+mpn = "TC05B104KO5NN-C"
+params = { case_eia = "0402", dielectric = "X7R", capacitance = "100nF", tolerance = "±10%", rated_voltage = "16V", height = "0.5mm", packaging = "reel_7in_paper" }
+
+[[example]]
+mpn = "TC10B105KB8XYD"
+params = { case_eia = "0603", dielectric = "X7R", capacitance = "1uF", tolerance = "±10%", rated_voltage = "50V", height = "0.8mm", packaging = "reel_13in_paper" }
+
+[[example]]
+mpn = "TC05C0R1CB5AA-C"
+params = { case_eia = "0402", dielectric = "C0G", capacitance = "0.1pF", tolerance = "±0.25pF", rated_voltage = "50V", height = "0.5mm", packaging = "reel_7in_paper" }

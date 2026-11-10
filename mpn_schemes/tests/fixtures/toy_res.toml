@@ -1,0 +1,58 @@
+# A made-up resistor family: 3-digit codes at ±5 %, 4-digit codes at ±1 %, a jumper
+[scheme]
+id = "toy.res"
+version = 2
+maker = "Toy Resistors"
+class = "resistor.chip"
+title = "Toy chip resistors"
+sources = [{ doc = "none, a test fixture", url = "https://example.com/toy", fetched = "2026-11-10" }]
+
+[[segment]]
+name = "series"
+literal = "TR"
+
+[[segment]]
+name = "size"
+param = "case_eia"
+table = { "2" = "0402", "3" = "0603" }
+
+[[segment]]
+name = "value"
+[[segment.alternatives]]
+group = [
+  { name = "tolerance", param = "tolerance", table = { J = "±5%" } },
+  { name = "resistance", param = "resistance", code = "eia3", series = "E24" },
+]
+[[segment.alternatives]]
+group = [
+  { name = "tolerance", param = "tolerance", table = { F = "±1%" } },
+  { name = "resistance", param = "resistance", code = "eia4", series = ["E24", "E96"] },
+]
+[[segment.alternatives]]
+group = [
+  { name = "tolerance", param = "tolerance", table = { Z = "±5%" } },
+  { name = "resistance", param = "resistance", table = { "000" = "0Ω" } },
+]
+
+[[segment]]
+name = "packaging"
+param = "packaging"
+optional = true
+absent = "bulk"
+table = { T = "reel_7in_paper" }
+
+[[excluded]]
+size = "0402"
+resistance = { min = "1MΩ" }
+
+[[example]]
+mpn = "TR2J103T"
+params = { case_eia = "0402", tolerance = "±5%", resistance = "10kΩ", packaging = "reel_7in_paper" }
+
+[[example]]
+mpn = "TR3F4991"
+params = { case_eia = "0603", tolerance = "±1%", resistance = "4.99kΩ", packaging = "bulk" }
+
+[[example]]
+mpn = "TR3Z000T"
+params = { case_eia = "0603", tolerance = "±5%", resistance = "0Ω", packaging = "reel_7in_paper" }

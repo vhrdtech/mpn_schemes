@@ -1,0 +1,26 @@
+# expect: ambiguous
+[scheme]
+id = "toy.broken"
+version = 1
+maker = "Toy"
+class = "capacitor.ceramic"
+title = "Broken"
+sources = [{ doc = "test", url = "https://example.com/t", fetched = "2026-11-10" }]
+
+[[segment]]
+name = "series"
+literal = "TB"
+
+[[segment]]
+name = "size"
+param = "case_eia"
+table = { "1" = "0402", "11" = "0603" }
+
+[[segment]]
+name = "tail"
+literal = "1"
+optional = true
+
+[[example]]
+mpn = "TB11"
+params = { case_eia = "0603" }

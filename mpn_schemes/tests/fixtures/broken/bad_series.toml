@@ -1,0 +1,28 @@
+# expect: is not an E series
+[scheme]
+id = "toy.broken"
+version = 1
+maker = "Toy"
+class = "capacitor.ceramic"
+title = "Broken"
+sources = [{ doc = "test", url = "https://example.com/t", fetched = "2026-11-10" }]
+
+[[segment]]
+name = "series"
+literal = "TB"
+
+[[segment]]
+name = "size"
+param = "case_eia"
+table = { "1" = "0402", "2" = "0603" }
+
+[[segment]]
+name = "cap"
+param = "capacitance"
+code = "eia3"
+unit = "pF"
+series = "E7"
+
+[[example]]
+mpn = "TB1"
+params = { case_eia = "0402" }

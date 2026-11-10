@@ -1,0 +1,20 @@
+# expect: no sources
+[scheme]
+id = "toy.broken"
+version = 1
+maker = "Toy"
+class = "capacitor.ceramic"
+title = "Broken"
+
+[[segment]]
+name = "series"
+literal = "TB"
+
+[[segment]]
+name = "size"
+param = "case_eia"
+table = { "1" = "0402", "2" = "0603" }
+
+[[example]]
+mpn = "TB1"
+params = { case_eia = "0402" }
