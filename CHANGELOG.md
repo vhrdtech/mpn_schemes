@@ -6,6 +6,8 @@ every feature and scheme family; this file only records what changed. IDs in par
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-11-10
+
 ### Added
 
 - The repository: Cargo workspace (`mpn_schemes`, `mpns`), AGENTS.md, FEATURES.md, licenses.
