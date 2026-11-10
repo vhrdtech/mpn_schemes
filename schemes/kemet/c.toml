@@ -1,0 +1,121 @@
+# KEMET C: commercial-grade surface mount multilayer ceramic chip capacitors (SMD MLCCs), X7R and C0G dielectric.
+# Not covered yet (DATA-15): dielectrics other than X7R and C0G (X5R, Y5V, ...), the automotive grade (C1023,
+# a different Specification/Series code), FT-CAP flexible termination, capacitance codes below 10 pF (the 3rd
+# digit 8 or 9 means ×0.01 or ×0.1 instead of a power of ten, which the eia3 code kind does not write), other
+# Specification/Series, Failure Rate/Design and Termination Finish codes (always C, A, C in every source at
+# hand), and the laser-marked packaging codes (TM, 7040, 7215); the paper vs. plastic tape carrier is not named
+# in the ordering code at all, so the 13" reel is read as paper, matching the 7" reel's confirmed material.
+[scheme]
+id = "kemet.c"
+version = 1
+maker = "KEMET"
+aliases = ["KEMET Electronics", "KEMET Electronics Corporation"]
+class = "capacitor.ceramic"
+title = "KEMET C commercial MLCC"
+sources = [
+  { doc = "KEMET data sheet: Surface Mount Multilayer Ceramic Chip Capacitors (SMD MLCCs), X7R Dielectric, 6.3-250 VDC (Commercial Grade), C1002_X7R_SMD (29 Aug 2024)", url = "https://content.kemet.com/datasheets/KEM_C1002_X7R_SMD.pdf", fetched = "2026-11-10", pages = "1-2", note = "fetched through web.archive.org, content.kemet.com's certificate was expired at fetch time" },
+  { doc = "KEMET data sheet: Surface Mount Multilayer Ceramic Chip Capacitors (SMD MLCCs), C0G Dielectric, 10-250 VDC (Commercial Grade), C1003_C0G (2 Jan 2025)", url = "https://content.kemet.com/datasheets/KEM_C1003_C0G_SMD.pdf", fetched = "2026-11-10", pages = "1-2", note = "fetched through web.archive.org, content.kemet.com's certificate was expired at fetch time" },
+]
+availability = "open"
+min_stem = "size"
+
+[implies]
+technology = "mlcc"
+
+[[segment]]
+name = "series"
+literal = "C"
+
+[[segment]]
+name = "size"
+param = "case_eia"
+note = "case size, the EIA inch code written as-is"
+table = { "0201" = "0201", "0402" = "0402", "0603" = "0603", "0805" = "0805", "1206" = "1206", "1210" = "1210", "1805" = "1805", "1808" = "1808", "1812" = "1812", "1825" = "1825", "2220" = "2220", "2225" = "2225" }
+
+[[segment]]
+name = "spec"
+note = "Specification/Series: C = Standard; automotive and other grades use other letters, not covered"
+literal = "C"
+
+[[segment]]
+name = "capacitance"
+param = "capacitance"
+note = "Capacitance Code, 2 significant digits and a multiplier; below 10 pF the multiplier is 8 or 9 instead of a power of ten, not covered"
+code = "eia3"
+unit = "pF"
+
+[[segment]]
+name = "tolerance"
+param = "tolerance"
+note = "Capacitance Tolerance"
+table = { B = "±0.1pF", C = "±0.25pF", D = "±0.5pF", F = "±1%", G = "±2%", J = "±5%", K = "±10%", M = "±20%" }
+
+[[segment]]
+name = "voltage"
+param = "rated_voltage"
+note = "Rated Voltage (VDC)"
+table = { "9" = "6.3V", "8" = "10V", "4" = "16V", "3" = "25V", "6" = "35V", "5" = "50V", "1" = "100V", "2" = "200V", A = "250V" }
+
+[[segment]]
+name = "dielectric"
+param = "dielectric"
+note = "Dielectric"
+table = { R = "X7R", G = "C0G" }
+
+[[segment]]
+name = "failure_rate"
+note = "Failure Rate/Design: A = N/A in every source at hand"
+literal = "A"
+
+[[segment]]
+name = "termination"
+note = "Termination Finish: C = 100% Matte Sn in every source at hand"
+literal = "C"
+
+[[segment]]
+name = "packaging"
+param = "packaging"
+optional = true
+absent = "bulk"
+note = "Packaging/Grade (C-Spec); the codes for 13in reel depend on case size (Packaging C-Spec Ordering Options Table)"
+[[segment.alternatives]]
+when = { size = ["0201", "0402", "0603"] }
+table = { TU = { value = "reel_7in_paper", default = true }, TM = "reel_7in_paper", "7411" = "reel_13in_paper", "7040" = "reel_13in_paper" }
+[[segment.alternatives]]
+when = { size = ["0805", "1206", "1210", "1805", "1808", "1812", "1825", "2220", "2225"] }
+table = { TU = { value = "reel_7in_paper", default = true }, TM = "reel_7in_paper", "7210" = "reel_13in_paper", "7215" = "reel_13in_paper" }
+
+[[example]]
+mpn = "C1206C106M4RACTU"
+params = { case_eia = "1206", capacitance = "10µF", tolerance = "±20%", rated_voltage = "16V", dielectric = "X7R", packaging = "reel_7in_paper" }
+source = "X7R data sheet p. 2, the ordering-information example row"
+
+[[example]]
+mpn = "C1206C104J3GACTU"
+params = { case_eia = "1206", capacitance = "100nF", tolerance = "±5%", rated_voltage = "25V", dielectric = "C0G", packaging = "reel_7in_paper" }
+source = "C0G data sheet p. 1, the ordering-information example row"
+
+[[example]]
+mpn = "C0402C104K9RACTU"
+params = { case_eia = "0402", capacitance = "100nF", tolerance = "±10%", rated_voltage = "6.3V", dielectric = "X7R", packaging = "reel_7in_paper" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "C0402C103K9RACTU"
+params = { case_eia = "0402", capacitance = "10nF", tolerance = "±10%", rated_voltage = "6.3V", dielectric = "X7R", packaging = "reel_7in_paper" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "C0603C105K3RACTU"
+params = { case_eia = "0603", capacitance = "1µF", tolerance = "±10%", rated_voltage = "25V", dielectric = "X7R", packaging = "reel_7in_paper" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "C1206C154K1RACTU"
+params = { case_eia = "1206", capacitance = "150nF", tolerance = "±10%", rated_voltage = "100V", dielectric = "X7R", packaging = "reel_7in_paper" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "C0603C103J5RACTU"
+params = { case_eia = "0603", capacitance = "10nF", tolerance = "±5%", rated_voltage = "50V", dielectric = "X7R", packaging = "reel_7in_paper" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"

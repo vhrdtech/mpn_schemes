@@ -6,6 +6,12 @@ every feature and scheme family; this file only records what changed. IDs in par
 
 ## [Unreleased]
 
+### Added
+
+- Schemes `yageo.cc` (Yageo CC commercial MLCC), `yageo.ac` (Yageo AC automotive-grade MLCC), `kemet.c` (KEMET C
+  commercial MLCC) and `walsin.mlcc` (Walsin general-purpose and mid/high-voltage MLCC), with examples from the
+  makers' data sheets, Digi-Key and LCSC listings (DATA-13..16).
+
 ## [0.1.1] - 2026-11-10
 
 ### Added

@@ -1,0 +1,105 @@
+# Yageo AC: automotive-grade (AEC-Q200) surface-mount MLCC, global part number.
+# Not the AC series of automotive thick-film chip resistors, a different family that reuses the same series
+# letters with its own position table (size-tolerance-packing-TCR-reel-resistance-default, dash-separated).
+# Not covered yet (DATA-14): dielectrics X5R, X6S, X8R, X8G (the datasheet's own whitepaper lists them, but no
+# ordering-code document for them is at hand); sizes 0508 and 0612 (capacitor-array positions, a different body
+# style); voltage codes beyond 630 V (Yageo's AC MLCC goes to 1 kV-2 kV per the maker's own announcements, but no
+# document with those codes is at hand); availability rows.
+[scheme]
+id = "yageo.ac"
+version = 1
+maker = "YAGEO"
+aliases = ["Yageo Corporation", "Phycomp"]
+class = "capacitor.ceramic"
+title = "Yageo AC automotive-grade MLCC"
+sources = [
+  { doc = "Yageo data sheet: Surface Mount Multilayer Ceramic Capacitors, Automotive grade, NP0/X7R, 6.3V to 630V, product specification V.10 (3 May 2018)", url = "https://static.chipdip.ru/lib/909/DOC012909790.pdf", fetched = "2026-11-10", pages = "2" },
+]
+availability = "open"
+min_stem = "size"
+
+[implies]
+technology = "mlcc"
+series = "AC"
+aec_q200 = "yes"
+
+[[segment]]
+name = "series"
+literal = "AC"
+
+[[segment]]
+name = "size"
+param = "case_eia"
+note = "(1) size, the EIA inch code written as-is"
+table = { "0201" = "0201", "0402" = "0402", "0603" = "0603", "0805" = "0805", "1206" = "1206", "1210" = "1210" }
+
+[[segment]]
+name = "tolerance"
+param = "tolerance"
+note = "(2) tolerance"
+table = { B = "±0.1pF", C = "±0.25pF", D = "±0.5pF", F = "±1%", G = "±2%", J = "±5%", K = "±10%", M = "±20%" }
+
+[[segment]]
+name = "packing"
+param = "packaging"
+note = "(3) packing style"
+table = { R = { value = "reel_7in_paper", default = true }, K = "reel_7in_embossed", P = "reel_13in_paper", F = "reel_13in_embossed" }
+
+[[segment]]
+name = "dielectric"
+param = "dielectric"
+note = "(4) TC material, written as the maker's own name; NPO is EIA C0G"
+table = { NPO = "C0G", X7R = "X7R" }
+
+[[segment]]
+name = "voltage"
+param = "rated_voltage"
+note = "(5) rated voltage, standard and mid-voltage ranges combined"
+table = { "5" = "6.3V", "6" = "10V", "7" = "16V", "8" = "25V", "9" = "50V", "0" = "100V", A = "200V", Y = "250V", B = "500V", Z = "630V" }
+
+[[segment]]
+name = "class_code"
+note = "undocumented position before the capacitance: always B, then the (6) process letter (N = NP0 class 1, B = Class 2 MLCC), redundant with the TC material but confirmed from this data sheet and every example below"
+[[segment.alternatives]]
+when = { dielectric = "C0G" }
+literal = "BN"
+[[segment.alternatives]]
+when = { dielectric = "X7R" }
+literal = "BB"
+
+[[segment]]
+name = "capacitance"
+param = "capacitance"
+note = "(7) capacitance, 2 significant digits and a multiplier"
+code = "eia3"
+unit = "pF"
+
+[[example]]
+mpn = "AC0805KKX7R5BB105"
+params = { case_eia = "0805", tolerance = "±10%", packaging = "reel_7in_embossed", dielectric = "X7R", rated_voltage = "6.3V", capacitance = "1µF" }
+source = "LCSC listing C3869051"
+
+[[example]]
+mpn = "AC0805JKX7R0BB104"
+params = { case_eia = "0805", tolerance = "±5%", packaging = "reel_7in_embossed", dielectric = "X7R", rated_voltage = "100V", capacitance = "100nF" }
+source = "LCSC listing C5936644"
+
+[[example]]
+mpn = "AC0603KRX7R8BB104"
+params = { case_eia = "0603", tolerance = "±10%", packaging = "reel_7in_paper", dielectric = "X7R", rated_voltage = "25V", capacitance = "100nF" }
+source = "LCSC listing C327096"
+
+[[example]]
+mpn = "AC0603JRX7R9BB332"
+params = { case_eia = "0603", tolerance = "±5%", packaging = "reel_7in_paper", dielectric = "X7R", rated_voltage = "50V", capacitance = "3.3nF" }
+source = "LCSC listing C605215"
+
+[[example]]
+mpn = "AC0603KRX7R6BB105"
+params = { case_eia = "0603", tolerance = "±10%", packaging = "reel_7in_paper", dielectric = "X7R", rated_voltage = "10V", capacitance = "1µF" }
+source = "LCSC listing C726554"
+
+[[example]]
+mpn = "AC0603CRNPO9BN8R0"
+params = { case_eia = "0603", tolerance = "±0.25pF", packaging = "reel_7in_paper", dielectric = "C0G", rated_voltage = "50V", capacitance = "8pF" }
+source = "LCSC listing C726540"

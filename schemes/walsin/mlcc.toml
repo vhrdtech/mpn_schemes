@@ -1,0 +1,92 @@
+# Walsin general-purpose and middle/high-voltage multilayer ceramic chip capacitors (MLCC). No series letters:
+# the part number starts directly with the size.
+# Not covered yet (DATA-16): the 01R5 (01005 case) ultra-small series, the 0508/0612 capacitor-array series, the
+# RF, high-Q/low-ESR, soft-termination, open-mode and low-profile series (each its own position table per the
+# catalog's table of contents); capacitance values below 10 pF outside the examples at hand; the Packaging Style
+# and Quantity table's paper-vs-plastic tape choice is not named in the ordering code itself (only 01005-0603
+# sizes are confirmed paper-only there), so every reel size here is read as paper tape; the termination material
+# (L = Ag/Ni/Sn, C = Cu/Ni/Sn) is read but has no parameter key of its own.
+[scheme]
+id = "walsin.mlcc"
+version = 1
+maker = "Walsin Technology Corporation"
+aliases = ["Walsin", "Walsin Tech Corp", "WALSIN"]
+class = "capacitor.ceramic"
+title = "Walsin general-purpose and mid/high-voltage MLCC"
+sources = [
+  { doc = "Walsin Technology Corporation, Multilayer Ceramic Capacitors product catalog", url = "https://www.elektronik.ropla.eu/pdf/stock/wal/walsin-mlcc.pdf", fetched = "2026-11-10", pages = "1-2, 4" },
+]
+availability = "open"
+min_stem = "size"
+
+[implies]
+technology = "mlcc"
+
+[[segment]]
+name = "size"
+param = "case_eia"
+note = "p. 1, the EIA inch code written as-is"
+table = { "0201" = "0201", "0402" = "0402", "0603" = "0603", "0805" = "0805", "1206" = "1206", "1210" = "1210", "1808" = "1808", "1812" = "1812", "1825" = "1825", "2220" = "2220", "2225" = "2225" }
+
+[[segment]]
+name = "dielectric"
+param = "dielectric"
+note = "p. 2 ordering diagram; N is EIA C0G"
+table = { N = "C0G", B = "X7R", A = "X7S", S = "X6S", X = "X5R", Y = "Y5V" }
+
+[[segment]]
+name = "capacitance"
+param = "capacitance"
+note = "p. 2: 2 significant digits and a multiplier, R the decimal point; below 1 pF the leading zero is kept (0R5, not R50)"
+code = "eia3"
+unit = "pF"
+lead_zero = true
+
+[[segment]]
+name = "tolerance"
+param = "tolerance"
+note = "p. 2 ordering diagram"
+table = { A = "±0.05pF", B = "±0.1pF", C = "±0.25pF", D = "±0.5pF", F = "±1%", G = "±2%", J = "±5%", K = "±10%", M = "±20%", Z = "+80%/-20%" }
+
+[[segment]]
+name = "voltage"
+param = "rated_voltage"
+note = "p. 2: the same 2-digit-and-multiplier code as the capacitance, in volts (4R0, 6R3, 100 = 10V, ... 602 = 6kV)"
+code = "eia3"
+unit = "V"
+
+[[segment]]
+name = "termination"
+note = "p. 2 ordering diagram: termination material, not a parameter key"
+table = { L = "Ag/Ni/Sn", C = "Cu/Ni/Sn" }
+
+[[segment]]
+name = "packaging"
+param = "packaging"
+note = "p. 2 ordering diagram"
+table = { B = "bulk", C = "bulk_case", T = { value = "reel_7in_paper", default = true }, Q = "reel_10in_paper", G = "reel_13in_paper" }
+
+[[example]]
+mpn = "0805B104K500CT"
+params = { case_eia = "0805", dielectric = "X7R", capacitance = "100nF", tolerance = "±10%", rated_voltage = "50V", packaging = "reel_7in_paper" }
+source = "catalog p. 2, the ordering diagram's own example"
+
+[[example]]
+mpn = "0402B102K250CT"
+params = { case_eia = "0402", dielectric = "X7R", capacitance = "1nF", tolerance = "±10%", rated_voltage = "25V", packaging = "reel_7in_paper" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "0402N331J500CT"
+params = { case_eia = "0402", dielectric = "C0G", capacitance = "330pF", tolerance = "±5%", rated_voltage = "50V", packaging = "reel_7in_paper" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "0603X684K250CT"
+params = { case_eia = "0603", dielectric = "X5R", capacitance = "680nF", tolerance = "±10%", rated_voltage = "25V", packaging = "reel_7in_paper" }
+source = "LCSC listing C303888"
+
+[[example]]
+mpn = "0805X226M6R3CT"
+params = { case_eia = "0805", dielectric = "X5R", capacitance = "22µF", tolerance = "±20%", rated_voltage = "6.3V", packaging = "reel_7in_paper" }
+source = "LCSC listing C396739"

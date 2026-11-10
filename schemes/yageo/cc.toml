@@ -1,0 +1,110 @@
+# Yageo CC: commercial-grade surface-mount MLCC, global part number.
+# Not covered yet (DATA-13): dielectrics X6S, X8R, X8G, Y5V (the GLOBAL PART NUMBER format is the same, only the
+# 3-letter TC material differs, but each needs its own voltage/tolerance range checked against a document); the
+# high-voltage NP0 range above 630 V (a voltage code like D seen on real part numbers is in no document at hand);
+# availability rows (the capacitance-range-and-thickness tables per size/voltage are the source but are not copied
+# yet, so generate leaves holes); 12NC and PHYCOMP CTC ordering codes.
+[scheme]
+id = "yageo.cc"
+version = 1
+maker = "YAGEO"
+aliases = ["Yageo Corporation", "Phycomp"]
+class = "capacitor.ceramic"
+title = "Yageo CC commercial MLCC"
+sources = [
+  { doc = "Yageo data sheet: Surface-Mount Ceramic Multilayer Capacitors, General Purpose & High Capacitance, Class 2, X7R, 6.3V to 50V, product specification V.8 (13 Oct 2011)", url = "https://static.chipdip.ru/lib/880/DOC031880227.pdf", fetched = "2026-11-10", pages = "2" },
+  { doc = "Yageo data sheet: Surface-Mount Ceramic Multilayer Capacitors, General Purpose, Class 1, NP0, 16V to 50V, product specification V.16 (30 Jul 2019)", url = "https://static.chipdip.ru/lib/980/DOC012980813.pdf", fetched = "2026-11-10", pages = "2" },
+  { doc = "Yageo data sheet: Surface-Mount Ceramic Multilayer Capacitors, Mid-voltage, NP0/X7R, 100V to 630V, product specification V.24 (11 Jun 2021)", url = "https://static.chipdip.ru/lib/767/DOC030767895.pdf", fetched = "2026-11-10", pages = "2" },
+]
+availability = "open"
+min_stem = "size"
+
+[implies]
+technology = "mlcc"
+series = "CC"
+
+[[segment]]
+name = "series"
+literal = "CC"
+
+[[segment]]
+name = "size"
+param = "case_eia"
+note = "(1) size, the EIA inch code written as-is"
+table = { "0201" = "0201", "0402" = "0402", "0603" = "0603", "0805" = "0805", "1206" = "1206", "1210" = "1210", "1808" = "1808", "1812" = "1812", "2220" = "2220" }
+
+[[segment]]
+name = "tolerance"
+param = "tolerance"
+note = "(2) tolerance"
+table = { B = "±0.1pF", C = "±0.25pF", D = "±0.5pF", F = "±1%", G = "±2%", J = "±5%", K = "±10%", M = "±20%" }
+
+[[segment]]
+name = "packing"
+param = "packaging"
+note = "(3) packing style"
+table = { R = { value = "reel_7in_paper", default = true }, K = "reel_7in_embossed", P = "reel_13in_paper", F = "reel_13in_embossed", C = "bulk_case" }
+
+[[segment]]
+name = "dielectric"
+param = "dielectric"
+note = "(4) TC material, written as the maker's own name; NPO is EIA C0G"
+table = { NPO = "C0G", X7R = "X7R", X5R = "X5R" }
+
+[[segment]]
+name = "voltage"
+param = "rated_voltage"
+note = "(5) rated voltage, standard and mid-voltage ranges combined"
+table = { "5" = "6.3V", "6" = "10V", "7" = "16V", "8" = "25V", "9" = "50V", "0" = "100V", A = "200V", Y = "250V", B = "500V", Z = "630V" }
+
+[[segment]]
+name = "class_code"
+note = "undocumented position before the capacitance: always B, then the (6) process letter (N = NP0 class 1, B = Class 2 MLCC), redundant with the TC material but confirmed from the mid-voltage and AC-automotive data sheets and every example below"
+[[segment.alternatives]]
+when = { dielectric = "C0G" }
+literal = "BN"
+[[segment.alternatives]]
+when = { dielectric = ["X7R", "X5R"] }
+literal = "BB"
+
+[[segment]]
+name = "capacitance"
+param = "capacitance"
+note = "(7) capacitance, 2 significant digits and a multiplier; values below 10 pF outside this doc are not covered"
+code = "eia3"
+unit = "pF"
+
+[[example]]
+mpn = "CC0402JRNPO9BN102"
+params = { case_eia = "0402", tolerance = "±5%", packaging = "reel_7in_paper", dielectric = "C0G", rated_voltage = "50V", capacitance = "1nF" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "CC0402KPX7R7BB103"
+params = { case_eia = "0402", tolerance = "±10%", packaging = "reel_13in_paper", dielectric = "X7R", rated_voltage = "16V", capacitance = "10nF" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "CC0402KRX5R5BB475"
+params = { case_eia = "0402", tolerance = "±10%", packaging = "reel_7in_paper", dielectric = "X5R", rated_voltage = "6.3V", capacitance = "4.7µF" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "CC0805KRX7RYBB221"
+params = { case_eia = "0805", tolerance = "±10%", packaging = "reel_7in_paper", dielectric = "X7R", rated_voltage = "250V", capacitance = "220pF" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "CC1210KKX7R9BB106"
+params = { case_eia = "1210", tolerance = "±10%", packaging = "reel_7in_embossed", dielectric = "X7R", rated_voltage = "50V", capacitance = "10µF" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "CC1206KKX5R9BB106"
+params = { case_eia = "1206", tolerance = "±10%", packaging = "reel_7in_embossed", dielectric = "X5R", rated_voltage = "50V", capacitance = "10µF" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "CC0402KRNPO9BN221"
+params = { case_eia = "0402", tolerance = "±10%", packaging = "reel_7in_paper", dielectric = "C0G", rated_voltage = "50V", capacitance = "220pF" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
