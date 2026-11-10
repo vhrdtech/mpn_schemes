@@ -1,24 +1,25 @@
-# Yageo RC_L: general purpose thick-film chip resistors, 0100 to 2512.
+# Yageo RC_L / RC_P: general purpose thick-film chip resistors, 0100 to 2512. RC_P is the same series under a
+# total-lead-free, no-RoHS-exemption spec sheet; it differs from RC_L only in the final default code (P vs L).
 # Not covered yet (DATA-2): jumpers ordered with tolerance F (RC0402FR-070RL is listed at Digi-Key; the data sheet
-# says J), the last code P instead of L (RC0402JR-070RP at Digi-Key, not in the data sheet), RC0075 (ESD-safe reel only), the ESD-safe reel S/7N, and the reel codes 7W/3W
+# says J), RC0075 (ESD-safe reel only), the ESD-safe reel S/7N, and the reel codes 7W/3W
 # (2x standard power) and 7D (2x standard quantity), which mean a different power or reel quantity that no
 # segment can carry beside the packaging.
 [scheme]
 id = "yageo.rc"
-version = 1
+version = 2
 maker = "YAGEO"
 aliases = ["Yageo Corporation", "Phycomp"]
 class = "resistor.chip"
-title = "Yageo RC_L general purpose chip resistors"
+title = "Yageo RC_L / RC_P general purpose chip resistors"
 sources = [
   { doc = "Yageo data sheet: General purpose chip resistors RC_L series, product specification V.14 (14 Nov 2025)", url = "https://www.yageogroup.com/content/datasheet/asset/file/PYU-RC_GROUP_51_ROHS_L", fetched = "2026-11-10", pages = "2, 4-7" },
+  { doc = "Yageo data sheet: Lead free chip resistors RC_P series, product specification V.6 (26 Dec 2024)", url = "https://www.mouser.com/datasheet/2/447/pyu_rc_51_rohs_p-3370815.pdf", fetched = "2026-11-10", pages = "2" },
 ]
 availability = "closed"
 min_stem = "size"
 
 [implies]
 technology = "thick_film"
-series = "RC_L"
 
 [[segment]]
 name = "series"
@@ -48,8 +49,9 @@ group = [
 
 [[segment]]
 name = "default"
-literal = "L"
-note = "p. 2 (7): system default code for ordering"
+param = "series"
+note = "p. 2 (7): L is the system default code for ordering (RC_L, PYU-RC_GROUP_51_ROHS_L); P is the same series under a total-lead-free, no-RoHS-exemption spec sheet (RC_P, PYU-RC_51_ROHS_P, V.6)"
+table = { L = "RC_L", P = "RC_P" }
 
 # Resistance ranges per size and tolerance, Table 2 and 3 (pp. 4-6), standard power. ±5 % is E24, the others
 # E24/E96. The 10 % and 20 % grades of RC0805/RC1206 have no tolerance code in the ordering information.
@@ -123,45 +125,50 @@ packing = "reel_13in_embossed"
 
 [[example]]
 mpn = "RC0402JR-07100KL"
-params = { case_eia = "0402", tolerance = "±5%", packaging = "reel_7in_paper", resistance = "100kΩ" }
+params = { case_eia = "0402", tolerance = "±5%", packaging = "reel_7in_paper", resistance = "100kΩ", series = "RC_L" }
 source = "data sheet p. 2, ordering example"
 
 [[example]]
 mpn = "RC0402FR-0710KL"
-params = { case_eia = "0402", tolerance = "±1%", packaging = "reel_7in_paper", resistance = "10kΩ" }
+params = { case_eia = "0402", tolerance = "±1%", packaging = "reel_7in_paper", resistance = "10kΩ", series = "RC_L" }
 source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
 
 [[example]]
 mpn = "RC0402JR-070RL"
-params = { case_eia = "0402", packaging = "reel_7in_paper", resistance = "0Ω" }
+params = { case_eia = "0402", packaging = "reel_7in_paper", resistance = "0Ω", series = "RC_L" }
 source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
 
 [[example]]
 mpn = "RC0402FR-074K99L"
-params = { case_eia = "0402", tolerance = "±1%", packaging = "reel_7in_paper", resistance = "4.99kΩ" }
+params = { case_eia = "0402", tolerance = "±1%", packaging = "reel_7in_paper", resistance = "4.99kΩ", series = "RC_L" }
 source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
 
 [[example]]
 mpn = "RC0402FR-074R7L"
-params = { case_eia = "0402", tolerance = "±1%", packaging = "reel_7in_paper", resistance = "4.7Ω" }
+params = { case_eia = "0402", tolerance = "±1%", packaging = "reel_7in_paper", resistance = "4.7Ω", series = "RC_L" }
 source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
 
 [[example]]
 mpn = "RC0402FR-1336KL"
-params = { case_eia = "0402", tolerance = "±1%", packaging = "reel_13in_paper", resistance = "36kΩ" }
+params = { case_eia = "0402", tolerance = "±1%", packaging = "reel_13in_paper", resistance = "36kΩ", series = "RC_L" }
 source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
 
 [[example]]
 mpn = "RC0603JR-070RL"
-params = { case_eia = "0603", packaging = "reel_7in_paper", resistance = "0Ω" }
+params = { case_eia = "0603", packaging = "reel_7in_paper", resistance = "0Ω", series = "RC_L" }
 source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
 
 [[example]]
 mpn = "RC1206FR-0760R4L"
-params = { case_eia = "1206", tolerance = "±1%", packaging = "reel_7in_paper", resistance = "60.4Ω" }
+params = { case_eia = "1206", tolerance = "±1%", packaging = "reel_7in_paper", resistance = "60.4Ω", series = "RC_L" }
 source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
 
 [[example]]
 mpn = "RC0402FR-071ML"
-params = { case_eia = "0402", tolerance = "±1%", packaging = "reel_7in_paper", resistance = "1MΩ" }
+params = { case_eia = "0402", tolerance = "±1%", packaging = "reel_7in_paper", resistance = "1MΩ", series = "RC_L" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "RC0402JR-070RP"
+params = { case_eia = "0402", packaging = "reel_7in_paper", resistance = "0Ω", series = "RC_P" }
 source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"

@@ -13,6 +13,10 @@ every feature and scheme family; this file only records what changed. IDs in par
 - Scheme `yageo.ac_resistor` (Yageo AC automotive grade anti-sulfurated chip resistors), with examples from the data sheet and Farnell listings (DATA-6).
 - Scheme `uni-royal.chip` (UNI-ROYAL generic thick film chip resistors), with examples from the data sheet and LCSC listings (DATA-7).
 
+### Changed
+
+- `yageo.rc` (v1 → v2): the default-code segment now also reads `P` (the RC_P, total-lead-free spec sheet), not only `L`; `series` is decoded from that code (`RC_L` or `RC_P`) instead of always implied `RC_L` (DATA-2).
+
 ## [0.1.2] - 2026-11-10
 
 ### Added
