@@ -1,0 +1,11 @@
+[package]
+name = "mpn_schemes"
+description = "Manufacturer part-number schemes as data: decode an MPN into parameters, craft MPNs for wanted parameters"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+include = ["src/**/*.rs", "../schemes/**/*.toml", "Cargo.toml"]
+
+[dependencies]

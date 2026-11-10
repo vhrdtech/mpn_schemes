@@ -1,0 +1,16 @@
+[package]
+name = "mpn_schemes_cli"
+description = "mpns: parse, generate and check manufacturer part-number schemes from the command line"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+build = "build.rs"
+
+[[bin]]
+name = "mpns"
+path = "src/main.rs"
+
+[dependencies]
+mpn_schemes.workspace = true
