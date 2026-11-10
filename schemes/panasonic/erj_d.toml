@@ -1,0 +1,88 @@
+# Panasonic ERJ-D1/D2 low TCR high power current sensing chip resistors, wide terminal type. Two sizes, each with
+# two resistance-value-region codes (C: the upper part of the range, D: the lower part, with a gap between them the
+# datasheet's own table leaves unresolved: D1C starts at 22 mΩ, D1D ends at 20 mΩ). T.C.R. (±100 ppm/K) is a fact of
+# the whole family, not a position in the part number, so it is implied rather than decoded from a segment.
+# Panasonic writes the part numbers without a dash (ERJD1DFR010U); distributors write ERJ-D1DFR010U.
+# Open: no verified example yet for a D1C or D2C part (±1 % tolerance F only verified so far); the C-code ranges
+# come from the datasheet's own ratings table.
+[scheme]
+id = "panasonic.erj_d"
+version = 1
+maker = "Panasonic"
+aliases = ["Panasonic Industry", "Panasonic Electronic Components", "Matsushita"]
+class = "resistor.chip"
+title = "Panasonic ERJ-D1/D2 low TCR high power current sensing chip resistors, wide terminal type"
+sources = [
+  { doc = "Panasonic Low TCR High Power Chip Resistors (Wide Terminal Type), ERJ D type, ERJ D1, D2 series (RDN0000C331, 1-Mar-20)", url = "https://industrial.panasonic.com/cdbs/www-data/pdf/RDN0000/RDN0000C331.pdf", fetched = "2026-11-10", pages = "1" },
+]
+availability = "closed"
+min_stem = "size"
+
+[implies]
+technology = "thick_film"
+tcr = "±100ppm/K"
+aec_q200 = "yes"
+
+[[segment]]
+name = "maker"
+literal = "ERJ"
+
+[[segment]]
+name = "dash"
+literal = "-"
+optional = true
+
+[[segment]]
+name = "size"
+param = "case_eia"
+note = "D1C/D1D are both 1020 (2W), D2C/D2D are both 0612 (1W); C and D tell apart the resistance-value region (Ratings, p. 1)"
+table = { D1C = "1020", D1D = "1020", D2C = "0612", D2D = "0612" }
+
+[[segment]]
+name = "tolerance"
+param = "tolerance"
+table = { F = "±1%", J = "±5%" }
+
+[[segment]]
+name = "resistance"
+param = "resistance"
+code = "rkm"
+digits = 4
+series = "E24"
+
+[[segment]]
+name = "packaging"
+param = "packaging"
+note = "the packaging code is fixed per size: embossed for D1, punched (paper) for D2, both 4 mm pitch 5,000 pcs on 180 mm (7 in) reels (p. 1)"
+[[segment.alternatives]]
+when = { size = { code = ["D1C", "D1D"] } }
+table = { U = "reel_7in_embossed" }
+[[segment.alternatives]]
+when = { size = { code = ["D2C", "D2D"] } }
+table = { V = "reel_7in_paper" }
+
+[[available]]
+size = { code = "D1C" }
+resistance = { min = "22mΩ", max = "200mΩ", series = "E24" }
+
+[[available]]
+size = { code = "D1D" }
+resistance = { min = "10mΩ", max = "20mΩ", series = "E24" }
+
+[[available]]
+size = { code = "D2C" }
+resistance = { min = "33mΩ", max = "200mΩ", series = "E24" }
+
+[[available]]
+size = { code = "D2D" }
+resistance = { min = "10mΩ", max = "30mΩ", series = "E24" }
+
+[[example]]
+mpn = "ERJD1DFR010U"
+params = { case_eia = "1020", tolerance = "±1%", resistance = "10mΩ", packaging = "reel_7in_embossed" }
+source = "data sheet p. 1, explanation of part numbers"
+
+[[example]]
+mpn = "ERJ-D2DFR010V"
+params = { case_eia = "0612", tolerance = "±1%", resistance = "10mΩ", packaging = "reel_7in_paper" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"

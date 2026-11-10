@@ -6,6 +6,10 @@ every feature and scheme family; this file only records what changed. IDs in par
 
 ## [Unreleased]
 
+### Added
+
+- Scheme `panasonic.erj_d` (Panasonic ERJ-D1/D2 low TCR high power current sensing chip resistors, wide terminal type), with examples from the data sheet and a Digi-Key listing (DATA-17).
+
 ## [0.1.4] - 2026-11-10
 
 ### Added
