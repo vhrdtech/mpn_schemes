@@ -135,7 +135,16 @@ when = { size = ["0603", "0805"] }
 table = { "8" = "0.8mm", "A" = "0.65mm" }
 ```
 
-`when` holds conditions on segments **before** this one, by segment name, as values of that segment's param (or codes, for a segment without a param): one value or a list. The segment (or alternative) only applies when they hold. Use it when a maker reuses a code with a different meaning per case size or series.
+`when` holds conditions on segments **before** this one, by segment name, written like an availability row's (§5): one value, a list, a range (`{ max = "9.99pF" }`) or the codes themselves (`{ code = ["1GN", "1GJ"] }`, when several codes share a value but not their meaning). The segment (or alternative) only applies when they hold. Use it when a maker reuses a code with a different meaning per case size or series:
+
+```toml
+[[segment.alternatives]]
+when = { capacitance = { max = "9.99pF" } }    # Samsung: F is ±1 pF below 10 pF...
+table = { F = "±1pF" }
+[[segment.alternatives]]
+when = { capacitance = { min = "10pF" } }      # ...and ±1 % from 10 pF
+table = { F = "±1%" }
+```
 
 ### 3.4 How the engine sees it
 
@@ -147,8 +156,8 @@ A `code` segment reads a number written in a code kind, multiplies it by its `un
 
 | kind | text | examples | options |
 |---|---|---|---|
-| `eia3` | 2 significant digits + multiplier digit 0-7, or `R` as the decimal point; 3 characters | `104` = 10·10⁴, `1R5` = 1.5, `R47` = 0.47 | `lead_zero = true` writes `0R5` instead of `R50` below 1 |
-| `eia4` | 3 significant digits + multiplier, or `R`; 4 characters | `1002` = 10 000, `49R9`, `4R70` | `lead_zero` |
+| `eia3` | 2 significant digits + multiplier digit 0-7, or `R` as the decimal point; 3 characters | `104` = 10·10⁴, `1R5` = 1.5, `R47` = 0.47, `010` = 1 | `lead_zero = true` writes `0R5` instead of `R50` below 1; `pad_whole = true` writes whole values below 10 as `010` instead of `1R0` |
+| `eia4` | 3 significant digits + multiplier, or `R`; 4 characters | `1002` = 10 000, `49R9`, `4R70` | `lead_zero`, `pad_whole` |
 | `eia96` | E96 index `01`-`96` + multiplier letter (Z Y/R X/S A B/H C D E F) | `01C` = 10 000, `68X` = 49.9 | |
 | `rkm` | IEC 60062: digits with a letter as decimal point and multiplier | `4K7`, `10K`, `R047`, `1M`, `0R`, `5V1` | `letters = { R = 0, K = 3, M = 6 }` (default for Ω: R K M G; for V: V); `digits` for a fixed length |
 | `decimal` | digits with an implied point (`scale`) or with a `.` | `050` at `scale = -2` = 0.50, `5.0` | `scale`, `digits`, `places` (digits after the point when written) |
@@ -174,7 +183,7 @@ thickness = "0.5mm"
 note = "catalog p. 12"
 ```
 
-- Values are the segment's **param values** (`"0.5mm"`, not the code `"5"`); for a segment without a param they are codes.
+- Values are the segment's **param values** (`"0.5mm"`, not the code `"5"`); for a segment without a param they are codes. `{ code = "1GN" }` or `{ code = [...] }` tests the code of a segment with a param.
 - A range may add `series = "E12"`: the value must also be in that series.
 - A row's conditions all hold together; segments a row does not name are free.
 - `closed` schemes: a combination exists when some `[[available]]` row holds. `open` schemes have no `[[available]]` rows.

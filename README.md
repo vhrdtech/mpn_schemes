@@ -9,7 +9,7 @@ a maker's number holds codes no parameter decides) each maker would use.
 - **Generate** MPN patterns for wanted parameters, best first, without enumerating impossible combinations.
 - **Validate** scheme files, and round-trip every family's real examples in the tests.
 
-Status: being built. See [FEATURES.md](FEATURES.md) for what works and [docs/](docs/) for the scheme language.
+Status: being built. See [FEATURES.md](FEATURES.md) for what works, [docs/language.md](docs/language.md) for the scheme language and [docs/writing-a-scheme.md](docs/writing-a-scheme.md) for adding a family.
 
 Used by mx3 (the lab's parts database) and better_erc (schematic checks).
 
