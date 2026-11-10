@@ -6,6 +6,10 @@ every feature and scheme family; this file only records what changed. IDs in par
 
 ## [Unreleased]
 
+### Added
+
+- Schemes `murata.grm` (Murata GRM general purpose MLCC), `murata.gcm` (Murata GCM/GCJ automotive MLCC), `tdk.c` (TDK C series general purpose MLCC) and `tdk.cga` (TDK CGA series automotive MLCC), with examples from the makers' catalogs and Digi-Key listings (DATA-8..11).
+
 ## [0.1.0] - 2026-11-10
 
 ### Added

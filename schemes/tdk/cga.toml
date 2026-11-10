@@ -1,0 +1,102 @@
+# TDK CGA series: automotive-qualified multilayer ceramic capacitors, 0201 to 2220, up to 630 V.
+# Not covered yet (DATA-11): availability rows (the capacitance range charts are many pages per size and not
+# copied; open until they are), the special reserved code (11) (TDK internal codes, or a derating-guarantee
+# marker; none change a decoded parameter), the packaging style code (10) (reel pitch, not tape material, as
+# with tdk.c), the thickness code (3) (a single letter repeating the thickness nominal thickness code (9)
+# already decodes, so it is left as a plain code list rather than set the same param twice), and the voltage
+# condition for life test code (4) (a qualification test condition, not a decoded parameter).
+[scheme]
+id = "tdk.cga"
+version = 1
+maker = "TDK Corporation"
+aliases = ["TDK"]
+class = "capacitor.ceramic"
+title = "TDK CGA series automotive MLCC"
+sources = [
+  { doc = "TDK, Multilayer Ceramic Chip Capacitors, Automotive grade, general (Up to 75V), Catalog Number Construction", url = "https://product.tdk.com/system/files/dam/doc/product/capacitor/ceramic/mlcc/catalog/mlcc_automotive_general_en.pdf", fetched = "2026-11-10", pages = "4-5" },
+  { doc = "TDK, Multilayer Ceramic Chip Capacitors, Automotive grade, mid voltage (100 to 630V), Catalog Number Construction", url = "https://product.tdk.com/system/files/dam/doc/product/capacitor/ceramic/mlcc/catalog/mlcc_automotive_midvoltage_en.pdf", fetched = "2026-11-10", pages = "4-5" },
+]
+availability = "open"
+min_stem = "size"
+
+[implies]
+technology = "mlcc"
+series = "CGA"
+aec_q200 = "yes"
+
+[[segment]]
+name = "series"
+literal = "CGA"
+note = "(1) series"
+
+[[segment]]
+name = "size"
+param = "case_eia"
+note = "(2) dimensions code"
+table = { "1" = "0201", "2" = "0402", "3" = "0603", "4" = "0805", "5" = "1206", "6" = "1210", "8" = "1812", "9" = "2220" }
+
+[[segment]]
+name = "thickness_letter"
+note = "(3) thickness code: a single letter repeating the nominal thickness (9) below, not decoded here (see header note)"
+table = { A = "0.30mm", B = "0.50mm", C = "0.60mm", E = "0.80mm", F = "0.85mm", H = "1.15mm", J = "1.25mm", K = "1.30mm", L = "1.60mm", M = "2.00mm", N = "2.30mm", P = "2.50mm", Q = "2.80mm", R = "3.20mm" }
+
+[[segment]]
+name = "life_test_voltage"
+note = "(4) voltage condition for the life test, not a decoded parameter"
+table = { "1" = "1 x R.V.", "2" = "2 x R.V.", "3" = "1.5 x R.V.", "4" = "1.2 x R.V." }
+
+[[segment]]
+name = "dielectric"
+param = "dielectric"
+note = "(5) temperature characteristics: the code is the EIA name itself"
+table = { C0G = "C0G", X7R = "X7R", X7S = "X7S", X7T = "X7T", X6S = "X6S", X5R = "X5R" }
+
+[[segment]]
+name = "voltage"
+param = "rated_voltage"
+note = "(6) rated voltage code, DC; 0E-1N from the general (up to 75V) catalog, 2A-2J from the mid voltage one"
+table = { "0E" = "2.5V", "0G" = "4V", "0J" = "6.3V", "1A" = "10V", "1C" = "16V", "1E" = "25V", "1V" = "35V", "1H" = "50V", "1N" = "75V", "2A" = "100V", "2E" = "250V", "2W" = "450V", "2J" = "630V" }
+
+[[segment]]
+name = "capacitance"
+param = "capacitance"
+note = "(7) in pF, two significant digits and the multiplier, R for the point below 10 pF"
+code = "eia3"
+unit = "pF"
+
+[[segment]]
+name = "tolerance"
+param = "tolerance"
+note = "(8) capacitance tolerance code"
+table = { C = "±0.25pF", D = "±0.5pF", G = "±2%", J = "±5%", K = "±10%", M = "±20%" }
+
+[[segment]]
+name = "thickness"
+param = "height"
+note = "(9) nominal thickness code"
+table = { "030" = "0.3mm", "050" = "0.5mm", "060" = "0.6mm", "080" = "0.8mm", "085" = "0.85mm", "115" = "1.15mm", "125" = "1.25mm", "130" = "1.3mm", "160" = "1.6mm", "200" = "2mm", "230" = "2.3mm", "250" = "2.5mm", "280" = "2.8mm", "320" = "3.2mm" }
+
+[[segment]]
+name = "packaging"
+note = "(10) packaging style: reel pitch, not tape material (see header note)"
+table = { A = "178mm reel, 4mm pitch", B = "178mm reel, 2mm pitch", K = "178mm reel, 8mm pitch" }
+
+[[segment]]
+name = "spec"
+note = "(11) special reserved code: TDK internal code or a derating-guarantee marker, not decoded"
+free = { chars = "A-Z", len = 1 }
+
+[[example]]
+mpn = "CGA2B3X7S2A103K050BB"
+params = { case_eia = "0402", dielectric = "X7S", rated_voltage = "100V", capacitance = "10nF", tolerance = "±10%", height = "0.5mm" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "CGA6P1X7T0G107M250AC"
+params = { case_eia = "1210", dielectric = "X7T", rated_voltage = "4V", capacitance = "100µF", tolerance = "±20%", height = "2.5mm" }
+source = "catalog p. 4, the part numbering example"
+
+[[example]]
+mpn = "CGA9P3X7S2A156M250KB"
+params = { case_eia = "2220", dielectric = "X7S", rated_voltage = "100V", capacitance = "15µF", tolerance = "±20%", height = "2.5mm" }
+source = "mid voltage catalog p. 4, the part numbering example"

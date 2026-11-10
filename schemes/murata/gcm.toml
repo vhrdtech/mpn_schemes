@@ -1,0 +1,112 @@
+# Murata GCM/GCJ: automotive-qualified multilayer ceramic capacitors, 0201 to 2220.
+# Not covered yet (DATA-9): availability rows (the capacitance range charts are many pages per size and not
+# copied; open until they are), the dimension codes shared with GRM and other GC-prefixed automotive series that
+# this catalog's own numbering page does not list for GCM/GCJ (02, 05, 08, 0D, 0M, 1M, 22, 42, 52), thickness code
+# X ("depends on individual standards"), the dielectric codes the general-purpose GRM catalog has but this one's
+# numbering page does not (X5R, X8R, X7T, X6T, Y5V, X8L, X8G, B), and the "Medium Voltage for Automotive GCM
+# Series Low Dissipation Factor" section (p. 39): only the shared GCJ medium-voltage table (p. 45) is decoded here.
+[scheme]
+id = "murata.gcm"
+version = 1
+maker = "Murata Manufacturing Co., Ltd."
+aliases = ["Murata", "Murata Electronics", "Murata Electronics North America"]
+class = "capacitor.ceramic"
+title = "Murata GCM/GCJ automotive MLCC"
+sources = [
+  { doc = "Murata, Chip Monolithic Ceramic Capacitors for Automotive catalog (Cat.No.C03E-4), Part Numbering and Medium Voltage GCJ Series", url = "https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/2435/Chip Monolithic Ceramic Caps for Automotive.pdf", fetched = "2026-11-10", pages = "2-3, 45", note = "Murata's catalog as Digi-Key hosts it" },
+]
+availability = "open"
+min_stem = "size"
+
+[implies]
+technology = "mlcc"
+aec_q200 = "yes"
+
+[[segment]]
+name = "product"
+literal = "GC"
+note = "(q) product ID, fixed for this family"
+
+[[segment]]
+name = "series"
+param = "series"
+note = "(w) series: M is power-train/safety equipment (GCM), J is soft termination (GCJ)"
+table = { M = "GCM", J = "GCJ" }
+
+[[segment]]
+name = "size"
+param = "case_eia"
+note = "(e) dimensions (L x W) code"
+table = { "03" = "0201", "15" = "0402", "18" = "0603", "21" = "0805", "31" = "1206", "32" = "1210", "43" = "1812", "55" = "2220" }
+
+[[segment]]
+name = "thickness"
+param = "height"
+note = "(r) dimension (T) code, one table for every size"
+table = { "3" = "0.3mm", "5" = "0.5mm", "6" = "0.6mm", "8" = "0.8mm", "9" = "0.85mm", A = "1.0mm", B = "1.25mm", C = "1.6mm", D = "2.0mm", E = "2.5mm", M = "1.15mm", N = "1.35mm", Q = "1.5mm", R = "1.8mm" }
+
+[[segment]]
+name = "dielectric"
+param = "dielectric"
+note = "(t) temperature characteristics code"
+table = { "5C" = "C0G", "7U" = "U2J", C7 = "X7S", R7 = "X7R" }
+
+[[segment]]
+name = "voltage"
+param = "rated_voltage"
+note = "(y) rated voltage code, DC"
+table = { "0J" = "6.3V", "1A" = "10V", "1C" = "16V", "1E" = "25V", YA = "35V", "1H" = "50V", "2A" = "100V", "2E" = "250V", "2J" = "630V" }
+
+[[segment]]
+name = "capacitance"
+param = "capacitance"
+note = "(u) in pF, two significant digits and the multiplier, R for the point below 10 pF"
+code = "eia3"
+unit = "pF"
+
+[[segment]]
+name = "tolerance"
+param = "tolerance"
+note = "(i) capacitance tolerance code"
+table = { C = "±0.25pF", D = "±0.5pF", J = "±5%", K = "±10%", M = "±20%" }
+
+[[segment]]
+name = "spec"
+note = "(o) individual specification code: three figures, not decoded"
+free = { chars = "A-Z0-9", len = 3 }
+
+[[segment]]
+name = "packaging"
+param = "packaging"
+note = "(!0) packaging code"
+table = { L = "reel_7in_embossed", D = { value = "reel_7in_paper", default = true }, K = "reel_13in_embossed", J = "reel_13in_paper", B = "bulk", C = "bulk_case" }
+
+[[example]]
+mpn = "GCM0335C1E1R0CD03D"
+params = { series = "GCM", case_eia = "0201", height = "0.3mm", dielectric = "C0G", rated_voltage = "25V", capacitance = "1pF", tolerance = "±0.25pF", packaging = "reel_7in_paper" }
+source = "catalog p. 7, the part numbering example"
+
+[[example]]
+mpn = "GCM033R71E101KA03D"
+params = { series = "GCM", case_eia = "0201", height = "0.3mm", dielectric = "X7R", rated_voltage = "25V", capacitance = "100pF", tolerance = "±10%", packaging = "reel_7in_paper" }
+source = "catalog p. 9, the part numbering example"
+
+[[example]]
+mpn = "GCM216R72A682KA37D"
+params = { series = "GCM", case_eia = "0805", height = "0.6mm", dielectric = "X7R", rated_voltage = "100V", capacitance = "6.8nF", tolerance = "±10%", packaging = "reel_7in_paper" }
+source = "catalog p. 11, the part numbering example"
+
+[[example]]
+mpn = "GCJ31BR72E153KXJ1L"
+params = { series = "GCJ", case_eia = "1206", height = "1.25mm", dielectric = "X7R", rated_voltage = "250V", capacitance = "15nF", tolerance = "±10%", packaging = "reel_7in_embossed" }
+source = "catalog p. 45, Medium Voltage GCJ Series data"
+
+[[example]]
+mpn = "GCJ32DR72E104KXJ1L"
+params = { series = "GCJ", case_eia = "1210", height = "2.0mm", dielectric = "X7R", rated_voltage = "250V", capacitance = "100nF", tolerance = "±10%", packaging = "reel_7in_embossed" }
+source = "catalog p. 45, Medium Voltage GCJ Series data"
+
+[[example]]
+mpn = "GCJ55DR72J104KXJ1L"
+params = { series = "GCJ", case_eia = "2220", height = "2.0mm", dielectric = "X7R", rated_voltage = "630V", capacitance = "100nF", tolerance = "±10%", packaging = "reel_7in_embossed" }
+source = "catalog p. 45, Medium Voltage GCJ Series data"

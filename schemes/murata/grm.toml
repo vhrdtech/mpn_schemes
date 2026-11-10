@@ -1,0 +1,128 @@
+# Murata GRM: general purpose multilayer ceramic capacitors, 01005 to 2220.
+# Not covered yet (DATA-8): availability rows (the catalog's capacitance range charts are many pages per size and
+# not copied; open until they are), the less common dimension codes 05/08/0D/0M/1M/22/52 (square and other-series
+# sizes shared with GQM/GNM/GJM/LLL in the same table), thickness code X ("depends on individual standards"),
+# the JIS temperature-characteristic codes B3/R1/R3/F1/W0 (B1 is kept: it is the catalog's own numbering example),
+# the dielectric code Z7 seen on real listings (GRM188Z71C475KE21D at Digi-Key; likely "ZLM" from the tolerance
+# table, but it has no entry of its own in this catalog's temperature-characteristic table), AC and camera-flash
+# voltage codes (E2, GC, GF, GD, GB, BB), and the legacy voltage code 1J (63 V on GRM32ER71J106KA12L at Digi-Key;
+# not in this catalog either).
+[scheme]
+id = "murata.grm"
+version = 1
+maker = "Murata Manufacturing Co., Ltd."
+aliases = ["Murata", "Murata Electronics", "Murata Electronics North America"]
+class = "capacitor.ceramic"
+title = "Murata GRM general purpose MLCC"
+sources = [
+  { doc = "Murata, Chip Monolithic Ceramic Capacitors catalog (Cat.No.C02E-16), Part Numbering", url = "https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/2424/Chip Monolithic Ceramic Caps.pdf", fetched = "2026-11-10", pages = "2-5", note = "Murata's catalog as Digi-Key hosts it" },
+]
+availability = "open"
+min_stem = "size"
+
+[implies]
+technology = "mlcc"
+series = "GRM"
+
+[[segment]]
+name = "series"
+literal = "GRM"
+note = "(q) product ID GR + (w) series M, always GRM for this family"
+
+[[segment]]
+name = "size"
+param = "case_eia"
+note = "(e) dimensions (L x W) code"
+table = { "02" = "01005", "03" = "0201", "15" = "0402", "18" = "0603", "21" = "0805", "31" = "1206", "32" = "1210", "42" = "1808", "43" = "1812", "55" = "2220" }
+
+[[segment]]
+name = "thickness"
+param = "height"
+note = "(r) dimension (T) code, one table for every size"
+table = { "2" = "0.2mm", "3" = "0.3mm", "5" = "0.5mm", "6" = "0.6mm", "7" = "0.7mm", "8" = "0.8mm", "9" = "0.85mm", A = "1.0mm", B = "1.25mm", C = "1.6mm", D = "2.0mm", E = "2.5mm", F = "3.2mm", M = "1.15mm", N = "1.35mm", Q = "1.5mm", R = "1.8mm" }
+
+[[segment]]
+name = "dielectric"
+param = "dielectric"
+note = "(t) temperature characteristics code; B is the JIS code B1/B3 kept for the catalog's own numbering example"
+table = { "5C" = "C0G", "5G" = "X8G", C7 = "X7S", C8 = "X6S", D7 = "X7T", D8 = "X6T", E7 = "X7U", R6 = "X5R", R7 = "X7R", R9 = "X8R", F5 = "Y5V", L8 = "X8L", B1 = "B" }
+
+[[segment]]
+name = "voltage"
+param = "rated_voltage"
+note = "(y) rated voltage code, DC"
+table = { "0E" = "2.5V", "0G" = "4V", "0J" = "6.3V", "1A" = "10V", "1C" = "16V", "1E" = "25V", YA = "35V", "1H" = "50V", "2A" = "100V", "2D" = "200V", "2E" = "250V", YD = "300V", "2H" = "500V", "2J" = "630V", "3A" = "1kV", "3D" = "2kV", "3F" = "3.15kV" }
+
+[[segment]]
+name = "capacitance"
+param = "capacitance"
+note = "(u) in pF, two significant digits and the multiplier, R for the point below 10 pF (catalog default spelling)"
+code = "eia3"
+unit = "pF"
+
+[[segment]]
+name = "tolerance"
+param = "tolerance"
+note = "(i) capacitance tolerance code"
+table = { W = "±0.05pF", B = "±0.1pF", C = "±0.25pF", D = "±0.5pF", G = "±2%", J = "±5%", K = "±10%", M = "±20%", Z = "+80%/-20%" }
+
+[[segment]]
+name = "spec"
+note = "(o) individual specification code: three figures, not decoded"
+free = { chars = "A-Z0-9", len = 3 }
+
+[[segment]]
+name = "packaging"
+param = "packaging"
+note = "(!0) packaging code"
+table = { L = "reel_7in_embossed", D = { value = "reel_7in_paper", default = true }, K = "reel_13in_embossed", J = "reel_13in_paper", B = "bulk", C = "bulk_case", T = "tray" }
+
+[[example]]
+mpn = "GRM188B11H102KA01D"
+params = { case_eia = "0603", height = "0.8mm", dielectric = "B", rated_voltage = "50V", capacitance = "1nF", tolerance = "±10%", packaging = "reel_7in_paper" }
+source = "catalog p. 2, the part numbering example"
+
+[[example]]
+mpn = "GRM155R71H104KE14J"
+params = { case_eia = "0402", height = "0.5mm", dielectric = "X7R", rated_voltage = "50V", capacitance = "100nF", tolerance = "±10%", packaging = "reel_13in_paper" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "GRM1555C1H180GA01D"
+params = { case_eia = "0402", height = "0.5mm", dielectric = "C0G", rated_voltage = "50V", capacitance = "18pF", tolerance = "±2%", packaging = "reel_7in_paper" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "GRM155R71H102KA01D"
+params = { case_eia = "0402", height = "0.5mm", dielectric = "X7R", rated_voltage = "50V", capacitance = "1nF", tolerance = "±10%", packaging = "reel_7in_paper" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "GRM155R70J105MA12D"
+params = { case_eia = "0402", height = "0.5mm", dielectric = "X7R", rated_voltage = "6.3V", capacitance = "1µF", tolerance = "±20%", packaging = "reel_7in_paper" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "GRM21BR71A106KA73K"
+params = { case_eia = "0805", height = "1.25mm", dielectric = "X7R", rated_voltage = "10V", capacitance = "10µF", tolerance = "±10%", packaging = "reel_13in_embossed" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "GRM21BR6YA106KE43K"
+params = { case_eia = "0805", height = "1.25mm", dielectric = "X5R", rated_voltage = "35V", capacitance = "10µF", tolerance = "±10%", packaging = "reel_13in_embossed" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "GRM32ER71A476KE15K"
+params = { case_eia = "1210", height = "2.5mm", dielectric = "X7R", rated_voltage = "10V", capacitance = "47µF", tolerance = "±10%", packaging = "reel_13in_embossed" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "GRM31CR71E106KA12L"
+params = { case_eia = "1206", height = "1.6mm", dielectric = "X7R", rated_voltage = "25V", capacitance = "10µF", tolerance = "±10%", packaging = "reel_7in_embossed" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "GRM1885C1H472JA01D"
+params = { case_eia = "0603", height = "0.8mm", dielectric = "C0G", rated_voltage = "50V", capacitance = "4.7nF", tolerance = "±5%", packaging = "reel_7in_paper" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"

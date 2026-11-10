@@ -1,0 +1,125 @@
+# TDK C series: general purpose multilayer ceramic capacitors, 01005 to 2220, up to 630 V.
+# Not covered yet (DATA-10): availability rows (the capacitance range charts are many pages per size and not
+# copied; open until they are), the special reserved code (9) (A, B, C, N: TDK's own internal codes; T: special
+# temperature characteristic; none of them change a decoded parameter), and the packaging style code (8): its
+# three values are reel pitch (4 mm, 2 mm, 8 mm on a 178 mm reel), not tape material, and no TDK document at hand
+# says whether a given part is paper or embossed tape, so it is left as a plain code list rather than guessed.
+[scheme]
+id = "tdk.c"
+version = 1
+maker = "TDK Corporation"
+aliases = ["TDK"]
+class = "capacitor.ceramic"
+title = "TDK C series general purpose MLCC"
+sources = [
+  { doc = "TDK, Multilayer Ceramic Chip Capacitors, Commercial grade, general (Up to 75V), Catalog Number Construction", url = "https://product.tdk.com/system/files/dam/doc/product/capacitor/ceramic/mlcc/catalog/mlcc_commercial_general_en.pdf", fetched = "2026-11-10", pages = "4" },
+  { doc = "TDK, Multilayer Ceramic Chip Capacitors, Commercial grade, mid voltage (100 to 630V), Catalog Number Construction", url = "https://product.tdk.com/system/files/dam/doc/product/capacitor/ceramic/mlcc/catalog/mlcc_commercial_midvoltage_en.pdf", fetched = "2026-11-10", pages = "4" },
+]
+availability = "open"
+min_stem = "size"
+
+[implies]
+technology = "mlcc"
+series = "C"
+
+[[segment]]
+name = "series"
+literal = "C"
+note = "(1) series"
+
+[[segment]]
+name = "size"
+param = "case_eia"
+note = "(2) dimensions code"
+table = { "0402" = "01005", "0603" = "0201", "1005" = "0402", "1608" = "0603", "2012" = "0805", "3216" = "1206", "3225" = "1210", "4532" = "1812", "5750" = "2220" }
+
+[[segment]]
+name = "dielectric"
+param = "dielectric"
+note = "(3) temperature characteristics: the code is the EIA name itself"
+table = { C0G = "C0G", X7R = "X7R", X7S = "X7S", X7T = "X7T", X6S = "X6S", X5R = "X5R", X5S = "X5S" }
+
+[[segment]]
+name = "voltage"
+param = "rated_voltage"
+note = "(4) rated voltage code, DC; 0E-1N from the general (up to 75V) catalog, 2A-2J from the mid voltage one"
+table = { "0E" = "2.5V", "0G" = "4V", "0J" = "6.3V", "1A" = "10V", "1C" = "16V", "1E" = "25V", "1V" = "35V", "1H" = "50V", "1N" = "75V", "2A" = "100V", "2E" = "250V", "2V" = "350V", "2W" = "450V", "2J" = "630V" }
+
+[[segment]]
+name = "capacitance"
+param = "capacitance"
+note = "(5) in pF, two significant digits and the multiplier, R for the point below 10 pF"
+code = "eia3"
+unit = "pF"
+
+[[segment]]
+name = "tolerance"
+param = "tolerance"
+note = "(6) capacitance tolerance code"
+table = { B = "±0.1pF", C = "±0.25pF", D = "±0.5pF", F = "±1%", G = "±2%", J = "±5%", K = "±10%", M = "±20%" }
+
+[[segment]]
+name = "thickness"
+param = "height"
+note = "(7) nominal thickness code"
+table = { "020" = "0.2mm", "030" = "0.3mm", "050" = "0.5mm", "060" = "0.6mm", "080" = "0.8mm", "085" = "0.85mm", "115" = "1.15mm", "125" = "1.25mm", "130" = "1.3mm", "160" = "1.6mm", "200" = "2mm", "230" = "2.3mm", "250" = "2.5mm", "280" = "2.8mm", "320" = "3.2mm" }
+
+[[segment]]
+name = "packaging"
+note = "(8) packaging style: reel pitch, not tape material (see header note)"
+table = { A = "178mm reel, 4mm pitch", B = "178mm reel, 2mm pitch", K = "178mm reel, 8mm pitch" }
+
+[[segment]]
+name = "spec"
+note = "(9) special reserved code: TDK internal or special temperature characteristic, not decoded"
+free = { chars = "A-Z", len = 1 }
+
+[[example]]
+mpn = "C1005X7S2A103K050BB"
+params = { case_eia = "0402", dielectric = "X7S", rated_voltage = "100V", capacitance = "10nF", tolerance = "±10%", height = "0.5mm" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "C1608X7R1A225M080AC"
+params = { case_eia = "0603", dielectric = "X7R", rated_voltage = "10V", capacitance = "2.2µF", tolerance = "±20%", height = "0.8mm" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "C1608X7R2A103M080AA"
+params = { case_eia = "0603", dielectric = "X7R", rated_voltage = "100V", capacitance = "10nF", tolerance = "±20%", height = "0.8mm" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "C1608C0G2E221K080AA"
+params = { case_eia = "0603", dielectric = "C0G", rated_voltage = "250V", capacitance = "220pF", tolerance = "±10%", height = "0.8mm" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "C3216X5R1V226M160AC"
+params = { case_eia = "1206", dielectric = "X5R", rated_voltage = "35V", capacitance = "22µF", tolerance = "±20%", height = "1.6mm" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "C1608X5R1E475K080AC"
+params = { case_eia = "0603", dielectric = "X5R", rated_voltage = "25V", capacitance = "4.7µF", tolerance = "±10%", height = "0.8mm" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "C1005X5R1A475K050BC"
+params = { case_eia = "0402", dielectric = "X5R", rated_voltage = "10V", capacitance = "4.7µF", tolerance = "±10%", height = "0.5mm" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "C1005X5R1H104K050BB"
+params = { case_eia = "0402", dielectric = "X5R", rated_voltage = "50V", capacitance = "100nF", tolerance = "±10%", height = "0.5mm" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "C3216X5R1V106K160AB"
+params = { case_eia = "1206", dielectric = "X5R", rated_voltage = "35V", capacitance = "10µF", tolerance = "±10%", height = "1.6mm" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "C3216X7R1V106K160AC"
+params = { case_eia = "1206", dielectric = "X7R", rated_voltage = "35V", capacitance = "10µF", tolerance = "±10%", height = "1.6mm" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
