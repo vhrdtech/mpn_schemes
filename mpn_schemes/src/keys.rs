@@ -49,6 +49,11 @@ pub const KEYS: &[Key] = &[
     q("inductance", "H", "inductance"),
     q("rated_voltage", "V", "rated (working) voltage"),
     q("zener_voltage", "V", "zener or breakdown voltage"),
+    q(
+        "standoff_voltage",
+        "V",
+        "a TVS diode's reverse stand-off (working peak reverse) voltage, VRWM",
+    ),
     q("power", "W", "rated power"),
     q("rated_current", "A", "rated current"),
     q("height", "m", "height or thickness of the body"),
@@ -106,7 +111,7 @@ pub const KEYS: &[Key] = &[
     w(
         "package",
         "the physical package (JEDEC or EIAJ outline), lower case with no punctuation",
-        &["sot23", "sot323", "sod123"],
+        &["sot23", "sot323", "sod123", "do214ac"],
     ),
     w(
         "configuration",
@@ -119,6 +124,11 @@ pub const KEYS: &[Key] = &[
         ],
     ),
     w("polarity", "NPN or PNP", &["npn", "pnp"]),
+    w(
+        "bidirectional",
+        "a TVS diode that clamps both polarities",
+        &["yes", "no"],
+    ),
     w(
         "esd_protected",
         "has an integrated ESD protection diode",
