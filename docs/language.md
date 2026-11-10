@@ -201,11 +201,11 @@ There is deliberately no expression language. A datasheet's selection table is r
 |---|---|---|
 | quantity | `capacitance` (F), `resistance` (Ω), `inductance` (H), `rated_voltage`, `zener_voltage` (V), `power` (W), `rated_current` (A), `height` (m) | a number with an SI prefix and the unit: `100nF`, `4.7kΩ`, `6.3V`, `62.5mW`, `0.5mm`. `ohm` and `u` are read as `Ω` and `µ`. |
 | tolerance | `tolerance`, `tcr` | `±10%`, `±0.25pF`, `+80%/-20%`, `±100ppm/K` |
-| word | `dielectric`, `case_eia`, `case_metric`, `packaging`, `technology`, `aec_q200`, `series`, `package` | as written: `X7R`, `0402`, `reel_7in_paper`, `sot23` |
+| word | `dielectric`, `case_eia`, `case_metric`, `packaging`, `technology`, `aec_q200`, `series`, `package`, `configuration` | as written: `X7R`, `0402`, `reel_7in_paper`, `sot23`, `dual_common_anode` |
 
 Values are exact decimals, so `0.1uF` and `100nF` are the same value. Every value has one text form, the one parse and generate output: engineering prefixes (`100nF`, `4.7kΩ`, `62.5mW`), lengths in mm, `Ω` and `µ` (U+00B5). A key that is missing is added to `src/keys.rs` in the same commit as the first scheme that needs it.
 
-Packaging words: `reel_7in_paper`, `reel_7in_embossed`, `reel_10in_paper`, `reel_10in_embossed`, `reel_11in_embossed`, `reel_13in_paper`, `reel_13in_embossed`, `bulk`, `bulk_case`, `tube`, `tray`. Package words: `sot23`. Add a word here before using a new one.
+Packaging words: `reel_7in_paper`, `reel_7in_embossed`, `reel_10in_paper`, `reel_10in_embossed`, `reel_11in_embossed`, `reel_13in_paper`, `reel_13in_embossed`, `bulk`, `bulk_case`, `tube`, `tray`. Package words: `sot23`, `sot323`. Configuration words: `single`, `dual_common_anode`, `dual_common_cathode`, `dual_series`. Add a word here before using a new one.
 
 ## 7. Examples: `[[example]]`
 

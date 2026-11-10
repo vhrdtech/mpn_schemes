@@ -10,6 +10,8 @@ every feature and scheme family; this file only records what changed. IDs in par
 
 - `schemes/nexperia/bzx84.toml`: Nexperia BZX84 zener diodes, with examples from Nexperia's orderable-parts pages (DATA-12).
 - Parameter key `package` (word) and packaging word `reel_11in_embossed` (DATA-12, LANG-5).
+- `schemes/nexperia/bat54.toml`: Nexperia BAT54 Schottky diodes, single and dual configurations in SOT23/SOT323 (DATA-13).
+- Parameter key `configuration` (word) and package word `sot323` (DATA-13, LANG-5).
 
 ## [0.1.3] - 2026-11-10
 

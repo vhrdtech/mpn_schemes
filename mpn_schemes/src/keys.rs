@@ -105,7 +105,17 @@ pub const KEYS: &[Key] = &[
     w(
         "package",
         "the physical package (JEDEC or EIAJ outline), lower case with no punctuation",
-        &["sot23"],
+        &["sot23", "sot323"],
+    ),
+    w(
+        "configuration",
+        "how several junctions inside one package are wired together",
+        &[
+            "single",
+            "dual_common_anode",
+            "dual_common_cathode",
+            "dual_series",
+        ],
     ),
 ];
 

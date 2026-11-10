@@ -1,0 +1,88 @@
+# Nexperia BAT54 series Schottky barrier diodes: single (BAT54), dual common anode (BAT54A), dual common cathode
+# (BAT54C) and dual series (BAT54S), each in SOT23, plus the SOT323 (SC-70) size (the W letter, e.g. BAT54W,
+# BAT54CW). Each configuration has its own data sheet with the same ordering/marking shape. Packing suffix meaning
+# depends on the package: SOT23 uses ,215 (7") and ,235 (11"); SOT323 uses ,115 (7") and ,135 (11") for the same
+# two reel sizes. Leaves out the L, J and other letters seen in the wild (BAT54L, BAT54J, BAT54SW) and every
+# packing suffix besides those four, since this scheme only has Nexperia's documents for those. Other makers
+# (onsemi, Diodes Inc, Vishay) sell pin-compatible BAT54 parts under their own numbering (...T1G, ...-7-F); not
+# modelled here.
+[scheme]
+id = "nexperia.bat54"
+version = 1
+maker = "Nexperia"
+aliases = ["NXP", "Philips Semiconductors"]
+class = "diode.schottky"
+title = "Nexperia BAT54 series Schottky barrier diodes"
+sources = [
+  { doc = "BAT54, Schottky barrier diode (1 Jul 2022)", url = "https://assets.nexperia.com/documents/data-sheet/BAT54.pdf", fetched = "2026-11-10" },
+  { doc = "BAT54A, Schottky barrier diode (1 Jul 2022)", url = "https://assets.nexperia.com/documents/data-sheet/BAT54A.pdf", fetched = "2026-11-10" },
+  { doc = "BAT54C, Schottky barrier diode (1 Jul 2022)", url = "https://assets.nexperia.com/documents/data-sheet/BAT54C.pdf", fetched = "2026-11-10" },
+  { doc = "BAT54S, Schottky barrier diodes (1 Jul 2022)", url = "https://assets.nexperia.com/documents/data-sheet/BAT54S.pdf", fetched = "2026-11-10" },
+  { doc = "BAT54W, Schottky barrier diode (1 Oct 2022)", url = "https://assets.nexperia.com/documents/data-sheet/BAT54W.pdf", fetched = "2026-11-10" },
+  { doc = "SOT23, Reel pack for SMD, 7\"; Q3/T4 product orientation (SOT23_215)", url = "https://assets.nexperia.com/documents/packing-information/SOT23_215.pdf", fetched = "2026-11-10" },
+  { doc = "SOT23, Reel pack for SMD, 11\"; Q3/T4 product orientation (SOT23_235)", url = "https://assets.nexperia.com/documents/packing-information/SOT23_235.pdf", fetched = "2026-11-10" },
+  { doc = "SOT323, Reel pack for SMD, 7\"; Q3/T4 product orientation (SOT323_115)", url = "https://assets.nexperia.com/documents/packing-information/SOT323_115.pdf", fetched = "2026-11-10" },
+  { doc = "SOT323, Reel pack for SMD, 11\"; Q3/T4 product orientation (SOT323_135)", url = "https://assets.nexperia.com/documents/packing-information/SOT323_135.pdf", fetched = "2026-11-10" },
+]
+
+[[segment]]
+name = "series"
+literal = "BAT54"
+
+[[segment]]
+name = "configuration"
+param = "configuration"
+optional = true
+absent = "single"
+table = { A = "dual_common_anode", C = "dual_common_cathode", S = "dual_series" }
+
+[[segment]]
+name = "size"
+param = "package"
+optional = true
+absent = "sot23"
+table = { W = "sot323" }
+
+[[segment]]
+name = "comma"
+literal = ","
+
+[[segment]]
+name = "packing"
+param = "packaging"
+[[segment.alternatives]]
+when = { size = "sot23" }
+table = { "215" = "reel_7in_embossed", "235" = "reel_11in_embossed" }
+[[segment.alternatives]]
+when = { size = "sot323" }
+table = { "115" = "reel_7in_embossed", "135" = "reel_11in_embossed" }
+
+[[example]]
+mpn = "BAT54,215"
+params = { configuration = "single", package = "sot23", packaging = "reel_7in_embossed" }
+source = "Nexperia product page, orderable parts (nexperia.com/pip/BAT54, 10 Nov 2026)"
+
+[[example]]
+mpn = "BAT54A,215"
+params = { configuration = "dual_common_anode", package = "sot23", packaging = "reel_7in_embossed" }
+source = "Nexperia product page, orderable parts (nexperia.com/pip/BAT54A, 10 Nov 2026)"
+
+[[example]]
+mpn = "BAT54C,235"
+params = { configuration = "dual_common_cathode", package = "sot23", packaging = "reel_11in_embossed" }
+source = "Nexperia product page, orderable parts (nexperia.com/pip/BAT54C, 10 Nov 2026)"
+
+[[example]]
+mpn = "BAT54S,215"
+params = { configuration = "dual_series", package = "sot23", packaging = "reel_7in_embossed" }
+source = "mx3 corpus (real lab part, 10 Nov 2026)"
+
+[[example]]
+mpn = "BAT54W,135"
+params = { configuration = "single", package = "sot323", packaging = "reel_11in_embossed" }
+source = "Nexperia product page, orderable parts (nexperia.com/pip/BAT54W, 10 Nov 2026)"
+
+[[example]]
+mpn = "BAT54CW,115"
+params = { configuration = "dual_common_cathode", package = "sot323", packaging = "reel_7in_embossed" }
+source = "mx3 corpus (real lab part, 10 Nov 2026)"
