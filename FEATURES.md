@@ -84,4 +84,6 @@ One item per family file, with its maker's source document.
 
 - 🚧 DATA-20 panasonic-erj-m: `schemes/panasonic/erj_m.toml`, ERJ-M1W current sensing resistors, metal plate type, general (S) and wide terminal (T), both 2512, not recommended for new design (AOA0000C323); closed, rows from the ratings table's standard resistance values; T.C.R. not decoded (not uniform across type and value, not a position in the part number); 2 examples. No parts in the mx3 corpus. Open: the discontinued ERJM03 (0603, a similar but not identical numbering) and the current replacement ERJ-MS4/MS6 are not covered.
 
+- 🚧 DATA-21 panasonic-erj-b: `schemes/panasonic/erj_b.toml`, ERJ A1/B1/B2/B3 high power chip resistors, wide terminal type, current sensing (DOC043129820, a distributor's copy of the data sheet); open, no availability rows yet; 2 examples. No parts in the mx3 corpus. Open: the resistance range per size (ratings table, p. 2) is not yet copied as rows; T.C.R. (non-uniform, not a position in the part number) is not decoded, same reasoning as erj_m.
+
 ## Dropped and superseded

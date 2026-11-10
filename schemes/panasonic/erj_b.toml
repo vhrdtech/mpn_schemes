@@ -1,0 +1,81 @@
+# Panasonic ERJ A1/B1/B2/B3 high power chip resistors, wide terminal type (current sensing). The resistance-value
+# region letter (position 6) and the power/R-range splits in the ratings table mostly just tell the maker's own
+# thermal engineering apart (several power ratings share one part-number pattern, the actual rating following from
+# the resistance value itself); only size, region, tolerance and resistance are decoded here, region as a
+# description rather than a parameter, since it carries no information resistance doesn't already carry.
+# T.C.R. is not uniform (it depends on both the resistance-value region and the exact value within it, Ratings p.
+# 2) and is not a position in the part number, so it is not decoded here either, as in erj_m.
+# Panasonic writes the part numbers without a dash (ERJA1AJ102U); distributors write ERJ-A1AJ102U.
+# Open: the resistance range per size is in the ratings table (p. 2) but not yet copied as rows.
+[scheme]
+id = "panasonic.erj_b"
+version = 1
+maker = "Panasonic"
+aliases = ["Panasonic Industry", "Panasonic Electronic Components", "Matsushita"]
+class = "resistor.chip"
+title = "Panasonic ERJ A1/B1/B2/B3 high power chip resistors, wide terminal type"
+sources = [
+  { doc = "Panasonic High Power Chip Resistors (Wide Terminal Type), ERJ A, B type, ERJ A1, B1, B2, B3 series (DOC043129820, 24-Feb-22)", url = "https://static.chipdip.ru/lib/129/DOC043129820.pdf", fetched = "2026-11-10", pages = "1-2" },
+]
+min_stem = "size"
+
+[implies]
+technology = "thick_film"
+aec_q200 = "yes"
+
+[[segment]]
+name = "maker"
+literal = "ERJ"
+
+[[segment]]
+name = "dash"
+literal = "-"
+optional = true
+
+[[segment]]
+name = "size"
+param = "case_eia"
+table = { A1 = "1225", B1 = "1020", B2 = "0612", B3 = "0508" }
+
+[[segment]]
+name = "region"
+note = "resistance-value region, not decoded as a parameter: A 10 Ω≤R, B 0.22 Ω≤R<10 Ω, C 0.01 Ω≤R<0.22 Ω, D 0.005 Ω≤R<0.01 Ω (p. 1); it never adds information the resistance value itself doesn't already carry"
+table = { A = "10 Ω and above", B = "0.22 Ω to 10 Ω", C = "0.01 Ω to 0.22 Ω", D = "0.005 Ω to 0.01 Ω" }
+
+[[segment]]
+name = "tolerance"
+param = "tolerance"
+table = { F = "±1%", G = "±2%", J = "±5%" }
+
+[[segment]]
+name = "resistance"
+note = "3 figures when possible (eia3: 2 significant digits, or R as the point); 4 figures only when 3 cannot carry the precision (eia4), e.g. R015 for 15 mΩ (p. 1)"
+[[segment.alternatives]]
+param = "resistance"
+code = "eia3"
+series = "E24"
+[[segment.alternatives]]
+param = "resistance"
+code = "eia4"
+series = "E24"
+
+[[segment]]
+name = "packaging"
+param = "packaging"
+note = "punched (paper) for B2/B3, embossed for A1/B1, all 4 mm pitch on 180 mm (7 in) reels (p. 1)"
+[[segment.alternatives]]
+when = { size = { code = ["B2", "B3"] } }
+table = { V = "reel_7in_paper" }
+[[segment.alternatives]]
+when = { size = { code = ["A1", "B1"] } }
+table = { U = "reel_7in_embossed" }
+
+[[example]]
+mpn = "ERJA1AJ102U"
+params = { case_eia = "1225", tolerance = "±5%", resistance = "1kΩ", packaging = "reel_7in_embossed" }
+source = "data sheet p. 1, explanation of part numbers"
+
+[[example]]
+mpn = "ERJB2CFR02V"
+params = { case_eia = "0612", tolerance = "±1%", resistance = "20mΩ", packaging = "reel_7in_paper" }
+source = "RS Online listing title (web search, 10 Nov 2026)"
