@@ -1,0 +1,91 @@
+# Vishay Dale D/CRCW e3 standard thick film chip resistors: CRCW0402 to CRCW2512.
+# Packaging codes (EA..EK) combine reel/tape size, pitch and quantity; not decoded to a packaging word yet (no
+# "blister tape" word exists for the 1218/2010/2512 codes EF/EG/EH/EK, and the others mix two packaging styles).
+# Resistance below 1 Ω (apart from the jumper) and the ±1 % / ±200 ppm/K combination above 9.76 Ω are not excluded
+# yet (the datasheet's per-TCR resistance ranges, p. 2). Some listings spell a whole value without the trailing
+# `R` the datasheet's own examples use (`562F...` rather than `562RF...`); this scheme reads those as partial.
+[scheme]
+id = "vishay.crcw"
+version = 1
+maker = "Vishay"
+aliases = ["Vishay Dale", "Vishay Intertechnology"]
+class = "resistor.chip"
+title = "Vishay Dale D/CRCW e3 standard thick film chip resistors"
+sources = [
+  { doc = "Vishay D/CRCW e3 Standard Thick Film Chip Resistors (Document Number 20035, revision 14-Apr-2026)", url = "https://www.vishay.com/docs/20035/dcrcwe3.pdf", fetched = "2026-11-10", pages = "1-3" },
+]
+min_stem = "size"
+
+[implies]
+technology = "thick_film"
+aec_q200 = "yes"
+
+[[segment]]
+name = "maker"
+literal = "CRCW"
+
+[[segment]]
+name = "size"
+param = "case_eia"
+table = { "0402" = "0402", "0603" = "0603", "0805" = "0805", "1206" = "1206", "1210" = "1210", "1218" = "1218", "2010" = "2010", "2512" = "2512" }
+
+[[segment]]
+name = "value"
+note = "resistance in rkm (R/K/M); tolerance F/J; TCR K/N; a jumper is ordered with resistance 0000, tolerance Z and TCR 0 (part number explanation, p. 3)"
+[[segment.alternatives]]
+group = [
+  { name = "resistance", param = "resistance", code = "rkm", letters = { R = 0, K = 3, M = 6 }, digits = 4, series = ["E24", "E96"] },
+  { name = "tolerance", param = "tolerance", table = { F = "±1%", J = "±5%" } },
+  { name = "tcr", param = "tcr", table = { K = "±100ppm/K", N = "±200ppm/K" } },
+]
+[[segment.alternatives]]
+group = [
+  { name = "resistance", param = "resistance", table = { "0000" = "0Ω" } },
+  { name = "jumper_tolerance", literal = "Z" },
+  { name = "jumper_tcr", literal = "0" },
+]
+[[segment.alternatives]]
+note = "real listings also write a jumper with the ordinary tolerance and TCR codes instead of Z0 (CRCW12100000FNEA)"
+group = [
+  { name = "resistance", param = "resistance", table = { "0000" = "0Ω" } },
+  { name = "tolerance", param = "tolerance", table = { F = "±1%", J = "±5%" } },
+  { name = "tcr", param = "tcr", table = { K = "±100ppm/K", N = "±200ppm/K" } },
+]
+
+# ±5 % is always ±200 ppm/K; ±1 % at ±200 ppm/K only reaches 9.76 Ω, ±1 % at ±100 ppm/K the full range (p. 2)
+[[excluded]]
+tolerance = "±5%"
+tcr = "±100ppm/K"
+
+[[excluded]]
+tolerance = "±1%"
+tcr = "±200ppm/K"
+resistance = { min = "9.77Ω" }
+
+[[excluded]]
+resistance = { min = "10.1MΩ" }
+
+[[segment]]
+name = "packaging"
+note = "packaging p. 1: EA/EC paper tape 180mm/330mm (0603, 0805, 1206, 1210); ED/EE paper tape, 2 mm pitch, 180mm/330mm (0402 only); EF/EG/EH/EK blister tape (2010, 2512, 1218); not decoded to a packaging word"
+table = { EA = "reel 180mm (7in) paper tape", EC = "reel 330mm (13in) paper tape", ED = "reel 180mm (7in) paper tape, 2mm pitch (0402)", EE = "reel 330mm (13in) paper tape, 2mm pitch (0402)", EI = "reel 180mm (7in) paper tape, 2mm pitch (0603)", EF = "reel 180mm (7in) blister tape (2010)", EG = "reel 180mm (7in) blister tape (2512)", EH = "reel 180mm (7in) blister tape (2512)", EK = "reel 180mm (7in) blister tape (1218)" }
+
+[[example]]
+mpn = "CRCW0603562RFKEA"
+params = { case_eia = "0603", resistance = "562Ω", tolerance = "±1%", tcr = "±100ppm/K" }
+source = "data sheet p. 3, part number and product description"
+
+[[example]]
+mpn = "CRCW06030000Z0EA"
+params = { case_eia = "0603", resistance = "0Ω" }
+source = "data sheet p. 3, part number and product description (jumper)"
+
+[[example]]
+mpn = "CRCW040213K7FKED"
+params = { case_eia = "0402", resistance = "13.7kΩ", tolerance = "±1%", tcr = "±100ppm/K" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "CRCW06031R00FKEA"
+params = { case_eia = "0603", resistance = "1Ω", tolerance = "±1%", tcr = "±100ppm/K" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"

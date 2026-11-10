@@ -64,4 +64,6 @@ One item per family file, with its maker's source document.
 - ✅ DATA-15 kemet-c: `schemes/kemet/c.toml`, commercial SMD MLCC ordering information (X7R and C0G data sheets); open; 7 examples. mx3 corpus: the 5 KEMET "C" MLCC parts read, 15 values agree, none disagree. Other dielectrics, the automotive grade, FT-CAP, capacitance codes below 10 pF (multiplier 8/9) and the paper-vs-plastic tape choice (not named in the ordering code) are left out.
 - ✅ DATA-16 walsin-mlcc: `schemes/walsin/mlcc.toml`, general-purpose and mid/high-voltage MLCC, no series letters; open; 5 examples. mx3 corpus: the 2 Walsin MLCC parts read, 6 values agree (one text-only mismatch, same "C0G, NP0" vs C0G as DATA-13). The 01R5, 0508/0612 and other specialised series (RF, HH, SH/SG, OP, TT) are left out.
 
+- ✅ DATA-4 vishay-crcw: `schemes/vishay/crcw.toml`, Vishay Dale D/CRCW e3 standard thick film chip resistors (Document 20035); 4 examples. Open: packaging codes (EA..EK) are not decoded to a packaging word yet (no "blister tape" word for 1218/2010/2512); resistance below 1 Ω (apart from the jumper) and the ±1 %/±200 ppm/K upper bound (9.76 Ω) are not excluded; some supplier listings spell a whole value without the trailing `R` the data sheet's own examples use (`562F...`) and read as partial.
+
 ## Dropped and superseded
