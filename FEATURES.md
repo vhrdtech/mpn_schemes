@@ -80,4 +80,6 @@ One item per family file, with its maker's source document.
 
 - 🚧 DATA-17 panasonic-erj-d: `schemes/panasonic/erj_d.toml`, ERJ-D1/D2 low TCR high power current sensing chip resistors, wide terminal type (RDN0000C331); closed, rows from the ratings table; T.C.R. implied (not a position in the part number); 2 examples. mx3 corpus (10 Nov 2026): the 1 ERJ-D part read, 2 values agree. Open: no verified example yet for a D1C or D2C part (only the D/lower-range codes and ±1 % tolerance are verified so far).
 
+- 🚧 DATA-19 panasonic-era-a: `schemes/panasonic/era_a.toml`, ERA-A thin film chip resistors, high reliability type, ERA 1A/2A/3A/6A/8A (AOA0000C307); closed, rows from the ratings table (T.C.R./tolerance pairs and their resistance range per size); 5 examples. mx3 corpus (10 Nov 2026): the 2 ERA-2A parts read, 2 values agree. Open: no verified example yet for ERA1A or ERA8A, for the pressed carrier taping code C, or for a W (±0.05 %) tolerance; the other ERA families (V, K, Y, 2H...) are not covered.
+
 ## Dropped and superseded

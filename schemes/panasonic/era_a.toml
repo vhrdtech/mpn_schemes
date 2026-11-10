@@ -1,0 +1,192 @@
+# Panasonic ERA-A type thin film chip resistors, high reliability: ERA 1A, 2A, 3A, 6A, 8A. The other ERA families
+# (V, K, Y, 2H...) have their own ordering codes and ratings and are not covered here.
+# T.C.R. and tolerance are independent positions (unlike the ERJ precision series, where ±1 % carries no T.C.R.
+# position); which T.C.R./tolerance pairs exist, and over what resistance range, depends on the size (Ratings, p. 2).
+# Panasonic writes the part numbers without a dash (ERA3AEB102V); distributors write ERA-3AEB102V.
+# Open: no verified example yet for ERA1A/8A, for the pressed carrier taping code C, or for a W (±0.05 %) tolerance.
+[scheme]
+id = "panasonic.era_a"
+version = 1
+maker = "Panasonic"
+aliases = ["Panasonic Industry", "Panasonic Electronic Components", "Matsushita"]
+class = "resistor.chip"
+title = "Panasonic ERA-A thin film chip resistors, high reliability type"
+sources = [
+  { doc = "Panasonic Metal Film (Thin Film) Chip Resistors, High Reliability Type, ERA A type, ERA 1A, 2A, 3A, 6A, 8A series (AOA0000C307, 24-Apr-24)", url = "https://industrial.panasonic.com/cdbs/www-data/pdf/RDM0000/AOA0000C307.pdf", fetched = "2026-11-10", pages = "1-2" },
+]
+availability = "closed"
+min_stem = "size"
+
+[implies]
+technology = "thin_film"
+
+[[segment]]
+name = "maker"
+literal = "ERA"
+
+[[segment]]
+name = "dash"
+literal = "-"
+optional = true
+
+[[segment]]
+name = "size"
+param = "case_eia"
+table = { "1A" = "0201", "2A" = "0402", "3A" = "0603", "6A" = "0805", "8A" = "1206" }
+
+[[segment]]
+name = "tcr"
+param = "tcr"
+table = { R = "±10ppm/K", P = "±15ppm/K", E = "±25ppm/K", H = "±50ppm/K", K = "±100ppm/K" }
+
+[[segment]]
+name = "tolerance"
+param = "tolerance"
+table = { W = "±0.05%", B = "±0.1%", C = "±0.25%", D = "±0.5%" }
+
+[[segment]]
+name = "resistance"
+note = "E24: 2 significant digits and a multiplier (eia3); E96 and other values: 3 significant digits and a multiplier (eia4), duplicated E24 values use the E24 (3-figure) form"
+[[segment.alternatives]]
+param = "resistance"
+code = "eia3"
+series = "E24"
+[[segment.alternatives]]
+param = "resistance"
+code = "eia4"
+series = "E96"
+
+[[segment]]
+name = "packaging"
+param = "packaging"
+note = "the packaging code is fixed per size: pressed carrier for 1A, punched 2 mm pitch for 2A, punched 4 mm pitch for 3A/6A/8A, all paper, 180 mm (7 in) reels (p. 1)"
+[[segment.alternatives]]
+when = { size = { code = "1A" } }
+table = { C = "reel_7in_paper" }
+[[segment.alternatives]]
+when = { size = { code = "2A" } }
+table = { X = "reel_7in_paper" }
+[[segment.alternatives]]
+when = { size = { code = ["3A", "6A", "8A"] } }
+table = { V = "reel_7in_paper" }
+
+# Ratings (p. 2): which T.C.R./tolerance combinations exist per size, and their resistance range
+[[available]]
+size = "0201"
+tcr = "±25ppm/K"
+tolerance = ["±0.1%", "±0.25%"]
+resistance = { min = "100Ω", max = "10kΩ", series = ["E24", "E96"] }
+[[available]]
+size = "0201"
+tcr = "±10ppm/K"
+tolerance = ["±0.05%", "±0.1%", "±0.25%"]
+resistance = { min = "1kΩ", max = "10kΩ", series = ["E24", "E96"] }
+
+[[available]]
+size = "0402"
+tcr = "±100ppm/K"
+tolerance = "±0.5%"
+resistance = { min = "10Ω", max = "46.4Ω", series = ["E24", "E96"] }
+[[available]]
+size = "0402"
+tcr = "±25ppm/K"
+tolerance = ["±0.1%", "±0.25%", "±0.5%"]
+resistance = { min = "47Ω", max = "100kΩ", series = ["E24", "E96"] }
+[[available]]
+size = "0402"
+tcr = "±15ppm/K"
+tolerance = ["±0.1%", "±0.25%"]
+resistance = { min = "200Ω", max = "47kΩ", series = ["E24", "E96"] }
+[[available]]
+size = "0402"
+tcr = "±10ppm/K"
+tolerance = ["±0.1%", "±0.25%"]
+resistance = { min = "200Ω", max = "47kΩ", series = ["E24", "E96"] }
+
+[[available]]
+size = "0603"
+tcr = "±50ppm/K"
+tolerance = "±0.5%"
+resistance = { min = "10Ω", max = "46.4Ω", series = ["E24", "E96"] }
+[[available]]
+size = "0603"
+tcr = "±25ppm/K"
+tolerance = ["±0.1%", "±0.25%", "±0.5%"]
+resistance = { min = "47Ω", max = "330kΩ", series = ["E24", "E96"] }
+[[available]]
+size = "0603"
+tcr = "±15ppm/K"
+tolerance = ["±0.1%", "±0.25%"]
+resistance = { min = "470Ω", max = "100kΩ", series = ["E24", "E96"] }
+[[available]]
+size = "0603"
+tcr = "±10ppm/K"
+tolerance = ["±0.05%", "±0.1%", "±0.25%"]
+resistance = { min = "1kΩ", max = "100kΩ", series = ["E24", "E96"] }
+
+[[available]]
+size = "0805"
+tcr = "±50ppm/K"
+tolerance = "±0.5%"
+resistance = { min = "10Ω", max = "46.4Ω", series = ["E24", "E96"] }
+[[available]]
+size = "0805"
+tcr = "±25ppm/K"
+tolerance = ["±0.1%", "±0.25%", "±0.5%"]
+resistance = { min = "47Ω", max = "1MΩ", series = ["E24", "E96"] }
+[[available]]
+size = "0805"
+tcr = "±15ppm/K"
+tolerance = ["±0.1%", "±0.25%"]
+resistance = { min = "470Ω", max = "100kΩ", series = ["E24", "E96"] }
+[[available]]
+size = "0805"
+tcr = "±10ppm/K"
+tolerance = ["±0.05%", "±0.1%", "±0.25%"]
+resistance = { min = "1kΩ", max = "100kΩ", series = ["E24", "E96"] }
+
+[[available]]
+size = "1206"
+tcr = "±50ppm/K"
+tolerance = "±0.5%"
+resistance = { min = "10Ω", max = "46.4Ω", series = ["E24", "E96"] }
+[[available]]
+size = "1206"
+tcr = "±25ppm/K"
+tolerance = ["±0.1%", "±0.25%", "±0.5%"]
+resistance = { min = "47Ω", max = "1MΩ", series = ["E24", "E96"] }
+[[available]]
+size = "1206"
+tcr = "±15ppm/K"
+tolerance = ["±0.1%", "±0.25%"]
+resistance = { min = "470Ω", max = "100kΩ", series = ["E24", "E96"] }
+[[available]]
+size = "1206"
+tcr = "±10ppm/K"
+tolerance = ["±0.05%", "±0.1%", "±0.25%"]
+resistance = { min = "1kΩ", max = "100kΩ", series = ["E24", "E96"] }
+
+[[example]]
+mpn = "ERA3AEB102V"
+params = { case_eia = "0603", tcr = "±25ppm/K", tolerance = "±0.1%", resistance = "1kΩ", packaging = "reel_7in_paper" }
+source = "data sheet p. 1, explanation of part numbers"
+
+[[example]]
+mpn = "ERA-2AEB103X"
+params = { case_eia = "0402", tcr = "±25ppm/K", tolerance = "±0.1%", resistance = "10kΩ", packaging = "reel_7in_paper" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "ERA-2AEB152X"
+params = { case_eia = "0402", tcr = "±25ppm/K", tolerance = "±0.1%", resistance = "1.5kΩ", packaging = "reel_7in_paper" }
+source = "Digi-Key listing (mx3 corpus, 10 Nov 2026)"
+
+[[example]]
+mpn = "ERA-6AEB4020V"
+params = { case_eia = "0805", tcr = "±25ppm/K", tolerance = "±0.1%", resistance = "402Ω", packaging = "reel_7in_paper" }
+source = "Mouser listing (10 Nov 2026)"
+
+[[example]]
+mpn = "ERA-6AEB47R5V"
+params = { case_eia = "0805", tcr = "±25ppm/K", tolerance = "±0.1%", resistance = "47.5Ω", packaging = "reel_7in_paper" }
+source = "Mouser listing (10 Nov 2026)"
