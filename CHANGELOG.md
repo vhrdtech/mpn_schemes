@@ -6,6 +6,8 @@ every feature and scheme family; this file only records what changed. IDs in par
 
 ## [Unreleased]
 
+## [0.1.7] - 2026-11-12
+
 ### Added
 
 - `spelling`: two spellings of one MPN match; Panjit's `-` and `_` are the same (`SMF22A-R1-00001` = `SMF22A_R1_00001`), by maker or by its packing-code shape (ENG-5).
