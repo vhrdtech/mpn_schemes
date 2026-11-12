@@ -37,6 +37,7 @@ Matching an MPN against the schemes; generating patterns for a requirement.
 - ✅ ENG-1 parse: backtracking per variant with a step limit, MPNs capped at 64 ASCII characters; readings ranked (inside the rows, maker hint, in series, fewer free characters); partial readings with the unread rest only when nothing reads the MPN whole; every reading carries scheme id and version, per segment span, code and value, flags.
 - ✅ ENG-2 generate: domains filtered by SRCH-7-style terms (eq with relative tolerance, range, ge, le, enum_in) and ordered closest to the bound; preferred values, then the table default, then the other entries; holes for undecided segments; best-first walk checking `when` and rows, which fix holes; unchecked terms reported; `min_stem` per candidate.
 - ✅ ENG-3 patterns: fixed text and holes, `stem()`, `matches()` on a whole MPN, `exact()`, text form `GRM155R71C104KA??D`.
+- ✅ ENG-5 maker-spelling: `spelling::same_mpn`, `match_key`, `maker_spelling`: characters a maker treats as the same, by maker name or, without one, by the MPN's shape; Panjit's `-` and `_` (`SMF22A-R1-00001` is `SMF22A_R1_00001`, its packing code `_R1_00001` as the shape). Used by mx3 to match MPNs and to ask Digi-Key for the maker's spelling (mx3 MPN-8).
 - ✅ ENG-4 values: `Dec` (exact decimal), `Quantity`, `Tolerance`, `Value` with a stable text form that `Value::parse` reads back; own type rather than rvariant (chrono, indexmap and strum, and si_dynamic is not on crates.io, which would block publishing).
 
 ## Command line (`CLI`)
