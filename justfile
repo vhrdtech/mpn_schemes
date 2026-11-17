@@ -5,7 +5,7 @@ default:
 # The tests. `just test`: all of them (test-all), the same run the landing gate does. `just test --changed`: only
 # the workspace crates changed against main and those that depend on them, before marking work ready.
 test *flags:
-    if [ "{{flags}}" = "--changed" ]; then if command -v tpm >/dev/null 2>&1; then tpm test changed -- cargo nextest run --workspace; else cargo nextest run --workspace; fi; else {{just_executable()}} test-all {{flags}}; fi
+    if [ "{{flags}}" = "--changed" ]; then if command -v changed-tests >/dev/null 2>&1; then f=$(changed-tests) && if [ -n "$f" ]; then cargo nextest run --workspace -E "$f"; fi; else echo "changed-tests not found; running the full test suite instead" >&2; {{just_executable()}} test-all; fi; else {{just_executable()}} test-all {{flags}}; fi
 
 # Every test: nextest for unit and integration tests, cargo test for doctests
 test-all:
