@@ -13,6 +13,7 @@ members = ["mpn_schemes", "mpn_schemes_cli"]
 mpn_schemes = { path = "mpn_schemes", version = "0.1.7" }
 
 [profile.dev]
+debug = false
 split-debuginfo = "unpacked"
 
 [profile.test]
