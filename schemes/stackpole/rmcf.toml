@@ -1,0 +1,83 @@
+# Stackpole Electronics RMCF general purpose thick film standard-power chip resistors: RMCF01005 to RMCF2512.
+# RMCP (the high-power variant of the same series) is a separate family, not covered here.
+# Packaging (T/G) combines reel material and the standard packing quantity, both of which vary by size; the
+# datasheet's own How to Order table does not give enough to tell paper from plastic tape per size without
+# guessing, so `packaging` is not decoded, only the two codes are documented.
+# No availability rows yet: the Ohmic Range table (p. 1) gives resistance ranges per size, tolerance and TCR that
+# are not transcribed; `tcr` itself is not decoded either (its value depends on the resistance range, not a
+# position in the part number).
+[scheme]
+id = "stackpole.rmcf"
+version = 1
+maker = "Stackpole Electronics, Inc."
+aliases = ["SEI", "Stackpole"]
+class = "resistor.chip"
+title = "Stackpole RMCF general purpose thick film chip resistors"
+sources = [
+  { doc = "Stackpole RMCF / RMCP Series, General Purpose Thick Film Standard Power and High-Power Chip Resistor (Rev Date: 1/7/2026)", url = "https://www.mouser.com/datasheet/3/1099/1/SEI_RMCF_RMCP.pdf", fetched = "2026-11-25", pages = "1, 15" },
+]
+min_stem = "size"
+
+[implies]
+technology = "thick_film"
+aec_q200 = "yes"
+
+[[segment]]
+name = "maker"
+literal = "RMCF"
+
+[[segment]]
+name = "size"
+param = "case_eia"
+table = { "01005" = "01005", "0201" = "0201", "0402" = "0402", "0603" = "0603", "0805" = "0805", "1206" = "1206", "1210" = "1210", "2010" = "2010", "2512" = "2512" }
+
+[[segment]]
+name = "value"
+note = "p. 15: tolerance F/J, packaging T/G, then resistance value as four characters, rkm-style with R/K/M as the decimal point (0.1 ohm = R100, 4.70 ohm = 4R70, 10.0 Kohm = 10K0, 1 Mohm = 1M00); Z is the zero-ohm jumper, not a tolerance"
+[[segment.alternatives]]
+group = [
+  { name = "tolerance", param = "tolerance", table = { F = "±1%", J = "±5%" } },
+  { name = "packaging", table = { T = "paper tape", G = "alternate reel (0603, 0805, 1206 only)" } },
+  { name = "resistance", param = "resistance", code = "rkm", letters = { R = 0, K = 3, M = 6 }, digits = 4, series = ["E24", "E96"] },
+]
+[[segment.alternatives]]
+group = [
+  { name = "jumper", literal = "Z" },
+  { name = "packaging", table = { T = "paper tape", G = "alternate reel (0603, 0805, 1206 only)" } },
+  { name = "resistance", param = "resistance", table = { "0R00" = "0Ω" } },
+]
+
+[[example]]
+mpn = "RMCF0402FT10K0"
+params = { case_eia = "0402", tolerance = "±1%", resistance = "10kΩ" }
+source = "task example; Digi-Key listing (RMCF0402FT10K0)"
+
+[[example]]
+mpn = "RMCF0402FT22R0"
+params = { case_eia = "0402", tolerance = "±1%", resistance = "22Ω" }
+source = "task example; Digi-Key listing (RMCF0402FT22R0)"
+
+[[example]]
+mpn = "RMCF0402FT1M00"
+params = { case_eia = "0402", tolerance = "±1%", resistance = "1MΩ" }
+source = "task example; Digi-Key listing (RMCF0402FT1M00)"
+
+[[example]]
+mpn = "RMCF0603JT4K70"
+params = { case_eia = "0603", tolerance = "±5%", resistance = "4.7kΩ" }
+source = "data sheet p. 15, How to Order - RMCF"
+
+[[example]]
+mpn = "RMCF0402ZT0R00"
+params = { case_eia = "0402", resistance = "0Ω" }
+source = "Digi-Key listing (RMCF0402ZT0R00, 0 Ohms Jumper Chip Resistor 0402)"
+
+[[example]]
+mpn = "RMCF0805JG10K0"
+params = { case_eia = "0805", tolerance = "±5%", resistance = "10kΩ" }
+source = "Digi-Key listing (RMCF0805JG10K0)"
+
+[[example]]
+mpn = "RMCF1206FG84R5"
+params = { case_eia = "1206", tolerance = "±1%", resistance = "84.5Ω" }
+source = "Digi-Key listing (RMCF1206FG84R5)"
