@@ -6,6 +6,8 @@ every feature and scheme family; this file only records what changed. IDs in par
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-25
+
 ### Added
 
 - `eia3`/`eia4` take an optional `letters` option, for a multiplier letter below the digit range instead of `R` as the point (CODE-3).
