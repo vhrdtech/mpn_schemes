@@ -1,0 +1,109 @@
+# Bourns CR Series thick film chip resistors: CR01005 to CR2512.
+# TCR code "/" ("used for zero Ω (jumper) and values from 1 Ω through 9.76 Ω", How to Order, p. 4) is read but not
+# decoded to a `tcr` param: unlike X/W/V/Z it names no single ppm/K figure.
+# Packaging (E/G) combines reel material and the standard packing quantity, which vary by size; not decoded to a
+# packaging word (same reasoning as RMCF, DATA-25).
+# No availability rows yet: the Electrical Characteristics TCR table (p. 1) gives resistance ranges per size,
+# tolerance and TCR that are not transcribed.
+[scheme]
+id = "bourns.cr"
+version = 1
+maker = "Bourns"
+aliases = ["Bourns Inc", "Bourns Electronics"]
+class = "resistor.chip"
+title = "Bourns CR Series thick film chip resistors"
+sources = [
+  { doc = "Bourns CR Series - Thick Film Chip Resistors (datasheet copy CR0603-F-4R70ELF.pdf)", url = "https://cdn.sparkfun.com/assets/a/e/e/a/6/CR0603-F-4R70ELF.pdf", fetched = "2026-11-25", pages = "1, 4" },
+]
+min_stem = "size"
+
+[implies]
+technology = "thick_film"
+
+[[segment]]
+name = "maker"
+literal = "CR"
+
+[[segment]]
+name = "size"
+param = "case_eia"
+table = { "01005" = "01005", "0201" = "0201", "0402" = "0402", "0603" = "0603", "0805" = "0805", "1206" = "1206", "2010" = "2010", "2512" = "2512" }
+
+[[segment]]
+name = "dash1"
+literal = "-"
+
+[[segment]]
+name = "tolerance"
+param = "tolerance"
+table = { F = "±1%", J = "±5%" }
+
+[[segment]]
+name = "tcr"
+note = "p. 4: X/W/V/Z are ppm/°C figures; / is used for the zero-ohm jumper and for 1-9.76 Ω values, and names no single figure"
+[[segment.alternatives]]
+group = [{ name = "tcr", param = "tcr", table = { X = "±100ppm/K", W = "±200ppm/K", V = "±300ppm/K", Z = "±400ppm/K" } }]
+[[segment.alternatives]]
+group = [{ name = "tcr_unspecified", literal = "/" }]
+
+[[segment]]
+name = "dash2"
+literal = "-"
+
+[[segment]]
+name = "value"
+note = "p. 4: ±1 % is eia4 (below 100 Ω, R as the point: 24R3 = 24.3 Ω; at or above, 3 sig. digits + a multiplier: 8252 = 82.5 KΩ); ±5 % is eia3 (below 10 Ω, R as the point: 4R7 = 4.7 Ω; at or above, 2 sig. digits + a multiplier: 474 = 470 KΩ); 000 at ±5 % is the jumper"
+[[segment.alternatives]]
+when = { tolerance = "±1%" }
+param = "resistance"
+code = "eia4"
+series = ["E24", "E96"]
+[[segment.alternatives]]
+when = { tolerance = "±5%" }
+param = "resistance"
+code = "eia3"
+series = "E24"
+[[segment.alternatives]]
+when = { tolerance = "±5%" }
+param = "resistance"
+table = { "000" = "0Ω" }
+
+[[segment]]
+name = "packaging"
+note = "p. 4: G = paper tape, 10000 pcs, 7in plastic reel (01005, 0201, 0402); E = paper tape, 5000 pcs, 7in plastic reel (0603, 0805, 1206) or embossed tape, 4000 pcs, 7in plastic reel (2010, 2512); not decoded to a packaging word"
+table = { G = "paper tape, 7in plastic reel (01005, 0201, 0402)", E = "paper tape or embossed tape, 7in plastic reel (0603-2512)" }
+
+[[segment]]
+name = "termination"
+literal = "LF"
+note = "p. 4: only Tin-plated (RoHS compliant) is documented"
+
+[[example]]
+mpn = "CR0402-FX-1002GLF"
+params = { case_eia = "0402", tolerance = "±1%", tcr = "±100ppm/K", resistance = "10kΩ" }
+source = "task example; Digi-Key/Farnell listing (RES 10K 1% 0.0625W 0402 THICK FILM)"
+
+[[example]]
+mpn = "CR0402-FX-1003GLF"
+params = { case_eia = "0402", tolerance = "±1%", tcr = "±100ppm/K", resistance = "100kΩ" }
+source = "task example"
+
+[[example]]
+mpn = "CR0402-FX-1621GLF"
+params = { case_eia = "0402", tolerance = "±1%", tcr = "±100ppm/K", resistance = "1.62kΩ" }
+source = "task example"
+
+[[example]]
+mpn = "CR0402-JW-330GLF"
+params = { case_eia = "0402", tolerance = "±5%", tcr = "±200ppm/K", resistance = "33Ω" }
+source = "Digi-Key listing (CR0402-JW-330GLF, 33 Ohms ±5% 0.063W, 1/16W Chip Resistor 0402)"
+
+[[example]]
+mpn = "CR0402-J/-000GLF"
+params = { case_eia = "0402", tolerance = "±5%", resistance = "0Ω" }
+source = "Digi-Key listing (CR0402-J/-000GLF, 0 Ohms Jumper Chip Resistor 0402)"
+
+[[example]]
+mpn = "CR1206-FX-8252ELF"
+params = { case_eia = "1206", tolerance = "±1%", tcr = "±100ppm/K", resistance = "82.5kΩ" }
+source = "Digi-Key listing (CR1206-FX-8252ELF, 82.5 kOhms ±1% 0.25W, 1/4W Chip Resistor 1206); matches data sheet p. 4's own resistance value example (8252 = 82.5KΩ)"
