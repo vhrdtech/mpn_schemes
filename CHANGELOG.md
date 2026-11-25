@@ -6,6 +6,11 @@ every feature and scheme family; this file only records what changed. IDs in par
 
 ## [Unreleased]
 
+### Added
+
+- `eia3`/`eia4` take an optional `letters` option, for a multiplier letter below the digit range instead of `R` as the point (CODE-3).
+- `uni-royal.chip`: the ±0.5 %/±1 % and ±2 %/±5 % value alternatives now take the new `letters` option, decoding UNI-ROYAL's negative-multiplier resistance codes (`0402WGF220JTCE` = 22 Ω) (DATA-7).
+
 ## [0.1.7] - 2026-11-12
 
 ### Added

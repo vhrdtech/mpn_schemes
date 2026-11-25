@@ -1090,21 +1090,26 @@ impl Expand<'_, '_> {
             code.places = s.places.unwrap_or(0);
             code.lead_zero = s.lead_zero.unwrap_or(false);
             code.pad_whole = s.pad_whole.unwrap_or(false);
-            if kind == CodeKind::Rkm {
-                code.letters = match &s.letters {
-                    Some(l) => {
-                        let mut out = Vec::new();
-                        for (c, e) in l {
-                            let mut ch = c.chars();
-                            match (ch.next(), ch.next()) {
-                                (Some(x), None) if x.is_ascii_alphabetic() => {
-                                    out.push((x.to_ascii_uppercase(), *e))
-                                }
-                                _ => err(format!("letters: {c:?} is not one letter")),
-                            }
+            let parse_letters = |l: &BTreeMap<String, i32>, err: &mut dyn FnMut(String)| {
+                let mut out = Vec::new();
+                for (c, e) in l {
+                    let mut ch = c.chars();
+                    match (ch.next(), ch.next()) {
+                        (Some(x), None) if x.is_ascii_alphabetic() => {
+                            out.push((x.to_ascii_uppercase(), *e))
                         }
-                        out
+                        _ => err(format!("letters: {c:?} is not one letter")),
                     }
+                }
+                out
+            };
+            if matches!(kind, CodeKind::Eia3 | CodeKind::Eia4) {
+                if let Some(l) = &s.letters {
+                    code.letters = parse_letters(l, &mut err);
+                }
+            } else if kind == CodeKind::Rkm {
+                code.letters = match &s.letters {
+                    Some(l) => parse_letters(l, &mut err),
                     None => {
                         match (unit, unit_exp) {
                             ("Ω", 0) => vec![('R', 0), ('K', 3), ('M', 6), ('G', 9)],
@@ -1117,7 +1122,7 @@ impl Expand<'_, '_> {
                     }
                 };
             } else if s.letters.is_some() {
-                err("letters belong to an rkm code".into());
+                err("letters belong to an rkm, eia3 or eia4 code".into());
             }
             if kind != CodeKind::Decimal && (s.scale.is_some() || s.places.is_some()) {
                 err("scale and places belong to a decimal code".into());

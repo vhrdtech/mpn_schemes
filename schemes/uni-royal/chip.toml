@@ -1,9 +1,8 @@
 # UNI-ROYAL (Uniroyal Electronics Global) thick film chip resistors, generic "Chip Series" (file SMD-SP-001).
 # Power rating (positions 5-6) is not decoded to a `power` param: one of its codes (W3 = 1/3 W, used on 1210 and
 # 1206) is not an exact decimal, so the segment carries no param (its table is for documentation only).
-# The resistance value's negative multiplier letters (J K L M N P, §2.4.3) are not covered: no code kind here
-# writes a letter-suffix negative multiplier (only the `R`-embedded one eia3/eia4 use), so resistance values below
-# the significant figures' floor (under 10 Ω for ±2 %/±5 %, under 100 Ω for ±0.5 %/±1 %) read as partial.
+# The resistance value's negative multiplier letters (J K L M N P, §2.4.3), used below the significant figures'
+# floor (under 10 Ω for ±2 %/±5 %, under 100 Ω for ±0.5 %/±1 %), decode via eia3/eia4's `letters` option (CODE-3).
 # Packaging type, quantity and the special-feature code are only documented (T = Tape/Reel, E = standard); the
 # reel diameter is not given in this document, so `packaging` is not decoded.
 [scheme]
@@ -39,12 +38,12 @@ table = { D = "±0.5%", F = "±1%", G = "±2%", J = "±5%" }
 
 [[segment]]
 name = "value"
-note = "p. 2 §2.4: E-24 series (±2 %, ±5 %) is a forced 0, 2 significant digits and a multiplier 0-6; E-96 series (±0.5 %, ±1 %) is 3 significant digits and a multiplier 0-6"
+note = "p. 2 §2.4: E-24 series (±2 %, ±5 %) is a forced 0, 2 significant digits and a multiplier 0-6; E-96 series (±0.5 %, ±1 %) is 3 significant digits and a multiplier 0-6; §2.4.3's 11th code is also a negative-multiplier letter (J=10⁻¹ K=10⁻² L=10⁻³ M=10⁻⁴ N=10⁻⁵ P=10⁻⁶) below the significant-figures floor"
 [[segment.alternatives]]
 when = { tolerance = ["±2%", "±5%"] }
 group = [
   { name = "zero", literal = "0" },
-  { name = "resistance", param = "resistance", code = "eia3", series = "E24" },
+  { name = "resistance", param = "resistance", code = "eia3", series = "E24", letters = { J = -1, K = -2, L = -3, M = -4, N = -5, P = -6 } },
 ]
 [[segment.alternatives]]
 when = { tolerance = ["±2%", "±5%"] }
@@ -54,7 +53,8 @@ table = { "0000" = "0Ω" }
 when = { tolerance = ["±0.5%", "±1%"] }
 param = "resistance"
 code = "eia4"
-series = "E96"
+series = ["E24", "E96"]
+letters = { J = -1, K = -2, L = -3, M = -4, N = -5, P = -6 }
 
 [[segment]]
 name = "packaging_type"
@@ -98,3 +98,13 @@ source = "LCSC listing (uniroyal-elec-1206w4f1002t5e, C17902)"
 mpn = "0603WAJ0101T5E"
 params = { case_eia = "0603", tolerance = "±5%", resistance = "100Ω" }
 source = "LCSC listing (uniroyal-elec-0603waj0101t5e, C25201)"
+
+[[example]]
+mpn = "0402WGF220JTCE"
+params = { case_eia = "0402", tolerance = "±1%", resistance = "22Ω" }
+source = "LCSC listing (UNI-ROYAL 0402WGF220JTCE, C25092): §2.4.3's J = 10⁻¹ on the E-96 value"
+
+[[example]]
+mpn = "0402WGF560JTCE"
+params = { case_eia = "0402", tolerance = "±1%", resistance = "56Ω" }
+source = "LCSC listing (UNI-ROYAL 0402WGF560JTCE, C25127): §2.4.3's J = 10⁻¹ on the E-96 value"

@@ -534,8 +534,14 @@ fn domain(
 fn code_shape(code: &crate::codes::Code) -> (String, usize, usize) {
     use crate::codes::CodeKind::*;
     match code.kind {
-        Eia3 => ("0-9R".into(), 3, 3),
-        Eia4 => ("0-9R".into(), 4, 4),
+        Eia3 => {
+            let letters: String = code.letters.iter().map(|(c, _)| *c).collect();
+            (format!("0-9R{letters}"), 3, 3)
+        }
+        Eia4 => {
+            let letters: String = code.letters.iter().map(|(c, _)| *c).collect();
+            (format!("0-9R{letters}"), 4, 4)
+        }
         Eia96 => ("0-9A-Z".into(), 3, 3),
         Rkm => {
             let letters: String = code.letters.iter().map(|(c, _)| *c).collect();

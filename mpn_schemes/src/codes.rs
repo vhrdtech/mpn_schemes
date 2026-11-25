@@ -63,7 +63,8 @@ pub struct Code {
     pub scale: Option<i32>,
     /// `decimal` without scale: digits after the point when written
     pub places: usize,
-    /// `rkm`: the letters and the power of ten each stands for
+    /// `rkm`: the letters and the power of ten each stands for; `eia3`/`eia4`: letters for a multiplier below the
+    /// digit range (`J = -1`: a code under the significant-digit floor, like UNI-ROYAL's `220J` = 22)
     pub letters: Vec<(char, i32)>,
     /// `eia3`/`eia4` below 1: write `0R5` rather than `R50` (Samsung does, Murata does not)
     pub lead_zero: bool,
@@ -92,7 +93,7 @@ impl Code {
         match self.kind {
             CodeKind::Eia3 | CodeKind::Eia4 => {
                 let n = if self.kind == CodeKind::Eia3 { 3 } else { 4 };
-                if let Some(v) = b.get(..n).and_then(read_eia) {
+                if let Some(v) = b.get(..n).and_then(|c| read_eia(c, &self.letters)) {
                     out.push((n, v));
                 }
             }
@@ -154,8 +155,8 @@ impl Code {
             return None;
         }
         let s = match self.kind {
-            CodeKind::Eia3 => write_eia(v, 2, self.lead_zero, self.pad_whole)?,
-            CodeKind::Eia4 => write_eia(v, 3, self.lead_zero, self.pad_whole)?,
+            CodeKind::Eia3 => write_eia(v, 2, &self.letters, self.lead_zero, self.pad_whole)?,
+            CodeKind::Eia4 => write_eia(v, 3, &self.letters, self.lead_zero, self.pad_whole)?,
             CodeKind::Eia96 => write_eia96(v)?,
             CodeKind::Rkm => self.write_rkm(v)?,
             CodeKind::Int => {
@@ -243,8 +244,9 @@ impl fmt::Display for Code {
     }
 }
 
-/// `104`, `1R5`, `1002`, `49R9`: significant digits and a multiplier digit, or `R` as the point
-fn read_eia(c: &[u8]) -> Option<Dec> {
+/// `104`, `1R5`, `1002`, `49R9`: significant digits and a multiplier digit, or `R` as the point; `letters` (when
+/// not empty) also allows a configured letter in the multiplier position, for a multiplier below the digit range
+fn read_eia(c: &[u8], letters: &[(char, i32)]) -> Option<Dec> {
     let n = c.len();
     let rs = c.iter().filter(|&&x| x == b'R' || x == b'r').count();
     if rs == 1 {
@@ -264,19 +266,37 @@ fn read_eia(c: &[u8]) -> Option<Dec> {
         let s = if pos == 0 { format!("0{s}") } else { s };
         return Dec::parse(s.trim_end_matches('.'));
     }
-    if rs > 1 || !c.iter().all(u8::is_ascii_digit) {
+    if rs > 1 || !c[..n - 1].iter().all(u8::is_ascii_digit) {
         return None;
     }
     let sig: i64 = std::str::from_utf8(&c[..n - 1]).ok()?.parse().ok()?;
-    let mult = (c[n - 1] - b'0') as i32;
-    if mult > 7 || sig == 0 {
+    if sig == 0 {
         return None;
     }
+    let last = c[n - 1];
+    let mult = if last.is_ascii_digit() {
+        let m = (last - b'0') as i32;
+        if m > 7 {
+            return None;
+        }
+        m
+    } else {
+        letters
+            .iter()
+            .find(|(l, _)| l.eq_ignore_ascii_case(&(last as char)))
+            .map(|(_, e)| *e)?
+    };
     Some(Dec::new(sig, mult))
 }
 
 /// Write with `sig` significant digits (2 for eia3, 3 for eia4)
-fn write_eia(v: Dec, sig: u32, lead_zero: bool, pad_whole: bool) -> Option<String> {
+fn write_eia(
+    v: Dec,
+    sig: u32,
+    letters: &[(char, i32)],
+    lead_zero: bool,
+    pad_whole: bool,
+) -> Option<String> {
     if v.is_zero() || v.digits() > sig {
         return None;
     }
@@ -296,6 +316,14 @@ fn write_eia(v: Dec, sig: u32, lead_zero: bool, pad_whole: bool) -> Option<Strin
         }
         let n = v.scale(-mult).to_i64()?;
         return Some(format!("{n}{mult}"));
+    }
+    if !letters.is_empty() {
+        // a configured letter for a multiplier below the digit range, instead of R as the point
+        let mult = mag - (sig as i32 - 1);
+        if let Some((letter, _)) = letters.iter().find(|(_, e)| *e == mult) {
+            let n = v.scale(-mult).to_i64()?;
+            return Some(format!("{n}{letter}"));
+        }
     }
     // R as the point: `sig` digits in all
     let frac = if mag >= 0 {
@@ -522,6 +550,36 @@ mod tests {
             assert_eq!(c.read(code), vec![(4, d(v))], "{code}");
             assert_eq!(c.write(d(v)).as_deref(), Some(code), "{v}");
         }
+    }
+
+    #[test]
+    fn eia3_eia4_letters() {
+        let neg = &[
+            ('J', -1),
+            ('K', -2),
+            ('L', -3),
+            ('M', -4),
+            ('N', -5),
+            ('P', -6),
+        ][..];
+        let c4 = Code {
+            letters: neg.to_vec(),
+            ..Code::new(CodeKind::Eia4)
+        };
+        for (code, v) in [("220J", "22"), ("560J", "56"), ("1002", "10000")] {
+            assert_eq!(c4.read(code), vec![(4, d(v))], "{code}");
+            assert_eq!(c4.write(d(v)).as_deref(), Some(code), "{v}");
+        }
+        let c3 = Code {
+            letters: neg.to_vec(),
+            ..Code::new(CodeKind::Eia3)
+        };
+        assert_eq!(c3.read("50J"), vec![(3, d("5"))]);
+        assert_eq!(c3.write(d("5")).as_deref(), Some("50J"));
+        assert_eq!(c3.write(d("0.5")).as_deref(), Some("50K"));
+        // without letters configured, a letter in the multiplier position does not read
+        let plain = Code::new(CodeKind::Eia4);
+        assert!(plain.read("220J").is_empty());
     }
 
     #[test]

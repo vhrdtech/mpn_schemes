@@ -156,8 +156,8 @@ A `code` segment reads a number written in a code kind, multiplies it by its `un
 
 | kind | text | examples | options |
 |---|---|---|---|
-| `eia3` | 2 significant digits + multiplier digit 0-7, or `R` as the decimal point; 3 characters | `104` = 10·10⁴, `1R5` = 1.5, `R47` = 0.47, `010` = 1 | `lead_zero = true` writes `0R5` instead of `R50` below 1; `pad_whole = true` writes whole values below 10 as `010` instead of `1R0` |
-| `eia4` | 3 significant digits + multiplier, or `R`; 4 characters | `1002` = 10 000, `49R9`, `4R70` | `lead_zero`, `pad_whole` |
+| `eia3` | 2 significant digits + multiplier digit 0-7, or `R` as the decimal point; 3 characters | `104` = 10·10⁴, `1R5` = 1.5, `R47` = 0.47, `010` = 1 | `lead_zero = true` writes `0R5` instead of `R50` below 1; `pad_whole = true` writes whole values below 10 as `010` instead of `1R0`; `letters` for a multiplier below the digit range (below 10, UNI-ROYAL: `letters = { J = -1, K = -2, L = -3 }`) instead of `R` |
+| `eia4` | 3 significant digits + multiplier, or `R`; 4 characters | `1002` = 10 000, `49R9`, `4R70` | `lead_zero`, `pad_whole`, `letters` (below 100, UNI-ROYAL: `220J` = 22, `letters = { J = -1, K = -2, L = -3, M = -4, N = -5, P = -6 }`) |
 | `eia96` | E96 index `01`-`96` + multiplier letter (Z Y/R X/S A B/H C D E F) | `01C` = 10 000, `68X` = 49.9 | |
 | `rkm` | IEC 60062: digits with a letter as decimal point and multiplier | `4K7`, `10K`, `R047`, `1M`, `0R`, `5V1` | `letters = { R = 0, K = 3, M = 6 }` (default for Ω: R K M G; for V: V); `digits` for a fixed length |
 | `decimal` | digits with an implied point (`scale`) or with a `.` | `050` at `scale = -2` = 0.50, `5.0` | `scale`, `digits`, `places` (digits after the point when written) |
